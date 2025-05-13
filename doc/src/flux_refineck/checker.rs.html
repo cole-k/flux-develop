@@ -2024,23 +2024,7 @@
 <a href="#2023" id="2023">2023</a>
 <a href="#2024" id="2024">2024</a>
 <a href="#2025" id="2025">2025</a>
-<a href="#2026" id="2026">2026</a>
-<a href="#2027" id="2027">2027</a>
-<a href="#2028" id="2028">2028</a>
-<a href="#2029" id="2029">2029</a>
-<a href="#2030" id="2030">2030</a>
-<a href="#2031" id="2031">2031</a>
-<a href="#2032" id="2032">2032</a>
-<a href="#2033" id="2033">2033</a>
-<a href="#2034" id="2034">2034</a>
-<a href="#2035" id="2035">2035</a>
-<a href="#2036" id="2036">2036</a>
-<a href="#2037" id="2037">2037</a>
-<a href="#2038" id="2038">2038</a>
-<a href="#2039" id="2039">2039</a>
-<a href="#2040" id="2040">2040</a>
-<a href="#2041" id="2041">2041</a>
-<a href="#2042" id="2042">2042</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{collections::hash_map::Entry, iter, vec};
+<a href="#2026" id="2026">2026</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{collections::hash_map::Entry, iter, vec};
 
 <span class="kw">use </span>flux_common::{bug, dbg, index::IndexVec, iter::IterExt, span_bug, tracked_span_bug};
 <span class="kw">use </span>flux_config::{<span class="self">self </span><span class="kw">as </span>config, InferOpts};
@@ -2056,12 +2040,12 @@
     queries::{QueryResult, try_query},
     query_bug,
     rty::{
-        <span class="self">self</span>, AdtDef, BaseTy, Binder, Bool, Clause, CoroutineObligPredicate, EVid, EarlyBinder,
-        Expr, FnOutput, FnTraitPredicate, GenericArg, GenericArgsExt <span class="kw">as _</span>, Int, IntTy, Mutability,
-        Path, PolyFnSig, PtrKind, RefineArgs, RefineArgsExt,
+        <span class="self">self</span>, AdtDef, BaseTy, Binder, Bool, Clause, CoroutineObligPredicate, EarlyBinder, Expr,
+        FnOutput, FnTraitPredicate, GenericArg, GenericArgsExt <span class="kw">as _</span>, Int, IntTy, Mutability, Path,
+        PolyFnSig, PtrKind, RefineArgs, RefineArgsExt,
         Region::ReStatic,
         Ty, TyKind, Uint, UintTy, VariantIdx,
-        fold::{TypeFoldable, TypeFolder, TypeSuperFoldable, TypeVisitable},
+        fold::{TypeFoldable, TypeFolder, TypeSuperFoldable},
         refining::{Refine, Refiner},
     },
 };
@@ -2075,7 +2059,7 @@
     ty::{<span class="self">self</span>, GenericArgsExt <span class="kw">as _</span>},
 };
 <span class="kw">use </span>itertools::{Itertools, izip};
-<span class="kw">use </span>rustc_data_structures::{fx::FxIndexSet, graph::dominators::Dominators, unord::UnordMap};
+<span class="kw">use </span>rustc_data_structures::{graph::dominators::Dominators, unord::UnordMap};
 <span class="kw">use </span>rustc_hash::{FxHashMap, FxHashSet};
 <span class="kw">use </span>rustc_hir::{
     LangItem,
@@ -2727,7 +2711,6 @@
                             <span class="kw-2">&amp;</span>generic_args,
                             <span class="kw-2">&amp;</span>actuals,
                         )<span class="question-mark">?
-                        </span>.<span class="number">0
                     </span>}
                     mir::CallKind::FnPtr { operand, .. } =&gt; {
                         <span class="kw">let </span>ty = <span class="self">self
@@ -2744,7 +2727,6 @@
                                 <span class="kw-2">&amp;</span>[],
                                 <span class="kw-2">&amp;</span>actuals,
                             )<span class="question-mark">?
-                            </span>.<span class="number">0
                         </span>} <span class="kw">else </span>{
                             <span class="macro">bug!</span>(<span class="string">"TODO: fnptr call {ty:?}"</span>)
                         }
@@ -2807,10 +2789,6 @@
     }
 
     <span class="attr">#[expect(clippy::too_many_arguments)]
-    </span><span class="doccomment">/// Returns (resolved output type, resolved refinement arguments)
-    ///
-    /// The refinement arguments includes both EarlyBound and late Bound
-    /// parameters.
     </span><span class="kw">fn </span>check_call(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         infcx: <span class="kw-2">&amp;mut </span>InferCtxt&lt;<span class="lifetime">'_</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
@@ -2820,7 +2798,7 @@
         fn_sig: EarlyBinder&lt;PolyFnSig&gt;,
         generic_args: <span class="kw-2">&amp;</span>[GenericArg],
         actuals: <span class="kw-2">&amp;</span>[Ty],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(Ty, Vec&lt;Expr&gt;)&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Ty&gt; {
         <span class="kw">let </span>genv = <span class="self">self</span>.genv;
         <span class="kw">let </span>tcx = genv.tcx();
 
@@ -2866,11 +2844,6 @@
             .replace_bound_vars(|<span class="kw">_</span>| rty::ReErased, |sort, mode| infcx.fresh_infer_var(sort, mode))
             .normalize_projections(infcx)
             .with_span(span)<span class="question-mark">?</span>;
-        <span class="kw">let </span>evars: FxIndexSet&lt;EVid&gt; = fn_sig
-            .inputs()
-            .iter()
-            .flat_map(|input| input.evars())
-            .collect();
 
         <span class="kw">let </span><span class="kw-2">mut </span>at = infcx.at(span);
 
@@ -2887,10 +2860,6 @@
 
         infcx.pop_evar_scope().with_span(span)<span class="question-mark">?</span>;
         env.fully_resolve_evars(infcx);
-        <span class="kw">let </span>solved_evars = evars
-            .iter()
-            .map(|evar| infcx.fully_resolve_evars(<span class="kw-2">&amp;</span>rty::Expr::evar(<span class="kw-2">*</span>evar)))
-            .collect_vec();
 
         <span class="kw">let </span>output = infcx
             .fully_resolve_evars(<span class="kw-2">&amp;</span>fn_sig.output)
@@ -2899,7 +2868,7 @@
         env.assume_ensures(infcx, <span class="kw-2">&amp;</span>output.ensures);
         fold_local_ptrs(infcx, env, span).with_span(span)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>((output.ret, solved_evars))
+        <span class="prelude-val">Ok</span>(output.ret)
     }
 
     <span class="kw">fn </span>check_coroutine_obligations(
@@ -3287,7 +3256,6 @@
                     instantiate_args_for_constructor(genv, <span class="self">self</span>.def_id.to_def_id(), <span class="kw-2">*</span>def_id, args)
                         .with_span(stmt_span)<span class="question-mark">?</span>;
                 <span class="self">self</span>.check_call(infcx, env, stmt_span, <span class="prelude-val">Some</span>(<span class="kw-2">*</span>def_id), sig, <span class="kw-2">&amp;</span>args, <span class="kw-2">&amp;</span>actuals)
-                    .map(|(ret_ty, _args)| ret_ty)
             }
             Rvalue::Aggregate(AggregateKind::Array(arr_ty), operands) =&gt; {
                 <span class="kw">let </span>args = <span class="self">self
