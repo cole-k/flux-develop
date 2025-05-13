@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-desugar/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_desugar" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_desugar/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-desugar/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_desugar" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_desugar/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -287,14 +287,88 @@
 <a href="#286" id="286">286</a>
 <a href="#287" id="287">287</a>
 <a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a></pre></div><pre class="rust"><code><span class="doccomment">//! Desugaring from types in [`flux_syntax::surface`] to types in [`flux_middle::fhir`]
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a></pre></div><pre class="rust"><code><span class="doccomment">//! Desugaring from types in [`flux_syntax::surface`] to types in [`flux_middle::fhir`]
 
-</span><span class="attr">#![feature(rustc_private, min_specialization, box_patterns, let_chains, never_type)]
+</span><span class="attr">#![feature(
+    rustc_private,
+    min_specialization,
+    box_patterns,
+    let_chains,
+    never_type,
+    unwrap_infallible
+)]
 
 </span><span class="kw">extern crate </span>rustc_data_structures;
 <span class="kw">extern crate </span>rustc_errors;
 
 <span class="kw">extern crate </span>rustc_hir;
+<span class="kw">extern crate </span>rustc_hir_pretty;
 <span class="kw">extern crate </span>rustc_middle;
 <span class="kw">extern crate </span>rustc_span;
 
@@ -314,10 +388,11 @@
 <span class="kw">pub mod </span>resolver;
 
 <span class="kw">use </span>flux_middle::{
+    ResolverOutput, Specs,
+    def_id::FluxLocalDefId,
     fhir,
     global_env::GlobalEnv,
     queries::{Providers, QueryErr, QueryResult},
-    ResolverOutput, Specs,
 };
 <span class="kw">use </span>flux_syntax::surface;
 <span class="kw">use </span>rustc_errors::ErrorGuaranteed;
@@ -344,15 +419,16 @@
     <span class="kw">let </span>specs = genv.collect_specs();
     <span class="kw">let </span>owner_id = OwnerId { def_id };
     <span class="kw">let </span><span class="kw-2">mut </span>nodes = UnordMap::default();
-    <span class="kw">match </span>genv.tcx().hir_owner_node(owner_id) {
-        rustc_hir::OwnerNode::Item(item) =&gt; {
+
+    <span class="kw">match </span>genv.tcx().hir_node_by_def_id(def_id) {
+        rustc_hir::Node::Item(item) =&gt; {
             <span class="kw">match </span>item.kind {
-                hir::ItemKind::Fn(..) =&gt; {
+                hir::ItemKind::Fn { .. } =&gt; {
                     <span class="kw">let </span>fn_spec = specs.fn_sigs.get(<span class="kw-2">&amp;</span>owner_id).unwrap();
                     <span class="kw">let </span><span class="kw-2">mut </span>opaque_tys = Default::default();
-                    <span class="kw">let </span>item = cx
-                        .as_rust_item_ctxt(owner_id, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>opaque_tys))
-                        .desugar_item_fn(fn_spec)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>item = cx.with_rust_item_ctxt(owner_id, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>opaque_tys), |cx| {
+                        cx.desugar_item_fn(fn_spec)
+                    })<span class="question-mark">?</span>;
                     nodes.extend(opaque_tys.into_iter().map(|opaque_ty| {
                         (opaque_ty.def_id.local_id(), fhir::Node::OpaqueTy(opaque_ty))
                     }));
@@ -362,12 +438,11 @@
                     <span class="kw">let </span>ty_alias = specs.ty_aliases[<span class="kw-2">&amp;</span>owner_id].as_ref();
                     nodes.insert(
                         def_id,
-                        fhir::Node::Item(
-                            genv.alloc(
-                                cx.as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>)
-                                    .desugar_type_alias(ty_alias)<span class="question-mark">?</span>,
-                            ),
-                        ),
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_type_alias(ty_alias)),
+                        )<span class="question-mark">?</span>)),
                     );
                 }
 
@@ -375,91 +450,114 @@
                     <span class="kw">let </span>enum_def = <span class="kw-2">&amp;</span>specs.enums[<span class="kw-2">&amp;</span>owner_id];
                     nodes.insert(
                         def_id,
-                        fhir::Node::Item(
-                            genv.alloc(
-                                cx.as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>)
-                                    .desugar_enum_def(enum_def)<span class="question-mark">?</span>,
-                            ),
-                        ),
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| cx.desugar_enum_def(enum_def),
+                        )<span class="question-mark">?</span>)),
                     );
                 }
                 hir::ItemKind::Union(..) =&gt; {
                     <span class="kw">let </span>union_def = <span class="kw-2">&amp;</span>specs.structs[<span class="kw-2">&amp;</span>owner_id];
                     nodes.insert(
                         def_id,
-                        fhir::Node::Item(
-                            genv.alloc(
-                                cx.as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>)
-                                    .desugar_struct_def(union_def)<span class="question-mark">?</span>,
-                            ),
-                        ),
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_struct_def(union_def)),
+                        )<span class="question-mark">?</span>)),
                     );
                 }
                 hir::ItemKind::Struct(..) =&gt; {
                     <span class="kw">let </span>struct_def = <span class="kw-2">&amp;</span>specs.structs[<span class="kw-2">&amp;</span>owner_id];
                     nodes.insert(
                         def_id,
-                        fhir::Node::Item(
-                            genv.alloc(
-                                cx.as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>)
-                                    .desugar_struct_def(struct_def)<span class="question-mark">?</span>,
-                            ),
-                        ),
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_struct_def(struct_def)),
+                        )<span class="question-mark">?</span>)),
                     );
                 }
                 hir::ItemKind::Trait(..) =&gt; {
                     <span class="kw">let </span>trait_ = <span class="kw-2">&amp;</span>specs.traits[<span class="kw-2">&amp;</span>owner_id];
                     nodes.insert(
                         def_id,
-                        fhir::Node::Item(
-                            genv.alloc(cx.as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>).desugar_trait(trait_)<span class="question-mark">?</span>),
-                        ),
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_trait(trait_)),
+                        )<span class="question-mark">?</span>)),
                     );
                 }
                 hir::ItemKind::Impl(..) =&gt; {
                     <span class="kw">let </span>impl_ = <span class="kw-2">&amp;</span>specs.impls[<span class="kw-2">&amp;</span>owner_id];
                     nodes.insert(
                         def_id,
-                        fhir::Node::Item(
-                            genv.alloc(cx.as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>).desugar_impl(impl_)<span class="question-mark">?</span>),
-                        ),
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_impl(impl_)),
+                        )<span class="question-mark">?</span>)),
+                    );
+                }
+                hir::ItemKind::Const(..) =&gt; {
+                    <span class="kw">let </span>constant_ = <span class="kw">match </span>specs.constants.get(<span class="kw-2">&amp;</span>owner_id) {
+                        <span class="prelude-val">Some</span>(constant_) =&gt; constant_,
+                        <span class="prelude-val">None </span>=&gt; <span class="kw-2">&amp;</span>surface::ConstantInfo { expr: <span class="prelude-val">None </span>},
+                    };
+
+                    nodes.insert(
+                        def_id,
+                        fhir::Node::Item(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_const(constant_)),
+                        )<span class="question-mark">?</span>)),
                     );
                 }
                 <span class="kw">_ </span>=&gt; <span class="macro">span_bug!</span>(item.span, <span class="string">"unsupported item"</span>),
             }
         }
-        rustc_hir::OwnerNode::TraitItem(trait_item) =&gt; {
+        rustc_hir::Node::TraitItem(trait_item) =&gt; {
             <span class="kw">match </span>trait_item.kind {
                 rustc_hir::TraitItemKind::Fn(..) =&gt; {
                     <span class="kw">let </span>fn_spec = specs.fn_sigs.get(<span class="kw-2">&amp;</span>owner_id).unwrap();
                     <span class="kw">let </span><span class="kw-2">mut </span>opaque_tys = Default::default();
-                    <span class="kw">let </span>item = cx
-                        .as_rust_item_ctxt(owner_id, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>opaque_tys))
-                        .desugar_trait_fn(fn_spec)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>item = cx.with_rust_item_ctxt(owner_id, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>opaque_tys), |cx| {
+                        cx.desugar_trait_fn(fn_spec)
+                    })<span class="question-mark">?</span>;
                     nodes.extend(opaque_tys.into_iter().map(|opaque_ty| {
                         (opaque_ty.def_id.local_id(), fhir::Node::OpaqueTy(opaque_ty))
                     }));
                     nodes.insert(def_id, fhir::Node::TraitItem(genv.alloc(item)));
                 }
                 rustc_hir::TraitItemKind::Type(..) =&gt; {
-                    <span class="kw">let </span>item = cx
-                        .as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>)
-                        .desugar_trait_assoc_ty()<span class="question-mark">?</span>;
+                    <span class="kw">let </span>item = cx.with_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>, |cx| {
+                        <span class="prelude-val">Ok</span>(cx.desugar_trait_assoc_ty())
+                    })<span class="question-mark">?</span>;
                     nodes.insert(owner_id.def_id, fhir::Node::TraitItem(genv.alloc(item)));
                 }
                 rustc_hir::TraitItemKind::Const(..) =&gt; {
-                    <span class="macro">bug!</span>(<span class="string">"unsupported item"</span>);
+                    nodes.insert(
+                        def_id,
+                        fhir::Node::TraitItem(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_trait_const()),
+                        )<span class="question-mark">?</span>)),
+                    );
                 }
             }
         }
-        rustc_hir::OwnerNode::ImplItem(impl_item) =&gt; {
+        rustc_hir::Node::ImplItem(impl_item) =&gt; {
             <span class="kw">match </span><span class="kw-2">&amp;</span>impl_item.kind {
                 rustc_hir::ImplItemKind::Fn(..) =&gt; {
                     <span class="kw">let </span>fn_spec = specs.fn_sigs.get(<span class="kw-2">&amp;</span>owner_id).unwrap();
                     <span class="kw">let </span><span class="kw-2">mut </span>opaque_tys = Default::default();
-                    <span class="kw">let </span>item = cx
-                        .as_rust_item_ctxt(owner_id, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>opaque_tys))
-                        .desugar_impl_fn(fn_spec)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>item = cx.with_rust_item_ctxt(owner_id, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>opaque_tys), |cx| {
+                        cx.desugar_impl_fn(fn_spec)
+                    })<span class="question-mark">?</span>;
                     nodes.extend(opaque_tys.into_iter().map(|opaque_ty| {
                         (opaque_ty.def_id.local_id(), fhir::Node::OpaqueTy(opaque_ty))
                     }));
@@ -467,19 +565,41 @@
                 }
                 rustc_hir::ImplItemKind::Type(..) =&gt; {
                     <span class="kw">let </span>item = cx
-                        .as_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>)
-                        .desugar_impl_assoc_ty()<span class="question-mark">?</span>;
+                        .with_rust_item_ctxt(owner_id, <span class="prelude-val">None</span>, |cx| <span class="prelude-val">Ok</span>(cx.desugar_impl_assoc_ty()))<span class="question-mark">?</span>;
                     nodes.insert(owner_id.def_id, fhir::Node::ImplItem(genv.alloc(item)));
                 }
                 rustc_hir::ImplItemKind::Const(..) =&gt; {
-                    <span class="macro">bug!</span>(<span class="string">"unsupported item"</span>);
+                    nodes.insert(
+                        def_id,
+                        fhir::Node::ImplItem(genv.alloc(cx.with_rust_item_ctxt(
+                            owner_id,
+                            <span class="prelude-val">None</span>,
+                            |cx| <span class="prelude-val">Ok</span>(cx.desugar_impl_const()),
+                        )<span class="question-mark">?</span>)),
+                    );
                 }
             }
         }
-        rustc_hir::OwnerNode::ForeignItem(<span class="kw">_</span>)
-        | rustc_hir::OwnerNode::Crate(<span class="kw">_</span>)
-        | rustc_hir::OwnerNode::Synthetic =&gt; {
-            <span class="macro">bug!</span>(<span class="string">"unsupported node"</span>);
+        rustc_hir::Node::AnonConst(..) =&gt; {
+            nodes.insert(def_id, fhir::Node::AnonConst);
+        }
+        rustc_hir::Node::Expr(..) =&gt; {
+            nodes.insert(def_id, fhir::Node::Expr);
+        }
+        rustc_hir::Node::ForeignItem(foreign) =&gt; {
+            <span class="kw">let </span>foreign_item = fhir::Node::ForeignItem(genv.alloc(cx.with_rust_item_ctxt(
+                owner_id,
+                <span class="prelude-val">None</span>,
+                |cx| cx.desugar_foreign_item(<span class="kw-2">*</span>foreign),
+            )<span class="question-mark">?</span>));
+            nodes.insert(def_id, foreign_item);
+        }
+        node =&gt; {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(ident) = node.ident() {
+                <span class="macro">span_bug!</span>(ident.span, <span class="string">"unsupported node: {node:?}"</span>);
+            } <span class="kw">else </span>{
+                <span class="macro">bug!</span>(<span class="string">"unsupported node: {node:?}"</span>);
+            }
         }
     }
     <span class="prelude-val">Ok</span>(nodes)
@@ -491,16 +611,17 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt; DesugarCtxt&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt; {
-    <span class="kw">fn </span>as_rust_item_ctxt&lt;<span class="lifetime">'a</span>&gt;(
+    <span class="kw">fn </span>with_rust_item_ctxt&lt;<span class="lifetime">'a</span>, T&gt;(
         <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
         owner_id: OwnerId,
         opaque_tys: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'genv </span>fhir::OpaqueTy&lt;<span class="lifetime">'genv</span>&gt;&gt;&gt;,
-    ) -&gt; RustItemCtxt&lt;<span class="lifetime">'a</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt; {
+        f: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>RustItemCtxt&lt;<span class="lifetime">'a</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt; {
         <span class="kw">let </span>owner_id = <span class="self">self
             </span>.genv
             .maybe_extern_id(owner_id.def_id)
             .map(|def_id| OwnerId { def_id });
-        RustItemCtxt::new(<span class="self">self</span>.genv, owner_id, <span class="self">self</span>.resolver_output, opaque_tys)
+        RustItemCtxt::with(<span class="self">self</span>.genv, owner_id, <span class="self">self</span>.resolver_output, opaque_tys, f)
     }
 }
 
@@ -546,33 +667,44 @@
 }
 
 <span class="kw">impl </span>CrateDesugar&lt;<span class="lifetime">'_</span>, <span class="lifetime">'_</span>&gt; {
-    <span class="kw">fn </span>desugar_flux_items(<span class="kw-2">&amp;mut </span><span class="self">self</span>, specs: <span class="kw-2">&amp;</span>Specs) {
-        <span class="kw">for </span>item <span class="kw">in </span>specs.flux_items_by_parent.values().flatten() {
-            <span class="kw">match </span>item {
-                surface::Item::Qualifier(qual) =&gt; {
-                    <span class="self">self</span>.desugar_qualifier(qual).collect_err(<span class="kw-2">&amp;mut </span><span class="self">self</span>.err);
+    <span class="attr">#[allow(clippy::disallowed_methods, reason = <span class="string">"`flux_items_by_parent` is the source of truth"</span>)]
+    </span><span class="kw">fn </span>desugar_flux_items(<span class="kw-2">&amp;mut </span><span class="self">self</span>, specs: <span class="kw-2">&amp;</span>Specs) {
+        <span class="kw">for </span>(parent, items) <span class="kw">in </span><span class="kw-2">&amp;</span>specs.flux_items_by_parent {
+            <span class="kw">for </span>item <span class="kw">in </span>items {
+                <span class="kw">let </span>def_id = FluxLocalDefId::new(parent.def_id, item.name().name);
+                <span class="kw">match </span>item {
+                    surface::Item::Qualifier(qual) =&gt; {
+                        <span class="self">self</span>.desugar_qualifier(def_id, qual)
+                            .collect_err(<span class="kw-2">&amp;mut </span><span class="self">self</span>.err);
+                    }
+                    surface::Item::FuncDef(defn) =&gt; {
+                        <span class="self">self</span>.desugar_func_defn(def_id, defn)
+                            .collect_err(<span class="kw-2">&amp;mut </span><span class="self">self</span>.err);
+                    }
+                    surface::Item::SortDecl(<span class="kw">_</span>) =&gt; {}
                 }
-                surface::Item::FuncDef(defn) =&gt; {
-                    <span class="self">self</span>.desugar_func_defn(defn).collect_err(<span class="kw-2">&amp;mut </span><span class="self">self</span>.err);
-                }
-                surface::Item::SortDecl(<span class="kw">_</span>) =&gt; {}
             }
         }
     }
 
-    <span class="kw">fn </span>desugar_func_defn(<span class="kw-2">&amp;mut </span><span class="self">self</span>, func: <span class="kw-2">&amp;</span>surface::SpecFunc) -&gt; <span class="prelude-ty">Result </span>{
-        <span class="kw">let </span>func = desugar::desugar_spec_func(<span class="self">self</span>.genv, <span class="self">self</span>.resolver_output, func)<span class="question-mark">?</span>;
+    <span class="kw">fn </span>desugar_func_defn(<span class="kw-2">&amp;mut </span><span class="self">self</span>, def_id: FluxLocalDefId, func: <span class="kw-2">&amp;</span>surface::SpecFunc) -&gt; <span class="prelude-ty">Result</span> {
+        <span class="kw">let </span>func = desugar::desugar_spec_func(<span class="self">self</span>.genv, <span class="self">self</span>.resolver_output, def_id, func)<span class="question-mark">?</span>;
         <span class="self">self</span>.fhir
             .items
-            .insert(func.name, fhir::FluxItem::Func(func));
+            .insert(def_id, fhir::FluxItem::Func(<span class="self">self</span>.genv.alloc(func)));
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>desugar_qualifier(<span class="kw-2">&amp;mut </span><span class="self">self</span>, qualifier: <span class="kw-2">&amp;</span>surface::Qualifier) -&gt; <span class="prelude-ty">Result </span>{
-        <span class="kw">let </span>qualifier = desugar::desugar_qualifier(<span class="self">self</span>.genv, <span class="self">self</span>.resolver_output, qualifier)<span class="question-mark">?</span>;
+    <span class="kw">fn </span>desugar_qualifier(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        def_id: FluxLocalDefId,
+        qualifier: <span class="kw-2">&amp;</span>surface::Qualifier,
+    ) -&gt; <span class="prelude-ty">Result</span> {
+        <span class="kw">let </span>qualifier =
+            desugar::desugar_qualifier(<span class="self">self</span>.genv, <span class="self">self</span>.resolver_output, def_id, qualifier)<span class="question-mark">?</span>;
         <span class="self">self</span>.fhir
             .items
-            .insert(qualifier.name, fhir::FluxItem::Qualifier(qualifier));
+            .insert(def_id, fhir::FluxItem::Qualifier(<span class="self">self</span>.genv.alloc(qualifier)));
         <span class="prelude-val">Ok</span>(())
     }
 }

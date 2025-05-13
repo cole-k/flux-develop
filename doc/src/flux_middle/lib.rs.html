@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -518,143 +518,7 @@
 <a href="#517" id="517">517</a>
 <a href="#518" id="518">518</a>
 <a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a>
-<a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a>
-<a href="#598" id="598">598</a>
-<a href="#599" id="599">599</a>
-<a href="#600" id="600">600</a>
-<a href="#601" id="601">601</a>
-<a href="#602" id="602">602</a>
-<a href="#603" id="603">603</a>
-<a href="#604" id="604">604</a>
-<a href="#605" id="605">605</a>
-<a href="#606" id="606">606</a>
-<a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a>
-<a href="#609" id="609">609</a>
-<a href="#610" id="610">610</a>
-<a href="#611" id="611">611</a>
-<a href="#612" id="612">612</a>
-<a href="#613" id="613">613</a>
-<a href="#614" id="614">614</a>
-<a href="#615" id="615">615</a>
-<a href="#616" id="616">616</a>
-<a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a>
-<a href="#619" id="619">619</a>
-<a href="#620" id="620">620</a>
-<a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
-<a href="#633" id="633">633</a>
-<a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a>
-<a href="#636" id="636">636</a>
-<a href="#637" id="637">637</a>
-<a href="#638" id="638">638</a>
-<a href="#639" id="639">639</a>
-<a href="#640" id="640">640</a>
-<a href="#641" id="641">641</a>
-<a href="#642" id="642">642</a>
-<a href="#643" id="643">643</a>
-<a href="#644" id="644">644</a>
-<a href="#645" id="645">645</a>
-<a href="#646" id="646">646</a>
-<a href="#647" id="647">647</a>
-<a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
-<a href="#652" id="652">652</a>
-<a href="#653" id="653">653</a>
-<a href="#654" id="654">654</a>
-<a href="#655" id="655">655</a>
-<a href="#656" id="656">656</a></pre></div><pre class="rust"><code><span class="doccomment">//! This crate contains common type definitions that are used by other crates.
+<a href="#520" id="520">520</a></pre></div><pre class="rust"><code><span class="doccomment">//! This crate contains common type definitions that are used by other crates.
 </span><span class="attr">#![feature(
     associated_type_defaults,
     box_patterns,
@@ -665,40 +529,40 @@
     min_specialization,
     never_type,
     rustc_private,
-    unwrap_infallible
+    unwrap_infallible,
+    new_range_api
 )]
 
 </span><span class="kw">extern crate </span>rustc_ast;
 <span class="kw">extern crate </span>rustc_data_structures;
 <span class="kw">extern crate </span>rustc_errors;
 
+<span class="kw">extern crate </span>rustc_abi;
 <span class="kw">extern crate </span>rustc_hir;
-<span class="kw">extern crate </span>rustc_hir_pretty;
 <span class="kw">extern crate </span>rustc_index;
-<span class="kw">extern crate </span>rustc_infer;
 <span class="kw">extern crate </span>rustc_macros;
 <span class="kw">extern crate </span>rustc_middle;
 <span class="kw">extern crate </span>rustc_serialize;
 <span class="kw">extern crate </span>rustc_span;
 <span class="kw">extern crate </span>rustc_target;
-<span class="kw">extern crate </span>rustc_trait_selection;
 <span class="kw">extern crate </span>rustc_type_ir;
 
 <span class="kw">extern crate </span><span class="self">self </span><span class="kw">as </span>flux_middle;
 
 <span class="kw">pub mod </span>big_int;
 <span class="kw">pub mod </span>cstore;
+<span class="kw">pub mod </span>def_id;
 <span class="kw">pub mod </span>fhir;
 <span class="kw">pub mod </span>global_env;
 <span class="kw">pub mod </span>pretty;
 <span class="kw">pub mod </span>queries;
 <span class="kw">pub mod </span>rty;
 <span class="kw">mod </span>sort_of;
+<span class="kw">pub mod </span>timings;
 
 <span class="kw">use </span>std::sync::LazyLock;
 
 <span class="kw">use </span>flux_arc_interner::List;
-<span class="kw">use </span>flux_common::bug;
 <span class="kw">use </span>flux_config <span class="kw">as </span>config;
 <span class="kw">use </span>flux_macros::fluent_messages;
 <span class="kw">pub use </span>flux_rustc_bridge::def_id_to_string;
@@ -708,6 +572,7 @@
 };
 <span class="kw">use </span>flux_syntax::surface::{<span class="self">self</span>, NodeId};
 <span class="kw">use </span>global_env::GlobalEnv;
+<span class="kw">use </span>liquid_fixpoint::ThyFunc;
 <span class="kw">use </span>queries::QueryResult;
 <span class="kw">use </span>rty::VariantIdx;
 <span class="kw">use </span>rustc_data_structures::{
@@ -716,10 +581,11 @@
 };
 <span class="kw">use </span>rustc_hir::OwnerId;
 <span class="kw">use </span>rustc_macros::extension;
+<span class="kw">use </span>rustc_middle::ty::TyCtxt;
 <span class="kw">use </span>rustc_span::{
+    Symbol,
     def_id::{DefId, LocalDefId},
     symbol::Ident,
-    Symbol,
 };
 <span class="kw">use </span>rustc_target::abi::FieldIdx;
 
@@ -728,10 +594,95 @@
 <span class="kw">pub struct </span>TheoryFunc {
     <span class="kw">pub </span>name: Symbol,
     <span class="kw">pub </span>sort: rty::PolyFuncSort,
-    <span class="kw">pub </span>fixpoint_name: Symbol,
+    <span class="kw">pub </span>itf: liquid_fixpoint::ThyFunc,
 }
 
-<span class="kw">pub static </span>THEORY_FUNCS: LazyLock&lt;UnordMap&lt;Symbol, TheoryFunc&gt;&gt; = LazyLock::new(|| {
+<span class="kw">pub static </span>THEORY_FUNCS: LazyLock&lt;UnordMap&lt;liquid_fixpoint::ThyFunc, TheoryFunc&gt;&gt; =
+    LazyLock::new(|| {
+        <span class="kw">use </span>rty::{BvSize, Sort::<span class="kw-2">*</span>};
+        liquid_fixpoint::ThyFunc::ALL
+            .into_iter()
+            .filter_map(|func| {
+                <span class="kw">let </span>func = TheoryFunc {
+                    name: Symbol::intern(name_of_thy_func(func)<span class="question-mark">?</span>),
+                    itf: func,
+                    sort: sort_of_thy_func(func)<span class="question-mark">?</span>,
+                };
+                <span class="prelude-val">Some</span>(func)
+            })
+            .chain([
+                <span class="comment">// we can't express these as function types so we add special case
+                </span>TheoryFunc {
+                    name: Symbol::intern(<span class="string">"bv_zero_extend_32_to_64"</span>),
+                    itf: liquid_fixpoint::ThyFunc::BvZeroExtend(<span class="number">32</span>),
+                    sort: rty::PolyFuncSort::new(
+                        List::empty(),
+                        rty::FuncSort::new(
+                            <span class="macro">vec!</span>[BitVec(BvSize::Fixed(<span class="number">32</span>))],
+                            BitVec(BvSize::Fixed(<span class="number">64</span>)),
+                        ),
+                    ),
+                },
+                TheoryFunc {
+                    name: Symbol::intern(<span class="string">"bv_sign_extend_32_to_64"</span>),
+                    itf: liquid_fixpoint::ThyFunc::BvSignExtend(<span class="number">32</span>),
+                    sort: rty::PolyFuncSort::new(
+                        List::empty(),
+                        rty::FuncSort::new(
+                            <span class="macro">vec!</span>[BitVec(BvSize::Fixed(<span class="number">32</span>))],
+                            BitVec(BvSize::Fixed(<span class="number">64</span>)),
+                        ),
+                    ),
+                },
+            ])
+            .map(|func| (func.itf, func))
+            .collect()
+    });
+
+<span class="kw">pub fn </span>name_of_thy_func(func: liquid_fixpoint::ThyFunc) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt; {
+    <span class="kw">let </span>name = <span class="kw">match </span>func {
+        ThyFunc::BvZeroExtend(<span class="kw">_</span>) | ThyFunc::BvSignExtend(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        ThyFunc::StrLen =&gt; <span class="string">"str_len"</span>,
+        ThyFunc::IntToBv32 =&gt; <span class="string">"bv_int_to_bv32"</span>,
+        ThyFunc::Bv32ToInt =&gt; <span class="string">"bv_bv32_to_int"</span>,
+        ThyFunc::IntToBv64 =&gt; <span class="string">"bv_int_to_bv64"</span>,
+        ThyFunc::Bv64ToInt =&gt; <span class="string">"bv_bv64_to_int"</span>,
+        ThyFunc::BvUge =&gt; <span class="string">"bv_uge"</span>,
+        ThyFunc::BvSge =&gt; <span class="string">"bv_sge"</span>,
+        ThyFunc::BvUdiv =&gt; <span class="string">"bv_udiv"</span>,
+        ThyFunc::BvSdiv =&gt; <span class="string">"bv_sdiv"</span>,
+
+        ThyFunc::BvSrem =&gt; <span class="string">"bv_srem"</span>,
+        ThyFunc::BvUrem =&gt; <span class="string">"bv_urem"</span>,
+        ThyFunc::BvLshr =&gt; <span class="string">"bv_lshr"</span>,
+        ThyFunc::BvAshr =&gt; <span class="string">"bv_ashr"</span>,
+        ThyFunc::BvAnd =&gt; <span class="string">"bv_and"</span>,
+        ThyFunc::BvOr =&gt; <span class="string">"bv_or"</span>,
+        ThyFunc::BvXor =&gt; <span class="string">"bv_xor"</span>,
+        ThyFunc::BvNot =&gt; <span class="string">"bv_not"</span>,
+        ThyFunc::BvAdd =&gt; <span class="string">"bv_add"</span>,
+        ThyFunc::BvNeg =&gt; <span class="string">"bv_neg"</span>,
+        ThyFunc::BvSub =&gt; <span class="string">"bv_sub"</span>,
+        ThyFunc::BvMul =&gt; <span class="string">"bv_mul"</span>,
+        ThyFunc::BvShl =&gt; <span class="string">"bv_shl"</span>,
+        ThyFunc::BvUle =&gt; <span class="string">"bv_ule"</span>,
+        ThyFunc::BvSle =&gt; <span class="string">"bv_sle"</span>,
+        ThyFunc::BvUgt =&gt; <span class="string">"bv_ugt"</span>,
+        ThyFunc::BvSgt =&gt; <span class="string">"bv_sgt"</span>,
+        ThyFunc::BvUlt =&gt; <span class="string">"bv_ult"</span>,
+        ThyFunc::BvSlt =&gt; <span class="string">"bv_slt"</span>,
+        ThyFunc::SetEmpty =&gt; <span class="string">"set_empty"</span>,
+        ThyFunc::SetSng =&gt; <span class="string">"set_singleton"</span>,
+        ThyFunc::SetCup =&gt; <span class="string">"set_union"</span>,
+        ThyFunc::SetMem =&gt; <span class="string">"set_is_in"</span>,
+        ThyFunc::MapDefault =&gt; <span class="string">"map_default"</span>,
+        ThyFunc::MapSelect =&gt; <span class="string">"map_select"</span>,
+        ThyFunc::MapStore =&gt; <span class="string">"map_store"</span>,
+    };
+    <span class="prelude-val">Some</span>(name)
+}
+
+<span class="kw">fn </span>sort_of_thy_func(func: liquid_fixpoint::ThyFunc) -&gt; <span class="prelude-ty">Option</span>&lt;rty::PolyFuncSort&gt; {
     <span class="kw">use </span>rty::{
         BvSize, ParamSort,
         Sort::{<span class="self">self</span>, <span class="kw-2">*</span>},
@@ -741,216 +692,98 @@
     <span class="kw">let </span>param0 = ParamSort::from_u32(<span class="number">0</span>);
     <span class="kw">let </span>param1 = ParamSort::from_u32(<span class="number">1</span>);
     <span class="kw">let </span>bv_param0 = BvSize::Param(ParamSort::from_u32(<span class="number">0</span>));
-    [
-        <span class="comment">// String operations
-        </span>TheoryFunc {
-            name: Symbol::intern(<span class="string">"str_len"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"strLen"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::empty(),
-                rty::FuncSort::new(<span class="macro">vec!</span>[rty::Sort::Str], Int),
-            ),
-        },
-        <span class="comment">// BitVector &lt;-&gt; int
-        </span>TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_zero_extend_32_to_64"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"app (_ zero_extend 32)"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::empty(),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(BvSize::Fixed(<span class="number">32</span>))], BitVec(BvSize::Fixed(<span class="number">64</span>))),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_sign_extend_32_to_64"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"app (_ sign_extend 32)"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::empty(),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(BvSize::Fixed(<span class="number">32</span>))], BitVec(BvSize::Fixed(<span class="number">64</span>))),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_int_to_bv32"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"int_to_bv32"</span>),
-            sort: rty::PolyFuncSort::new(
+
+    <span class="kw">let </span>sort = <span class="kw">match </span>func {
+        ThyFunc::BvZeroExtend(<span class="kw">_</span>) | ThyFunc::BvSignExtend(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        ThyFunc::StrLen =&gt; {
+            <span class="comment">// str -&gt; int
+            </span>rty::PolyFuncSort::new(List::empty(), rty::FuncSort::new(<span class="macro">vec!</span>[rty::Sort::Str], Int))
+        }
+        ThyFunc::IntToBv32 =&gt; {
+            <span class="comment">// int -&gt; BitVec&lt;32&gt;
+            </span>rty::PolyFuncSort::new(
                 List::empty(),
                 rty::FuncSort::new(<span class="macro">vec!</span>[rty::Sort::Int], BitVec(BvSize::Fixed(<span class="number">32</span>))),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_bv32_to_int"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bv32_to_int"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::Bv32ToInt =&gt; {
+            <span class="comment">// BitVec&lt;32&gt; -&gt; int
+            </span>rty::PolyFuncSort::new(
                 List::empty(),
                 rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(BvSize::Fixed(<span class="number">32</span>))], Int),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_int_to_bv64"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"int_to_bv64"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::IntToBv64 =&gt; {
+            <span class="comment">// int -&gt; BitVec&lt;64&gt;
+            </span>rty::PolyFuncSort::new(
                 List::empty(),
                 rty::FuncSort::new(<span class="macro">vec!</span>[rty::Sort::Int], BitVec(BvSize::Fixed(<span class="number">64</span>))),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_bv64_to_int"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bv64_to_int"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::Bv64ToInt =&gt; {
+            <span class="comment">// BitVec&lt;64&gt; -&gt; int
+            </span>rty::PolyFuncSort::new(
                 List::empty(),
                 rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(BvSize::Fixed(<span class="number">64</span>))], Int),
-            ),
-        },
-        <span class="comment">// BitVector arith
-        </span>TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_add"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvadd"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::BvUdiv
+        | ThyFunc::BvSdiv
+        | ThyFunc::BvSrem
+        | ThyFunc::BvUrem
+        | ThyFunc::BvLshr
+        | ThyFunc::BvAshr
+        | ThyFunc::BvAnd
+        | ThyFunc::BvOr
+        | ThyFunc::BvXor
+        | ThyFunc::BvAdd
+        | ThyFunc::BvSub
+        | ThyFunc::BvMul
+        | ThyFunc::BvShl =&gt; {
+            <span class="comment">// ∀s. (BitVec&lt;s&gt;, BitVec&lt;s&gt;) -&gt; BitVec&lt;s&gt;
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::BvSize),
                 rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_neg"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvneg"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::BvNot | ThyFunc::BvNeg =&gt; {
+            <span class="comment">// ∀s. BitVec&lt;s&gt; -&gt; BitVec&lt;s&gt;
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::BvSize),
                 rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_sub"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvsub"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::BvUgt
+        | ThyFunc::BvSgt
+        | ThyFunc::BvUlt
+        | ThyFunc::BvSlt
+        | ThyFunc::BvSle
+        | ThyFunc::BvUge
+        | ThyFunc::BvSge
+        | ThyFunc::BvUle =&gt; {
+            <span class="comment">// ∀s. (BitVec&lt;s&gt;, BitVec&lt;s&gt;) -&gt; bool
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_shl"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvshl"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_lshr"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvlshr"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_ashr"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvashr"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_mul"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvmul"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_udiv"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvudiv"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_urem"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvurem"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_sdiv"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvsdiv"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_srem"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvsrem"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_smod"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvsmod"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        <span class="comment">// BitVector bitwise
-        </span>TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_and"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvand"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_or"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvor"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_xor"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvxor"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"bv_not"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"bvnot"</span>),
-            sort: rty::PolyFuncSort::new(
-                List::singleton(SortParamKind::BvSize),
-                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0)], BitVec(bv_param0)),
-            ),
-        },
-        <span class="comment">// Set operations
-        </span>TheoryFunc {
-            name: Symbol::intern(<span class="string">"set_empty"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Set_empty"</span>),
-            sort: rty::PolyFuncSort::new(
+                rty::FuncSort::new(<span class="macro">vec!</span>[BitVec(bv_param0), BitVec(bv_param0)], Bool),
+            )
+        }
+        ThyFunc::SetEmpty =&gt; {
+            <span class="comment">// ∀s. int -&gt; Set&lt;S&gt; why does this take an int?
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::Sort),
                 rty::FuncSort::new(<span class="macro">vec!</span>[Int], Sort::app(Set, List::singleton(Var(param0)))),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"set_singleton"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Set_sng"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::SetSng =&gt; {
+            <span class="comment">// ∀s. s -&gt; Set&lt;S&gt;
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::Sort),
                 rty::FuncSort::new(<span class="macro">vec!</span>[Var(param0)], Sort::app(Set, List::singleton(Var(param0)))),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"set_union"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Set_cup"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::SetCup =&gt; {
+            <span class="comment">// ∀s. (Set&lt;S&gt;, Set&lt;S&gt;) -&gt; Set&lt;S&gt;
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::Sort),
                 rty::FuncSort::new(
                     <span class="macro">vec!</span>[
@@ -959,46 +792,41 @@
                     ],
                     Sort::app(Set, List::singleton(Var(param0))),
                 ),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"set_is_in"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Set_mem"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::SetMem =&gt; {
+            <span class="comment">// ∀s. (s, Set&lt;S&gt;) -&gt; bool
+            </span>rty::PolyFuncSort::new(
                 List::singleton(SortParamKind::Sort),
                 rty::FuncSort::new(
                     <span class="macro">vec!</span>[Var(param0), Sort::app(Set, List::singleton(Var(param0)))],
                     Bool,
                 ),
-            ),
-        },
-        <span class="comment">// Map operations
-        </span>TheoryFunc {
-            name: Symbol::intern(<span class="string">"map_default"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Map_default"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::MapDefault =&gt; {
+            <span class="comment">// ∀k,v. v -&gt; Map&lt;k,v&gt;
+            </span>rty::PolyFuncSort::new(
                 List::from_arr([SortParamKind::Sort, SortParamKind::Sort]),
                 rty::FuncSort::new(
                     <span class="macro">vec!</span>[Var(param1)],
                     Sort::app(Map, List::from_arr([Var(param0), Var(param1)])),
                 ),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"map_select"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Map_select"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::MapSelect =&gt; {
+            <span class="comment">// ∀k,v. (Map&lt;k,v&gt;, k) -&gt; v
+            </span>rty::PolyFuncSort::new(
                 List::from_arr([SortParamKind::Sort, SortParamKind::Sort]),
                 rty::FuncSort::new(
                     <span class="macro">vec!</span>[Sort::app(Map, List::from_arr([Var(param0), Var(param1)])), Var(param0)],
                     Var(param1),
                 ),
-            ),
-        },
-        TheoryFunc {
-            name: Symbol::intern(<span class="string">"map_store"</span>),
-            fixpoint_name: Symbol::intern(<span class="string">"Map_store"</span>),
-            sort: rty::PolyFuncSort::new(
+            )
+        }
+        ThyFunc::MapStore =&gt; {
+            <span class="comment">// ∀k,v. (Map&lt;k,v&gt;, k, v) -&gt; Map&lt;k, v&gt;
+            </span>rty::PolyFuncSort::new(
                 List::from_arr([SortParamKind::Sort, SortParamKind::Sort]),
                 rty::FuncSort::new(
                     <span class="macro">vec!</span>[
@@ -1008,17 +836,16 @@
                     ],
                     Sort::app(Map, List::from_arr([Var(param0), Var(param1)])),
                 ),
-            ),
-        },
-    ]
-    .into_iter()
-    .map(|itf| (itf.name, itf))
-    .collect()
-});
+            )
+        }
+    };
+    <span class="prelude-val">Some</span>(sort)
+}
 
 <span class="attr">#[derive(Default)]
 </span><span class="kw">pub struct </span>Specs {
     <span class="kw">pub </span>fn_sigs: UnordMap&lt;OwnerId, surface::FnSpec&gt;,
+    <span class="kw">pub </span>constants: UnordMap&lt;OwnerId, surface::ConstantInfo&gt;,
     <span class="kw">pub </span>structs: UnordMap&lt;OwnerId, surface::StructDef&gt;,
     <span class="kw">pub </span>traits: UnordMap&lt;OwnerId, surface::Trait&gt;,
     <span class="kw">pub </span>impls: UnordMap&lt;OwnerId, surface::Impl&gt;,
@@ -1028,8 +855,7 @@
     <span class="kw">pub </span>ignores: UnordMap&lt;LocalDefId, fhir::Ignored&gt;,
     <span class="kw">pub </span>trusted: UnordMap&lt;LocalDefId, fhir::Trusted&gt;,
     <span class="kw">pub </span>trusted_impl: UnordMap&lt;LocalDefId, fhir::Trusted&gt;,
-    <span class="kw">pub </span>check_overflows: UnordMap&lt;LocalDefId, fhir::CheckOverflow&gt;,
-    <span class="kw">pub </span>crate_config: <span class="prelude-ty">Option</span>&lt;config::CrateConfig&gt;,
+    <span class="kw">pub </span>infer_opts: UnordMap&lt;LocalDefId, config::PartialInferOpts&gt;,
     <span class="kw">pub </span>should_fail: UnordSet&lt;LocalDefId&gt;,
     <span class="doccomment">/// Set of dummy items generated by the extern spec macro we must completely ignore. This is
     /// not the same as [ignored items] because, for ignored items, we still need to return errors
@@ -1052,7 +878,7 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), ExternSpecMappingErr&gt; {
         <span class="attr">#[expect(
             clippy::disallowed_methods,
-            reason = <span class="string">"we are inserting the extern spec mapping and we want to ensure it's not point to a local item"
+            reason = <span class="string">"we are inserting the extern spec mapping and we want to ensure it doesn't point to a local item"
         </span>)]
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(local) = extern_id.as_local() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(ExternSpecMappingErr::IsLocal(local));
@@ -1072,8 +898,8 @@
 <span class="doccomment">/// Represents errors that can occur when inserting a mapping between a `LocalDefId` and a `DefId`
 /// for an extern spec.
 </span><span class="kw">pub enum </span>ExternSpecMappingErr {
-    <span class="doccomment">/// Indicates that the extern `DefId` being inserted is actually local. Returns the extern id as
-    /// a `LocalDefId`.
+    <span class="doccomment">/// Indicates that the [`DefId`] we are trying to add extern specs to is actually local. Returns
+    /// the [`DefId`] as a [`LocalDefId`].
     </span>IsLocal(LocalDefId),
 
     <span class="doccomment">/// Indicates that there is an existing extern spec for the given extern id. Returns the existing
@@ -1082,7 +908,7 @@
     /// NOTE: This currently only considers extern specs defined in the local crate. There could still
     /// be duplicates if an extern spec is imported from an external crate. In such cases, the local
     /// extern spec takes precedence. Probably, we should at least warn about this, but it's a bit
-    /// tricky because we need to look at the crate metadata which we don't currently have while
+    /// tricky because we need to look at the crate metadata which we don't have handy when
     /// collecting specs.
     </span>Dup(LocalDefId),
 }
@@ -1102,137 +928,10 @@
     </span><span class="kw">pub </span>implicit_params: UnordMap&lt;NodeId, Vec&lt;(Ident, NodeId)&gt;&gt;,
     <span class="kw">pub </span>sort_path_res_map: UnordMap&lt;NodeId, fhir::SortRes&gt;,
     <span class="kw">pub </span>expr_path_res_map: UnordMap&lt;NodeId, fhir::ExprRes&gt;,
-}
-
-<span class="doccomment">/// This enum serves as a type-level reminder that a local definition _may be_ a wrapper for an
-/// extern spec. This abstraction is not infallible, so one should be careful and decide in each
-/// situation whether to use the [_local id_] or the [_resolved id_].
-///
-/// The construction of [`MaybeExternId`] is not encapsulated, but it is recommended to use
-/// [`GlobalEnv::maybe_extern_id`] to create one.
-///
-/// The enum is generic on the local `Id` as we use it with various kinds of local ids, e.g.,
-/// [`LocalDefId`], [`OwnerId`], ...
-///
-/// [_local id_]: MaybeExternId::local_id
-/// [_resolved id_]: MaybeExternId::resolved_id
-/// [`GlobalEnv::maybe_extern_id`]: crate::global_env::GlobalEnv::maybe_extern_id
-</span><span class="attr">#[derive(Clone, Copy, Debug)]
-</span><span class="kw">pub enum </span>MaybeExternId&lt;Id = LocalDefId&gt; {
-    <span class="doccomment">/// An id for a local spec.
-    </span>Local(Id),
-    <span class="doccomment">/// A "dummy" local definition wrapping an external spec. The `Id` is the local id of the definition
-    /// corresponding to the extern spec. The `DefId` is the _resolved_ id for the external definition.
-    </span>Extern(Id, DefId),
-}
-
-<span class="kw">impl</span>&lt;Id&gt; MaybeExternId&lt;Id&gt; {
-    <span class="kw">pub fn </span>map&lt;R&gt;(<span class="self">self</span>, f: <span class="kw">impl </span>FnOnce(Id) -&gt; R) -&gt; MaybeExternId&lt;R&gt; {
-        <span class="kw">match </span><span class="self">self </span>{
-            MaybeExternId::Local(local_id) =&gt; MaybeExternId::Local(f(local_id)),
-            MaybeExternId::Extern(local_id, def_id) =&gt; MaybeExternId::Extern(f(local_id), def_id),
-        }
-    }
-
-    <span class="kw">pub fn </span>local_id(<span class="self">self</span>) -&gt; Id {
-        <span class="kw">match </span><span class="self">self </span>{
-            MaybeExternId::Local(local_id) | MaybeExternId::Extern(local_id, <span class="kw">_</span>) =&gt; local_id,
-        }
-    }
-
-    <span class="attr">#[track_caller]
-    </span><span class="kw">pub fn </span>expect_local(<span class="self">self</span>) -&gt; Id {
-        <span class="kw">match </span><span class="self">self </span>{
-            MaybeExternId::Local(local_id) =&gt; local_id,
-            MaybeExternId::Extern(..) =&gt; <span class="macro">bug!</span>(<span class="string">"expected `MaybeExternId::Local`"</span>),
-        }
-    }
-
-    <span class="doccomment">/// Returns `true` if the maybe extern id is [`Local`].
-    ///
-    /// [`Local`]: MaybeExternId::Local
-    </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>is_local(<span class="self">self</span>) -&gt; bool {
-        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span>::Local(..))
-    }
-
-    <span class="doccomment">/// Returns `true` if the maybe extern id is [`Extern`].
-    ///
-    /// [`Extern`]: MaybeExternId::Extern
-    </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>is_extern(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span>::Extern(..))
-    }
-
-    <span class="kw">pub fn </span>as_local(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Id&gt; {
-        <span class="kw">if let </span>MaybeExternId::Local(local_id) = <span class="self">self </span>{
-            <span class="prelude-val">Some</span>(local_id)
-        } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>}
-    }
-
-    <span class="kw">pub fn </span>as_extern(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;DefId&gt; {
-        <span class="kw">if let </span>MaybeExternId::Extern(<span class="kw">_</span>, def_id) = <span class="self">self </span>{
-            <span class="prelude-val">Some</span>(def_id)
-        } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>}
-    }
-}
-
-<span class="kw">impl</span>&lt;Id: Into&lt;DefId&gt;&gt; MaybeExternId&lt;Id&gt; {
-    <span class="doccomment">/// Returns the [`DefId`] this id _truly_ corresponds to, i.e, returns the [`DefId`] of the
-    /// extern definition if [`Extern`] or converts the local id into a [`DefId`] if [`Local`].
-    ///
-    /// [`Local`]: MaybeExternId::Local
-    /// [`Extern`]: MaybeExternId::Extern
-    </span><span class="kw">pub fn </span>resolved_id(<span class="self">self</span>) -&gt; DefId {
-        <span class="kw">match </span><span class="self">self </span>{
-            MaybeExternId::Local(local_id) =&gt; local_id.into(),
-            MaybeExternId::Extern(<span class="kw">_</span>, def_id) =&gt; def_id,
-        }
-    }
-}
-
-<span class="kw">impl </span>rustc_middle::query::IntoQueryParam&lt;DefId&gt; <span class="kw">for </span>MaybeExternId {
-    <span class="kw">fn </span>into_query_param(<span class="self">self</span>) -&gt; DefId {
-        <span class="self">self</span>.resolved_id()
-    }
-}
-
-<span class="doccomment">/// Normally, a [`DefId`] is either local or external, and [`DefId::as_local`] can be used to
-/// distinguish between the two. However, extern specs introduce a third case: a local definition
-/// wrapping an extern spec. This enum is a type level reminder used to differentiate between these
-/// three cases.
-///
-/// The construction of [`ResolvedDefId`] is not encapsulated, but it is recommended to use
-/// [`GlobalEnv::resolve_id`] to create one.
-///
-/// This is used when we are given a [`DefId`] and we need to resolve it into one of these three
-/// cases. For handling local items that may correspond to an extern spec, see [`MaybeExternId`].
-</span><span class="attr">#[derive(Clone, Copy)]
-</span><span class="kw">pub enum </span>ResolvedDefId {
-    <span class="doccomment">/// A local definition. Corresponds to [`MaybeExternId::Local`].
-    </span>Local(LocalDefId),
-    <span class="doccomment">/// A "dummy" local definition wrapping an extern spec. The `LocalDefId` is for the local item,
-    /// and the `DefId` is the resolved id for the external spec. Corresponds to
-    /// [`MaybeExternId::Extern`].
-    </span>ExternSpec(LocalDefId, DefId),
-    <span class="doccomment">/// An external definition with no corresponding (local) extern spec.
-    </span>Extern(DefId),
-}
-
-<span class="kw">impl </span>ResolvedDefId {
-    <span class="kw">pub fn </span>as_maybe_extern(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;MaybeExternId&gt; {
-        <span class="kw">match </span><span class="self">self </span>{
-            ResolvedDefId::Local(local_id) =&gt; <span class="prelude-val">Some</span>(MaybeExternId::Local(local_id)),
-            ResolvedDefId::ExternSpec(local_id, def_id) =&gt; {
-                <span class="prelude-val">Some</span>(MaybeExternId::Extern(local_id, def_id))
-            }
-            ResolvedDefId::Extern(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
-        }
-    }
+    <span class="doccomment">/// The resolved list of local qualifiers per function
+    </span><span class="kw">pub </span>qualifier_res_map: UnordMap&lt;OwnerId, Vec&lt;def_id::FluxLocalDefId&gt;&gt;,
+    <span class="doccomment">/// The resolved list of local reveals per function
+    </span><span class="kw">pub </span>reveal_res_map: UnordMap&lt;OwnerId, Vec&lt;def_id::FluxDefId&gt;&gt;,
 }
 
 <span class="attr">#[extension(<span class="kw">pub trait </span>PlaceExt)]
@@ -1308,6 +1007,35 @@
             ty::TyKind::Closure(<span class="kw">_</span>, args) =&gt; <span class="prelude-val">Ok</span>(args.as_closure().upvar_tys()[f.index()].clone()),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro">query_bug!</span>(<span class="string">"extracting field of non-tuple non-adt non-closure: {self:?}"</span>)),
         }
+    }
+}
+
+<span class="doccomment">/// The different reasons we issue fixpoint queries. This is used to dissambiguate queries that
+/// are issued for the same item.
+///
+/// NOTE: This is defined here because it's also used in [`timings`]
+</span><span class="attr">#[derive(Debug, Hash, Clone, Copy)]
+</span><span class="kw">pub enum </span>FixpointQueryKind {
+    <span class="doccomment">/// Query issued when checking an impl method is a subtype of the trait
+    </span>Impl,
+    <span class="doccomment">/// Query issued to check the body of a function
+    </span>Body,
+    <span class="doccomment">/// Query issued to check an (enum) invariant is implied by the type definition
+    </span>Invariant,
+}
+
+<span class="kw">impl </span>FixpointQueryKind {
+    <span class="kw">pub fn </span>ext(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            FixpointQueryKind::Impl =&gt; <span class="string">"sub.fluxc"</span>,
+            FixpointQueryKind::Body =&gt; <span class="string">"fluxc"</span>,
+            FixpointQueryKind::Invariant =&gt; <span class="string">"fluxc"</span>,
+        }
+    }
+
+    <span class="doccomment">/// A string that uniquely identifies a query given an item `DefId`
+    </span><span class="kw">pub fn </span>task_key(<span class="self">self</span>, tcx: TyCtxt, def_id: DefId) -&gt; String {
+        <span class="macro">format!</span>(<span class="string">"{}###{:?}"</span>, tcx.def_path_str(def_id), <span class="self">self</span>)
     }
 }
 </code></pre></div></section></main></body></html>

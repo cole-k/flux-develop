@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/rty/fold.rs`."><title>fold.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/rty/</div>fold.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/rty/fold.rs`."><title>fold.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/rty/</div>fold.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1019,7 +1019,33 @@
 <a href="#1018" id="1018">1018</a>
 <a href="#1019" id="1019">1019</a>
 <a href="#1020" id="1020">1020</a>
-<a href="#1021" id="1021">1021</a></pre></div><pre class="rust"><code><span class="doccomment">//! This modules follows the implementation of folding in rustc. For more information read the
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a></pre></div><pre class="rust"><code><span class="doccomment">//! This modules follows the implementation of folding in rustc. For more information read the
 //! documentation in [`rustc_middle::ty::fold`].
 
 </span><span class="kw">use </span>std::ops::ControlFlow;
@@ -1027,23 +1053,18 @@
 <span class="kw">use </span>flux_arc_interner::{Internable, List};
 <span class="kw">use </span>flux_common::bug;
 <span class="kw">use </span>itertools::Itertools;
+<span class="kw">use </span>rustc_data_structures::fx::FxIndexSet;
 <span class="kw">use </span>rustc_hash::FxHashSet;
-<span class="kw">use </span>rustc_hir::def_id::DefId;
 <span class="kw">use </span>rustc_type_ir::{DebruijnIndex, INNERMOST};
 
 <span class="kw">use super</span>::{
-    evars::EVarSol,
-    normalize::{Normalizer, SpecFuncDefns},
-    projections,
-    subst::EVarSubstFolder,
-    BaseTy, Binder, BoundVariableKinds, Const, Ensures, Expr, ExprKind, GenericArg, Name,
+    BaseTy, Binder, BoundVariableKinds, Const, EVid, Ensures, Expr, ExprKind, GenericArg, Name,
     OutlivesPredicate, PolyFuncSort, PtrKind, ReBound, ReErased, Region, Sort, SubsetTy, Ty,
-    TyKind,
+    TyKind, normalize::Normalizer,
 };
 <span class="kw">use crate</span>::{
     global_env::GlobalEnv,
-    queries::QueryResult,
-    rty::{expr::HoleKind, Var, VariantSig},
+    rty::{Var, VariantSig, expr::HoleKind},
 };
 
 <span class="kw">pub trait </span>TypeVisitor: Sized {
@@ -1248,6 +1269,23 @@
         <span class="self">self</span>.visit_with(<span class="kw-2">&amp;mut </span>collector);
         collector.<span class="number">0
     </span>}
+
+    <span class="kw">fn </span>evars(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; FxIndexSet&lt;EVid&gt; {
+        <span class="kw">struct </span>CollectEVars(FxIndexSet&lt;EVid&gt;);
+
+        <span class="kw">impl </span>TypeVisitor <span class="kw">for </span>CollectEVars {
+            <span class="kw">fn </span>visit_expr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, e: <span class="kw-2">&amp;</span>Expr) -&gt; ControlFlow&lt;<span class="self">Self</span>::BreakTy&gt; {
+                <span class="kw">if let </span>ExprKind::Var(Var::EVar(evid)) = e.kind() {
+                    <span class="self">self</span>.<span class="number">0</span>.insert(<span class="kw-2">*</span>evid);
+                }
+                e.super_visit_with(<span class="self">self</span>)
+            }
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>collector = CollectEVars(FxIndexSet::default());
+        <span class="self">self</span>.visit_with(<span class="kw-2">&amp;mut </span>collector);
+        collector.<span class="number">0
+    </span>}
 }
 
 <span class="kw">pub trait </span>TypeSuperVisitable: TypeVisitable {
@@ -1261,19 +1299,9 @@
         <span class="self">self</span>.try_fold_with(folder).into_ok()
     }
 
-    <span class="kw">fn </span>normalize_projections&lt;<span class="lifetime">'tcx</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        genv: GlobalEnv&lt;<span class="lifetime">'_</span>, <span class="lifetime">'tcx</span>&gt;,
-        infcx: <span class="kw-2">&amp;</span>rustc_infer::infer::InferCtxt&lt;<span class="lifetime">'tcx</span>&gt;,
-        callsite_def_id: DefId,
-    ) -&gt; QueryResult&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>normalizer = projections::Normalizer::new(genv, infcx, callsite_def_id)<span class="question-mark">?</span>;
-        <span class="self">self</span>.erase_regions().try_fold_with(<span class="kw-2">&amp;mut </span>normalizer)
-    }
-
     <span class="doccomment">/// Normalize expressions by applying beta reductions for tuples and lambda abstractions.
-    </span><span class="kw">fn </span>normalize(<span class="kw-2">&amp;</span><span class="self">self</span>, defns: <span class="kw-2">&amp;</span>SpecFuncDefns) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.fold_with(<span class="kw-2">&amp;mut </span>Normalizer::new(defns))
+    </span><span class="kw">fn </span>normalize(<span class="kw-2">&amp;</span><span class="self">self</span>, genv: GlobalEnv) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.fold_with(<span class="kw-2">&amp;mut </span>Normalizer::new(genv, <span class="prelude-val">None</span>))
     }
 
     <span class="doccomment">/// Replaces all [holes] with the result of calling a closure. The closure takes a list with
@@ -1334,9 +1362,21 @@
         <span class="self">self</span>.fold_with(<span class="kw-2">&amp;mut </span>WithHoles)
     }
 
-    <span class="kw">fn </span>replace_evars(<span class="kw-2">&amp;</span><span class="self">self</span>, evars: <span class="kw-2">&amp;</span>EVarSol) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.fold_with(<span class="kw-2">&amp;mut </span>EVarSubstFolder::new(evars))
-            .normalize(<span class="kw-2">&amp;</span>Default::default())
+    <span class="kw">fn </span>replace_evars(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>FnMut(EVid) -&gt; <span class="prelude-ty">Option</span>&lt;Expr&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, EVid&gt; {
+        <span class="kw">struct </span>Folder&lt;F&gt;(F);
+        <span class="kw">impl</span>&lt;F: FnMut(EVid) -&gt; <span class="prelude-ty">Option</span>&lt;Expr&gt;&gt; FallibleTypeFolder <span class="kw">for </span>Folder&lt;F&gt; {
+            <span class="kw">type </span>Error = EVid;
+
+            <span class="kw">fn </span>try_fold_expr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, expr: <span class="kw-2">&amp;</span>Expr) -&gt; <span class="prelude-ty">Result</span>&lt;Expr, <span class="self">Self</span>::Error&gt; {
+                <span class="kw">if let </span>ExprKind::Var(Var::EVar(evid)) = expr.kind() {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(sol) = (<span class="self">self</span>.<span class="number">0</span>)(<span class="kw-2">*</span>evid) { <span class="prelude-val">Ok</span>(sol.clone()) } <span class="kw">else </span>{ <span class="prelude-val">Err</span>(<span class="kw-2">*</span>evid) }
+                } <span class="kw">else </span>{
+                    expr.try_super_fold_with(<span class="self">self</span>)
+                }
+            }
+        }
+
+        <span class="self">self</span>.try_fold_with(<span class="kw-2">&amp;mut </span>Folder(f))
     }
 
     <span class="kw">fn </span>shift_in_escaping(<span class="kw-2">&amp;</span><span class="self">self</span>, amount: u32) -&gt; <span class="self">Self </span>{
@@ -1562,9 +1602,7 @@
 
 <span class="kw">impl </span>TypeVisitable <span class="kw">for </span>VariantSig {
     <span class="kw">fn </span>visit_with&lt;V: TypeVisitor&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, visitor: <span class="kw-2">&amp;mut </span>V) -&gt; ControlFlow&lt;V::BreakTy&gt; {
-        <span class="self">self</span>.fields
-            .iter()
-            .try_for_each(|ty| ty.visit_with(visitor))<span class="question-mark">?</span>;
+        <span class="self">self</span>.fields.visit_with(visitor)<span class="question-mark">?</span>;
         <span class="self">self</span>.idx.visit_with(visitor)
     }
 }
@@ -1574,7 +1612,8 @@
         <span class="kw">let </span>args = <span class="self">self</span>.args.try_fold_with(folder)<span class="question-mark">?</span>;
         <span class="kw">let </span>fields = <span class="self">self</span>.fields.try_fold_with(folder)<span class="question-mark">?</span>;
         <span class="kw">let </span>idx = <span class="self">self</span>.idx.try_fold_with(folder)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(VariantSig::new(<span class="self">self</span>.adt_def.clone(), args, fields, idx))
+        <span class="kw">let </span>requires = <span class="self">self</span>.requires.try_fold_with(folder)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(VariantSig::new(<span class="self">self</span>.adt_def.clone(), args, fields, idx, requires))
     }
 }
 
@@ -1769,9 +1808,10 @@
             | BaseTy::Float(<span class="kw">_</span>)
             | BaseTy::Str
             | BaseTy::Char
-            | BaseTy::Closure(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>)
+            | BaseTy::Closure(..)
             | BaseTy::Never
             | BaseTy::Infer(<span class="kw">_</span>)
+            | BaseTy::Foreign(<span class="kw">_</span>)
             | BaseTy::Param(<span class="kw">_</span>) =&gt; ControlFlow::Continue(()),
         }
     }
@@ -1788,6 +1828,7 @@
         <span class="kw">let </span>bty = <span class="kw">match </span><span class="self">self </span>{
             BaseTy::Adt(adt_def, args) =&gt; BaseTy::adt(adt_def.clone(), args.try_fold_with(folder)<span class="question-mark">?</span>),
             BaseTy::FnDef(def_id, args) =&gt; BaseTy::fn_def(<span class="kw-2">*</span>def_id, args.try_fold_with(folder)<span class="question-mark">?</span>),
+            BaseTy::Foreign(def_id) =&gt; BaseTy::Foreign(<span class="kw-2">*</span>def_id),
             BaseTy::Slice(ty) =&gt; BaseTy::Slice(ty.try_fold_with(folder)<span class="question-mark">?</span>),
             BaseTy::RawPtr(ty, mu) =&gt; BaseTy::RawPtr(ty.try_fold_with(folder)<span class="question-mark">?</span>, <span class="kw-2">*</span>mu),
             BaseTy::Ref(re, ty, mutbl) =&gt; {
@@ -1887,7 +1928,8 @@
                 e1.visit_with(visitor)<span class="question-mark">?</span>;
                 e2.visit_with(visitor)
             }
-            ExprKind::Aggregate(<span class="kw">_</span>, flds) =&gt; flds.visit_with(visitor),
+            ExprKind::Tuple(flds) =&gt; flds.visit_with(visitor),
+            ExprKind::Ctor(<span class="kw">_</span>, flds) =&gt; flds.visit_with(visitor),
             ExprKind::FieldProj(e, <span class="kw">_</span>) | ExprKind::PathProj(e, <span class="kw">_</span>) | ExprKind::UnaryOp(<span class="kw">_</span>, e) =&gt; {
                 e.visit_with(visitor)
             }
@@ -1906,7 +1948,12 @@
                 args.visit_with(visitor)
             }
             ExprKind::Abs(body) =&gt; body.visit_with(visitor),
+            ExprKind::BoundedQuant(<span class="kw">_</span>, <span class="kw">_</span>, body) =&gt; body.visit_with(visitor),
             ExprKind::ForAll(expr) =&gt; expr.visit_with(visitor),
+            ExprKind::Let(init, body) =&gt; {
+                init.visit_with(visitor)<span class="question-mark">?</span>;
+                body.visit_with(visitor)
+            }
             ExprKind::Constant(<span class="kw">_</span>)
             | ExprKind::Hole(<span class="kw">_</span>)
             | ExprKind::Local(<span class="kw">_</span>)
@@ -1939,10 +1986,8 @@
             }
             ExprKind::UnaryOp(op, e) =&gt; Expr::unary_op(<span class="kw-2">*</span>op, e.try_fold_with(folder)<span class="question-mark">?</span>),
             ExprKind::FieldProj(e, proj) =&gt; Expr::field_proj(e.try_fold_with(folder)<span class="question-mark">?</span>, <span class="kw-2">*</span>proj),
-            ExprKind::Aggregate(kind, flds) =&gt; {
-                <span class="kw">let </span>flds = flds.iter().map(|e| e.try_fold_with(folder)).try_collect()<span class="question-mark">?</span>;
-                Expr::aggregate(<span class="kw-2">*</span>kind, flds)
-            }
+            ExprKind::Tuple(flds) =&gt; Expr::tuple(flds.try_fold_with(folder)<span class="question-mark">?</span>),
+            ExprKind::Ctor(ctor, flds) =&gt; Expr::ctor(<span class="kw-2">*</span>ctor, flds.try_fold_with(folder)<span class="question-mark">?</span>),
             ExprKind::PathProj(e, field) =&gt; Expr::path_proj(e.try_fold_with(folder)<span class="question-mark">?</span>, <span class="kw-2">*</span>field),
             ExprKind::App(func, arg) =&gt; {
                 Expr::app(func.try_fold_with(folder)<span class="question-mark">?</span>, arg.try_fold_with(folder)<span class="question-mark">?</span>)
@@ -1957,13 +2002,17 @@
             ExprKind::Hole(kind) =&gt; Expr::hole(kind.try_fold_with(folder)<span class="question-mark">?</span>),
             ExprKind::KVar(kvar) =&gt; Expr::kvar(kvar.try_fold_with(folder)<span class="question-mark">?</span>),
             ExprKind::Abs(lam) =&gt; Expr::abs(lam.try_fold_with(folder)<span class="question-mark">?</span>),
-            ExprKind::GlobalFunc(func, kind) =&gt; Expr::global_func(<span class="kw-2">*</span>func, <span class="kw-2">*</span>kind),
+            ExprKind::BoundedQuant(kind, rng, body) =&gt; {
+                Expr::bounded_quant(<span class="kw-2">*</span>kind, <span class="kw-2">*</span>rng, body.try_fold_with(folder)<span class="question-mark">?</span>)
+            }
+            ExprKind::GlobalFunc(kind) =&gt; Expr::global_func(<span class="kw-2">*</span>kind),
             ExprKind::Alias(alias, args) =&gt; {
-                <span class="kw">let </span>alias = alias.try_fold_with(folder)<span class="question-mark">?</span>;
-                <span class="kw">let </span>args = args.try_fold_with(folder)<span class="question-mark">?</span>;
-                Expr::alias(alias, args)
+                Expr::alias(alias.try_fold_with(folder)<span class="question-mark">?</span>, args.try_fold_with(folder)<span class="question-mark">?</span>)
             }
             ExprKind::ForAll(expr) =&gt; Expr::forall(expr.try_fold_with(folder)<span class="question-mark">?</span>),
+            ExprKind::Let(init, body) =&gt; {
+                Expr::let_(init.try_fold_with(folder)<span class="question-mark">?</span>, body.try_fold_with(folder)<span class="question-mark">?</span>)
+            }
         };
         <span class="prelude-val">Ok</span>(expr.at_opt(span))
     }
@@ -2027,12 +2076,15 @@
 
 <span class="comment">// For things that don't carry any arena-allocated data (and are copy...), just add them to this list.
 </span><span class="macro">TrivialTypeTraversalImpls!</span> {
+    (),
     bool,
     usize,
     <span class="kw">crate</span>::fhir::InferMode,
     <span class="kw">crate</span>::rty::BoundReftKind,
     <span class="kw">crate</span>::rty::BvSize,
     <span class="kw">crate</span>::rty::KVid,
+    <span class="kw">crate</span>::def_id::FluxDefId,
+    <span class="kw">crate</span>::def_id::FluxLocalDefId,
     rustc_span::Symbol,
     rustc_hir::def_id::DefId,
     rustc_hir::Safety,

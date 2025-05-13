@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-rustc-bridge/src/mir.rs`."><title>mir.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_rustc_bridge" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_rustc_bridge/</div>mir.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-rustc-bridge/src/mir.rs`."><title>mir.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_rustc_bridge" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_rustc_bridge/</div>mir.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -802,7 +802,10 @@
 <a href="#801" id="801">801</a>
 <a href="#802" id="802">802</a>
 <a href="#803" id="803">803</a>
-<a href="#804" id="804">804</a></pre></div><pre class="rust"><code><span class="doccomment">//! A simplified version of rust mir.
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a></pre></div><pre class="rust"><code><span class="doccomment">//! A simplified version of rust mir.
 
 </span><span class="kw">use </span>std::fmt;
 
@@ -810,11 +813,10 @@
 <span class="kw">use </span>flux_common::index::{Idx, IndexVec};
 <span class="kw">use </span>itertools::Itertools;
 <span class="kw">use </span>rustc_ast::Mutability;
-<span class="kw">pub use </span>rustc_borrowck::borrow_set::BorrowData;
-<span class="kw">use </span>rustc_borrowck::consumers::{BodyWithBorrowckFacts, BorrowIndex};
+<span class="kw">use </span>rustc_borrowck::consumers::{BodyWithBorrowckFacts, BorrowData, BorrowIndex};
 <span class="kw">use </span>rustc_data_structures::{
     fx::FxIndexMap,
-    graph::{<span class="self">self</span>, dominators::Dominators, DirectedGraph, StartNode},
+    graph::{<span class="self">self</span>, DirectedGraph, StartNode, dominators::Dominators},
     unord::UnordMap,
 };
 <span class="kw">use </span>rustc_hir::def_id::{DefId, LocalDefId};
@@ -828,17 +830,17 @@
 <span class="kw">pub use </span>rustc_middle::{
     mir::{
         BasicBlock, BorrowKind, FakeBorrowKind, FakeReadCause, Local, LocalKind, Location,
-        SourceInfo, SwitchTargets, UnOp, UnwindAction, RETURN_PLACE, START_BLOCK,
+        RETURN_PLACE, START_BLOCK, SourceInfo, SwitchTargets, UnOp, UnwindAction,
     },
     ty::{UserTypeAnnotationIndex, Variance},
 };
 <span class="kw">use </span>rustc_span::{Span, Symbol};
-<span class="kw">pub use </span>rustc_target::abi::{FieldIdx, VariantIdx, FIRST_VARIANT};
+<span class="kw">pub use </span>rustc_target::abi::{FIRST_VARIANT, FieldIdx, VariantIdx};
 
 <span class="kw">use </span><span class="kw">super</span>::ty::{Const, GenericArg, GenericArgs, Region, Ty};
 <span class="kw">use crate</span>::{
     def_id_to_string,
-    ty::{region_to_string, Binder, FnSig},
+    ty::{Binder, FnSig, region_to_string},
 };
 
 <span class="kw">pub struct </span>Body&lt;<span class="lifetime">'tcx</span>&gt; {
@@ -1157,6 +1159,8 @@
     Param(ParamConst, Ty),
     <span class="doccomment">/// General catch-all for constants of a given Ty
     </span>Opaque(Ty),
+    <span class="doccomment">/// Better than opaque -- we track `DefId` so we can get the actual refinement index
+    </span>Unevaluated(Ty, DefId),
 }
 
 <span class="kw">impl </span>Terminator&lt;<span class="lifetime">'_</span>&gt; {
@@ -1265,7 +1269,7 @@
     <span class="kw">pub fn </span>borrow_data(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: BorrowIndex) -&gt; <span class="kw-2">&amp;</span>BorrowData&lt;<span class="lifetime">'tcx</span>&gt; {
         <span class="self">self</span>.body_with_facts
             .borrow_set
-            .location_map
+            .location_map()
             .get_index(idx.as_usize())
             .unwrap()
             .<span class="number">1
@@ -1291,6 +1295,7 @@
 ) -&gt; rustc_infer::infer::InferCtxt&lt;<span class="lifetime">'tcx</span>&gt; {
     <span class="kw">let </span>infcx = tcx
         .infer_ctxt()
+        .with_next_trait_solver(<span class="bool-val">true</span>)
         .build(TypingMode::analysis_in_body(tcx, def_id));
     <span class="kw">for </span>info <span class="kw">in </span><span class="kw-2">&amp;</span>body_with_facts.region_inference_context.var_infos {
         infcx.next_region_var(info.origin);
@@ -1596,6 +1601,7 @@
             Constant::Char(c) =&gt; <span class="macro">write!</span>(f, <span class="string">"\'{c}\'"</span>),
             Constant::Opaque(ty) =&gt; <span class="macro">write!</span>(f, <span class="string">"&lt;opaque {:?}&gt;"</span>, ty),
             Constant::Param(p, <span class="kw">_</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">"{:?}"</span>, p),
+            Constant::Unevaluated(ty, def_id) =&gt; <span class="macro">write!</span>(f, <span class="string">"&lt;uneval {:?} from {:?}&gt;"</span>, ty, def_id),
         }
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-syntax/src/surface.rs`."><title>surface.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_syntax/</div>surface.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-syntax/src/surface.rs`."><title>surface.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_syntax/</div>surface.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -633,16 +633,56 @@
 <a href="#632" id="632">632</a>
 <a href="#633" id="633">633</a>
 <a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a></pre></div><pre class="rust"><code><span class="kw">pub mod </span>visit;
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a></pre></div><pre class="rust"><code><span class="kw">pub mod </span>visit;
 
-<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::{fmt, ops::Range};
 
 <span class="kw">pub use </span>rustc_ast::{
-    token::{Lit, LitKind},
     Mutability,
+    token::{Lit, LitKind},
 };
-<span class="kw">pub use </span>rustc_span::symbol::Ident;
-<span class="kw">use </span>rustc_span::Span;
+<span class="kw">pub use </span>rustc_span::{Span, symbol::Ident};
 
 <span class="kw">use </span><span class="kw">crate</span>::surface::visit::Visitor;
 
@@ -669,6 +709,16 @@
     SortDecl(SortDecl),
 }
 
+<span class="kw">impl </span>Item {
+    <span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Ident {
+        <span class="kw">match </span><span class="self">self </span>{
+            Item::Qualifier(qualifier) =&gt; qualifier.name,
+            Item::FuncDef(spec_func) =&gt; spec_func.name,
+            Item::SortDecl(sort_decl) =&gt; sort_decl.name,
+        }
+    }
+}
+
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>Qualifier {
     <span class="kw">pub </span>name: Ident,
@@ -688,12 +738,16 @@
     <span class="kw">pub </span>output: Sort,
     <span class="doccomment">/// Body of the function. If not present this definition corresponds to an uninterpreted function.
     </span><span class="kw">pub </span>body: <span class="prelude-ty">Option</span>&lt;Expr&gt;,
+    <span class="doccomment">/// Is this function "hidden" i.e. to be considered
+    /// as uninterpreted by default (only makes sense if `body` is_some ...)
+    /// as otherwise it is *always* uninterpreted.
+    </span><span class="kw">pub </span>hide: bool,
 }
 
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>Generics {
     <span class="kw">pub </span>params: Vec&lt;GenericParam&gt;,
-    <span class="kw">pub </span>predicates: Vec&lt;WhereBoundPredicate&gt;,
+    <span class="kw">pub </span>predicates: <span class="prelude-ty">Option</span>&lt;Vec&lt;WhereBoundPredicate&gt;&gt;,
     <span class="kw">pub </span>span: Span,
 }
 
@@ -722,6 +776,11 @@
 }
 
 <span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ConstantInfo {
+    <span class="kw">pub </span>expr: <span class="prelude-ty">Option</span>&lt;Expr&gt;,
+}
+
+<span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>StructDef {
     <span class="kw">pub </span>generics: <span class="prelude-ty">Option</span>&lt;Generics&gt;,
     <span class="kw">pub </span>refined_by: <span class="prelude-ty">Option</span>&lt;RefineParams&gt;,
@@ -745,6 +804,7 @@
     <span class="kw">pub </span>variants: Vec&lt;<span class="prelude-ty">Option</span>&lt;VariantDef&gt;&gt;,
     <span class="kw">pub </span>invariants: Vec&lt;Expr&gt;,
     <span class="kw">pub </span>node_id: NodeId,
+    <span class="kw">pub </span>reflected: bool,
 }
 
 <span class="kw">impl </span>EnumDef {
@@ -777,6 +837,11 @@
     <span class="kw">pub </span>names: Vec&lt;Ident&gt;,
 }
 
+<span class="attr">#[derive(Debug, Default)]
+</span><span class="kw">pub struct </span>RevealNames {
+    <span class="kw">pub </span>names: Vec&lt;Ident&gt;,
+}
+
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>RefineParam {
     <span class="kw">pub </span>ident: Ident,
@@ -806,7 +871,8 @@
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub enum </span>BaseSort {
     <span class="doccomment">/// a bitvector sort, e.g., bitvec&lt;32&gt;
-    </span>BitVec(usize),
+    </span>BitVec(u32),
+    SortOf(Box&lt;Ty&gt;, Path),
     Path(SortPath),
 }
 
@@ -853,6 +919,7 @@
 </span><span class="kw">pub struct </span>FnSpec {
     <span class="kw">pub </span>fn_sig: <span class="prelude-ty">Option</span>&lt;FnSig&gt;,
     <span class="kw">pub </span>qual_names: <span class="prelude-ty">Option</span>&lt;QualNames&gt;,
+    <span class="kw">pub </span>reveal_names: <span class="prelude-ty">Option</span>&lt;RevealNames&gt;,
 }
 
 <span class="attr">#[derive(Debug)]
@@ -937,14 +1004,6 @@
     <span class="kw">pub </span>kind: TyKind,
     <span class="kw">pub </span>node_id: NodeId,
     <span class="kw">pub </span>span: Span,
-}
-
-<span class="doccomment">/// `&lt;qself as path&gt;::name`
-</span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>AliasReft {
-    <span class="kw">pub </span>qself: Box&lt;Ty&gt;,
-    <span class="kw">pub </span>path: Path,
-    <span class="kw">pub </span>name: Ident,
 }
 
 <span class="attr">#[derive(Debug)]
@@ -1116,16 +1175,31 @@
 }
 
 <span class="attr">#[derive(Debug)]
+</span><span class="kw">pub enum </span>QuantKind {
+    Forall,
+    Exists,
+}
+
+<span class="attr">#[derive(Debug)]
 </span><span class="kw">pub enum </span>ExprKind {
     Path(ExprPath),
-    Dot(ExprPath, Ident),
+    Dot(Box&lt;Expr&gt;, Ident),
     Literal(Lit),
     BinaryOp(BinOp, Box&lt;[Expr; <span class="number">2</span>]&gt;),
     UnaryOp(UnOp, Box&lt;Expr&gt;),
-    App(Ident, Vec&lt;Expr&gt;),
-    Alias(AliasReft, Vec&lt;Expr&gt;),
+    Call(Box&lt;Expr&gt;, Vec&lt;Expr&gt;),
+    <span class="doccomment">/// `&lt;qself as path&gt;::name`
+    </span>AssocReft(Box&lt;Ty&gt;, Path, Ident),
     IfThenElse(Box&lt;[Expr; <span class="number">3</span>]&gt;),
     Constructor(<span class="prelude-ty">Option</span>&lt;ExprPath&gt;, Vec&lt;ConstructorArg&gt;),
+    BoundedQuant(QuantKind, RefineParam, Range&lt;usize&gt;, Box&lt;Expr&gt;),
+    Block(Vec&lt;LetDecl&gt;, Box&lt;Expr&gt;),
+}
+
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>LetDecl {
+    <span class="kw">pub </span>param: RefineParam,
+    <span class="kw">pub </span>init: Expr,
 }
 
 <span class="doccomment">/// A [`Path`] but for refinement expressions
@@ -1142,7 +1216,7 @@
     <span class="kw">pub </span>node_id: NodeId,
 }
 
-<span class="attr">#[derive(Copy, Clone)]
+<span class="attr">#[derive(Copy, Clone, PartialEq)]
 </span><span class="kw">pub enum </span>BinOp {
     Iff,
     Imp,
@@ -1159,6 +1233,10 @@
     Mul,
     Div,
     Mod,
+    BitAnd,
+    BitOr,
+    BitShl,
+    BitShr,
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>BinOp {
@@ -1179,6 +1257,10 @@
             BinOp::Mod =&gt; <span class="macro">write!</span>(f, <span class="string">"mod"</span>),
             BinOp::Mul =&gt; <span class="macro">write!</span>(f, <span class="string">"*"</span>),
             BinOp::Div =&gt; <span class="macro">write!</span>(f, <span class="string">"/"</span>),
+            BinOp::BitAnd =&gt; <span class="macro">write!</span>(f, <span class="string">"&amp;"</span>),
+            BinOp::BitOr =&gt; <span class="macro">write!</span>(f, <span class="string">"|"</span>),
+            BinOp::BitShl =&gt; <span class="macro">write!</span>(f, <span class="string">"&lt;&lt;"</span>),
+            BinOp::BitShr =&gt; <span class="macro">write!</span>(f, <span class="string">"&gt;&gt;"</span>),
         }
     }
 }

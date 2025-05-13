@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-refineck/src/type_env/place_ty.rs`."><title>place_ty.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_refineck" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_refineck/type_env/</div>place_ty.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-refineck/src/type_env/place_ty.rs`."><title>place_ty.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_refineck" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_refineck/type_env/</div>place_ty.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -953,65 +953,26 @@
 <a href="#952" id="952">952</a>
 <a href="#953" id="953">953</a>
 <a href="#954" id="954">954</a>
-<a href="#955" id="955">955</a>
-<a href="#956" id="956">956</a>
-<a href="#957" id="957">957</a>
-<a href="#958" id="958">958</a>
-<a href="#959" id="959">959</a>
-<a href="#960" id="960">960</a>
-<a href="#961" id="961">961</a>
-<a href="#962" id="962">962</a>
-<a href="#963" id="963">963</a>
-<a href="#964" id="964">964</a>
-<a href="#965" id="965">965</a>
-<a href="#966" id="966">966</a>
-<a href="#967" id="967">967</a>
-<a href="#968" id="968">968</a>
-<a href="#969" id="969">969</a>
-<a href="#970" id="970">970</a>
-<a href="#971" id="971">971</a>
-<a href="#972" id="972">972</a>
-<a href="#973" id="973">973</a>
-<a href="#974" id="974">974</a>
-<a href="#975" id="975">975</a>
-<a href="#976" id="976">976</a>
-<a href="#977" id="977">977</a>
-<a href="#978" id="978">978</a>
-<a href="#979" id="979">979</a>
-<a href="#980" id="980">980</a>
-<a href="#981" id="981">981</a>
-<a href="#982" id="982">982</a>
-<a href="#983" id="983">983</a>
-<a href="#984" id="984">984</a>
-<a href="#985" id="985">985</a>
-<a href="#986" id="986">986</a>
-<a href="#987" id="987">987</a>
-<a href="#988" id="988">988</a>
-<a href="#989" id="989">989</a>
-<a href="#990" id="990">990</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{clone::Clone, fmt, ops::ControlFlow};
+<a href="#955" id="955">955</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{clone::Clone, fmt, ops::ControlFlow};
 
 <span class="kw">use </span>flux_common::{iter::IterExt, tracked_span_bug};
 <span class="kw">use </span>flux_infer::{
-    infer::{ConstrReason, InferCtxt, InferCtxtAt},
-    refine_tree::{AssumeInvariants, RefineCtxt},
+    infer::{ConstrReason, InferCtxt, InferCtxtAt, InferErr, InferResult},
+    projections::NormalizeExt <span class="kw">as _</span>,
 };
 <span class="kw">use </span>flux_middle::{
     global_env::GlobalEnv,
     queries::QueryResult,
     rty::{
+        AdtDef, BaseTy, Binder, EarlyBinder, Expr, FIRST_VARIANT, GenericArg, GenericArgsExt, List,
+        Loc, Mutability, Path, PtrKind, Ref, Sort, Ty, TyKind, VariantIdx, VariantSig,
         fold::{FallibleTypeFolder, TypeFoldable, TypeVisitable, TypeVisitor},
-        AdtDef, BaseTy, Binder, EarlyBinder, Expr, GenericArg, GenericArgsExt, List, Loc,
-        Mutability, Path, PtrKind, Ref, Sort, Ty, TyKind, VariantIdx, VariantSig, FIRST_VARIANT,
     },
 };
 <span class="kw">use </span>flux_rustc_bridge::mir::{FieldIdx, Place, PlaceElem};
 <span class="kw">use </span>itertools::Itertools;
 <span class="kw">use </span>rustc_hash::FxHashMap;
 <span class="kw">use </span>rustc_hir::def_id::DefId;
-
-<span class="kw">use crate</span>::{checker::errors::CheckerErrKind, CheckerConfig};
-
-<span class="kw">type </span>CheckerResult&lt;T = ()&gt; = std::result::Result&lt;T, CheckerErrKind&gt;;
 
 <span class="attr">#[derive(Clone, Default)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PlacesTree {
@@ -1083,10 +1044,10 @@
 <span class="kw">struct </span>Unfold&lt;<span class="lifetime">'a</span>, <span class="lifetime">'infcx</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>InferCtxt&lt;<span class="lifetime">'infcx</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;);
 
 <span class="kw">impl </span>LookupMode <span class="kw">for </span>Unfold&lt;<span class="lifetime">'_</span>, <span class="lifetime">'_</span>, <span class="lifetime">'_</span>, <span class="lifetime">'_</span>&gt; {
-    <span class="kw">type </span>Error = CheckerErrKind;
+    <span class="kw">type </span>Error = InferErr;
 
     <span class="kw">fn </span>unpack(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; Ty {
-        <span class="self">self</span>.<span class="number">0</span>.hoister(AssumeInvariants::No).shallow().hoist(ty)
+        <span class="self">self</span>.<span class="number">0</span>.hoister(<span class="bool-val">false</span>).shallow().hoist(ty)
     }
 
     <span class="kw">fn </span>downcast_struct(
@@ -1112,17 +1073,12 @@
 }
 
 <span class="kw">impl </span>PlacesTree {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>unfold(
-        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        infcx: <span class="kw-2">&amp;mut </span>InferCtxt,
-        key: <span class="kw-2">&amp;</span><span class="kw">impl </span>LookupKey,
-        checker_conf: CheckerConfig,
-    ) -&gt; CheckerResult {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>unfold(<span class="kw-2">&amp;mut </span><span class="self">self</span>, infcx: <span class="kw-2">&amp;mut </span>InferCtxt, key: <span class="kw-2">&amp;</span><span class="kw">impl </span>LookupKey) -&gt; InferResult {
         <span class="kw">let </span>cursor = <span class="self">self</span>.cursor_for(key);
-        Unfolder::new(infcx, cursor, checker_conf).run(<span class="self">self</span>)
+        Unfolder::new(infcx, cursor).run(<span class="self">self</span>)
     }
 
-    <span class="kw">pub fn </span>unblock(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rcx: <span class="kw-2">&amp;mut </span>RefineCtxt, place: <span class="kw-2">&amp;</span>Place, check_overflow: bool) {
+    <span class="kw">pub fn </span>unblock(<span class="kw-2">&amp;mut </span><span class="self">self</span>, infcx: <span class="kw-2">&amp;mut </span>InferCtxt, place: <span class="kw-2">&amp;</span>Place) {
         <span class="kw">let </span><span class="kw-2">mut </span>cursor = <span class="self">self</span>.cursor_for(place);
         <span class="kw">let </span><span class="kw-2">mut </span>ty = <span class="self">self</span>.get_loc(<span class="kw-2">&amp;</span>cursor.loc).ty.clone();
         <span class="kw">while let </span><span class="prelude-val">Some</span>(elem) = cursor.next() {
@@ -1153,8 +1109,7 @@
         cursor.reset();
         Updater::update(<span class="self">self</span>, cursor, |<span class="kw">_</span>, ty| {
             <span class="kw">let </span>unblocked = ty.unblocked();
-            rcx.hoister(AssumeInvariants::yes(check_overflow))
-                .hoist(<span class="kw-2">&amp;</span>unblocked)
+            infcx.hoister(<span class="bool-val">true</span>).hoist(<span class="kw-2">&amp;</span>unblocked)
         });
     }
 
@@ -1230,7 +1185,7 @@
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         infcx: <span class="kw-2">&amp;mut </span>InferCtxt,
         key: <span class="kw-2">&amp;</span><span class="kw">impl </span>LookupKey,
-    ) -&gt; CheckerResult&lt;LookupResult&gt; {
+    ) -&gt; InferResult&lt;LookupResult&gt; {
         <span class="self">self</span>.lookup_inner(key, Unfold(infcx))
     }
 
@@ -1384,14 +1339,13 @@
     insertions: Vec&lt;(Loc, Binding)&gt;,
     cursor: Cursor,
     in_ref: <span class="prelude-ty">Option</span>&lt;Mutability&gt;,
-    checker_conf: CheckerConfig,
     has_work: bool,
 }
 
 <span class="kw">impl </span>FallibleTypeFolder <span class="kw">for </span>Unfolder&lt;<span class="lifetime">'_</span>, <span class="lifetime">'_</span>, <span class="lifetime">'_</span>, <span class="lifetime">'_</span>&gt; {
-    <span class="kw">type </span>Error = CheckerErrKind;
+    <span class="kw">type </span>Error = InferErr;
 
-    <span class="kw">fn </span>try_fold_ty(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; CheckerResult&lt;Ty&gt; {
+    <span class="kw">fn </span>try_fold_ty(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; InferResult&lt;Ty&gt; {
         <span class="kw">let </span><span class="prelude-val">Some</span>(elem) = <span class="self">self</span>.cursor.next() <span class="kw">else </span>{
             <span class="kw">return </span><span class="self">self</span>.unfold(ty);
         };
@@ -1409,15 +1363,11 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'infcx</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt; Unfolder&lt;<span class="lifetime">'a</span>, <span class="lifetime">'infcx</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt; {
-    <span class="kw">fn </span>new(
-        infcx: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>InferCtxt&lt;<span class="lifetime">'infcx</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
-        cursor: Cursor,
-        checker_conf: CheckerConfig,
-    ) -&gt; <span class="self">Self </span>{
-        Unfolder { infcx, cursor, insertions: <span class="macro">vec!</span>[], in_ref: <span class="prelude-val">None</span>, checker_conf, has_work: <span class="bool-val">true </span>}
+    <span class="kw">fn </span>new(infcx: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>InferCtxt&lt;<span class="lifetime">'infcx</span>, <span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;, cursor: Cursor) -&gt; <span class="self">Self </span>{
+        Unfolder { infcx, cursor, insertions: <span class="macro">vec!</span>[], in_ref: <span class="prelude-val">None</span>, has_work: <span class="bool-val">true </span>}
     }
 
-    <span class="kw">fn </span>run(<span class="kw-2">mut </span><span class="self">self</span>, bindings: <span class="kw-2">&amp;mut </span>PlacesTree) -&gt; CheckerResult {
+    <span class="kw">fn </span>run(<span class="kw-2">mut </span><span class="self">self</span>, bindings: <span class="kw-2">&amp;mut </span>PlacesTree) -&gt; InferResult {
         <span class="kw">while </span><span class="self">self</span>.should_continue() {
             <span class="kw">let </span>binding = bindings.get_loc_mut(<span class="kw-2">&amp;</span><span class="self">self</span>.cursor.loc);
             binding.ty = binding.ty.try_fold_with(<span class="kw-2">&amp;mut </span><span class="self">self</span>)<span class="question-mark">?</span>;
@@ -1428,7 +1378,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>unfold(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; CheckerResult&lt;Ty&gt; {
+    <span class="kw">fn </span>unfold(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; InferResult&lt;Ty&gt; {
         <span class="kw">if let </span>TyKind::Indexed(BaseTy::Adt(adt, args), <span class="kw">_</span>) = ty.kind()
             &amp;&amp; adt.is_box()
         {
@@ -1454,7 +1404,7 @@
         }
     }
 
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; CheckerResult&lt;Ty&gt; {
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; InferResult&lt;Ty&gt; {
         <span class="kw">let </span>ty = <span class="kw">match </span>ty.kind() {
             TyKind::StrgRef(re, path, ty) =&gt; {
                 <span class="self">self</span>.unfold_strg_ref(path, ty);
@@ -1494,10 +1444,7 @@
             Loc::Local(<span class="kw">_</span>) =&gt; LocKind::Local,
             Loc::Var(<span class="kw">_</span>) =&gt; LocKind::Universal,
         };
-        <span class="kw">let </span>ty = <span class="self">self
-            </span>.infcx
-            .hoister(AssumeInvariants::yes(<span class="self">self</span>.checker_conf.check_overflow))
-            .hoist(ty);
+        <span class="kw">let </span>ty = <span class="self">self</span>.infcx.hoister(<span class="bool-val">true</span>).hoist(ty);
         <span class="self">self</span>.insertions.push((loc, Binding { kind, ty }));
     }
 
@@ -1508,7 +1455,7 @@
         loc
     }
 
-    <span class="kw">fn </span>field(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty, f: FieldIdx) -&gt; CheckerResult&lt;Ty&gt; {
+    <span class="kw">fn </span>field(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty, f: FieldIdx) -&gt; InferResult&lt;Ty&gt; {
         <span class="kw">let </span>ty = <span class="kw">match </span>ty.kind() {
             TyKind::Indexed(BaseTy::Tuple(fields), idx) =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>fields = fields.to_vec();
@@ -1542,12 +1489,13 @@
                 fields[f.as_usize()] = fields[f.as_usize()].try_fold_with(<span class="self">self</span>)<span class="question-mark">?</span>;
                 Ty::downcast(adt.clone(), args.clone(), ty.clone(), <span class="kw-2">*</span>variant, fields.into())
             }
+            TyKind::Uninit =&gt; ty.clone(),
             <span class="kw">_ </span>=&gt; <span class="macro">tracked_span_bug!</span>(<span class="string">"invalid field access for `{ty:?}`"</span>),
         };
         <span class="prelude-val">Ok</span>(ty)
     }
 
-    <span class="kw">fn </span>downcast(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty, variant: VariantIdx) -&gt; CheckerResult&lt;Ty&gt; {
+    <span class="kw">fn </span>downcast(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty, variant: VariantIdx) -&gt; InferResult&lt;Ty&gt; {
         <span class="kw">let </span>ty = <span class="kw">match </span>ty.kind() {
             TyKind::Indexed(BaseTy::Adt(adt, args), idx) =&gt; {
                 <span class="kw">let </span>fields = downcast(<span class="self">self</span>.infcx, adt, args, variant, idx)<span class="question-mark">?
@@ -1565,7 +1513,7 @@
         <span class="prelude-val">Ok</span>(ty)
     }
 
-    <span class="kw">fn </span>index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; CheckerResult {
+    <span class="kw">fn </span>index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; InferResult {
         <span class="kw">match </span>ty.kind() {
             TyKind::Indexed(BaseTy::Array(arr_ty, <span class="kw">_</span>), <span class="kw">_</span>) =&gt; {
                 arr_ty.try_fold_with(<span class="self">self</span>)<span class="question-mark">?</span>;
@@ -1579,20 +1527,16 @@
     }
 
     <span class="kw">fn </span>unpack(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; Ty {
-        <span class="self">self</span>.infcx
-            .hoister(AssumeInvariants::yes(<span class="self">self</span>.checker_conf.check_overflow))
-            .shallow()
-            .hoist(ty)
+        <span class="self">self</span>.infcx.hoister(<span class="bool-val">true</span>).shallow().hoist(ty)
     }
 
     <span class="kw">fn </span>unpack_for_downcast(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span>Ty) -&gt; Ty {
         <span class="kw">let </span>ty = <span class="self">self
             </span>.infcx
-            .hoister(AssumeInvariants::No)
+            .hoister(<span class="bool-val">false</span>)
             .hoist_existentials(<span class="self">self</span>.in_ref != <span class="prelude-val">Some</span>(Mutability::Mut))
             .hoist(ty);
-        <span class="self">self</span>.infcx
-            .assume_invariants(<span class="kw-2">&amp;</span>ty, <span class="self">self</span>.checker_conf.check_overflow);
+        <span class="self">self</span>.infcx.assume_invariants(<span class="kw-2">&amp;</span>ty);
         ty
     }
 
@@ -1773,7 +1717,7 @@
     args: <span class="kw-2">&amp;</span>[GenericArg],
     variant_idx: VariantIdx,
     idx: <span class="kw-2">&amp;</span>Expr,
-) -&gt; CheckerResult&lt;Vec&lt;Ty&gt;&gt; {
+) -&gt; InferResult&lt;Vec&lt;Ty&gt;&gt; {
     <span class="kw">if </span>adt.is_struct() {
         <span class="macro">debug_assert_eq!</span>(variant_idx.as_u32(), <span class="number">0</span>);
         downcast_struct(infcx, adt, args, idx)
@@ -1786,80 +1730,67 @@
 
 <span class="doccomment">/// `downcast` on struct works as follows
 /// Given a struct definition
-///     struct S&lt;A..&gt;[(i...)] { fld : T, ...}
+///     struct S&lt;A..&gt;[{i, ...}] { fld : T, ...}
 /// and a
-///     * "place" `x: S&lt;t..&gt;[e..]`
+///     * "place" `x: S&lt;t..&gt;[{e,..}]`
 /// the `downcast` returns a vector of `ty` for each `fld` of `x` where
 ///     * `x.fld : T[A := t ..][i := e...]`
 /// i.e. by substituting the type and value indices using the types and values from `x`.
 </span><span class="kw">fn </span>downcast_struct(
-    infcx: <span class="kw-2">&amp;</span>InferCtxt,
+    infcx: <span class="kw-2">&amp;mut </span>InferCtxt,
     adt: <span class="kw-2">&amp;</span>AdtDef,
     args: <span class="kw-2">&amp;</span>[GenericArg],
     idx: <span class="kw-2">&amp;</span>Expr,
-) -&gt; CheckerResult&lt;Vec&lt;Ty&gt;&gt; {
+) -&gt; InferResult&lt;Vec&lt;Ty&gt;&gt; {
     <span class="kw">let </span>tcx = infcx.genv.tcx();
-    <span class="kw">let </span>flds = adt
-        .sort_def()
-        .projections()
+    <span class="kw">let </span>sort_def = adt.sort_def();
+    <span class="kw">let </span>flds = sort_def
+        .struct_variant()
+        .projections(sort_def.did())
         .map(|proj| idx.proj_and_reduce(proj))
         .collect_vec();
     <span class="prelude-val">Ok</span>(struct_variant(infcx.genv, adt.did())<span class="question-mark">?
         </span>.instantiate(tcx, args, <span class="kw-2">&amp;</span>[])
         .replace_bound_refts(<span class="kw-2">&amp;</span>flds)
-        .normalize_projections(infcx.genv, infcx.region_infcx, infcx.def_id)<span class="question-mark">?
+        .normalize_projections(infcx)<span class="question-mark">?
         </span>.fields
         .to_vec())
 }
 
-<span class="kw">fn </span>struct_variant(
-    genv: GlobalEnv,
-    def_id: DefId,
-) -&gt; CheckerResult&lt;EarlyBinder&lt;Binder&lt;VariantSig&gt;&gt;&gt; {
+<span class="kw">fn </span>struct_variant(genv: GlobalEnv, def_id: DefId) -&gt; InferResult&lt;EarlyBinder&lt;Binder&lt;VariantSig&gt;&gt;&gt; {
     <span class="kw">let </span>adt_def = genv.adt_def(def_id)<span class="question-mark">?</span>;
     <span class="macro">debug_assert!</span>(adt_def.is_struct() || adt_def.is_union());
     genv.variant_sig(def_id, VariantIdx::from_u32(<span class="number">0</span>))<span class="question-mark">?
-        </span>.ok_or_else(|| CheckerErrKind::OpaqueStruct(def_id))
+        </span>.ok_or_else(|| InferErr::OpaqueStruct(def_id))
 }
 
 <span class="doccomment">/// In contrast (w.r.t. `struct`) downcast on `enum` works as follows.
 /// Given
-///     * a "place" `x : T[i..]`
-///     * a "variant" of type `forall z..,(y:t...) =&gt; E[j...]`
+///     * a "place" `x : T[i]`
+///     * a "variant" of type `forall z..,(y:t...) =&gt; E[j]`
 /// We want `downcast` to return a vector of types _and an assertion_ by
-///     1. *Instantiate* the type to fresh names `z'...` to get `(y:t'...) =&gt; T[j'...]`
+///     1. *Instantiate* the type to fresh names `z'...` to get `(y:t'...) =&gt; T[j']`
 ///     2. *Unpack* the fields using `y:t'...`
-///     3. *Assert* the constraint `i == j'...`
+///     3. *Assume* the constraint `i == j'`
 </span><span class="kw">fn </span>downcast_enum(
     infcx: <span class="kw-2">&amp;mut </span>InferCtxt,
     adt: <span class="kw-2">&amp;</span>AdtDef,
     variant_idx: VariantIdx,
     args: <span class="kw-2">&amp;</span>[GenericArg],
     idx1: <span class="kw-2">&amp;</span>Expr,
-) -&gt; CheckerResult&lt;Vec&lt;Ty&gt;&gt; {
+) -&gt; InferResult&lt;Vec&lt;Ty&gt;&gt; {
     <span class="kw">let </span>tcx = infcx.genv.tcx();
-    <span class="kw">let </span>variant_def = infcx
+    <span class="kw">let </span>variant_sig = infcx
         .genv
         .variant_sig(adt.did(), variant_idx)<span class="question-mark">?
         </span>.expect(<span class="string">"enums cannot be opaque"</span>)
         .instantiate(tcx, args, <span class="kw-2">&amp;</span>[])
-        .replace_bound_refts_with(|sort, <span class="kw">_</span>, <span class="kw">_</span>| infcx.define_vars(sort))
-        .normalize_projections(infcx.genv, infcx.region_infcx, infcx.def_id)<span class="question-mark">?</span>;
+        .replace_bound_refts_with(|sort, <span class="kw">_</span>, <span class="kw">_</span>| Expr::fvar(infcx.define_var(sort)))
+        .normalize_projections(infcx)<span class="question-mark">?</span>;
 
-    <span class="comment">// FIXME(nilehmann) We could assert idx1 == variant_def.idx directly, but for aggregate sorts there
-    // are currently two problems.
-    // 1. The encoded fixpoint constraint won't parse if it has nested expressions inside data constructors.
-    // 2. We could expand the equality during encoding, but that would require annotating the sort
-    // of the equality operator, which will be cumbersome because we create equalities in some places where
-    // the sort is not readily available.
-    </span><span class="kw">let </span>constr = Expr::and_from_iter(adt.sort_def().projections().map(|proj| {
-        <span class="kw">let </span>e1 = idx1.proj_and_reduce(proj);
-        <span class="kw">let </span>e2 = variant_def.idx.proj_and_reduce(proj);
-        Expr::eq(e1, e2)
-    }));
-    infcx.assume_pred(<span class="kw-2">&amp;</span>constr);
+    infcx.assume_pred(Expr::eq(idx1, variant_sig.idx));
 
-    <span class="prelude-val">Ok</span>(variant_def.fields.to_vec())
+    <span class="prelude-val">Ok</span>(variant_sig.fields.to_vec())
 }
 
 <span class="kw">fn </span>fold(
@@ -1933,15 +1864,15 @@
 
     <span class="kw">impl </span>Pretty <span class="kw">for </span>PlacesTree {
         <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>PrettyCx, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-            <span class="macro">define_scoped!</span>(cx, f);
             <span class="macro">w!</span>(
+                cx, f,
                 <span class="string">"{{{}}}"</span>,
                 ^<span class="self">self
                     </span>.iter()
                     .filter(|(<span class="kw">_</span>, binding)| !cx.hide_uninit || !binding.ty.is_uninit())
                     .sorted_by(|(loc1, <span class="kw">_</span>), (loc2, <span class="kw">_</span>)| loc1.cmp(loc2))
                     .format_with(<span class="string">", "</span>, |(loc, binding), f| {
-                        f(<span class="kw-2">&amp;</span><span class="macro">format_args_cx!</span>(<span class="string">"{:?}:{:?} {:?}"</span>, loc, <span class="kw-2">&amp;</span>binding.kind, <span class="kw-2">&amp;</span>binding.ty))
+                        f(<span class="kw-2">&amp;</span><span class="macro">format_args_cx!</span>(cx, <span class="string">"{:?}:{:?} {:?}"</span>, loc, <span class="kw-2">&amp;</span>binding.kind, <span class="kw-2">&amp;</span>binding.ty))
                     })
             )
         }
@@ -1952,12 +1883,11 @@
     }
 
     <span class="kw">impl </span>Pretty <span class="kw">for </span>LocKind {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, _cx: <span class="kw-2">&amp;</span>PrettyCx, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-            <span class="macro">define_scoped!</span>(cx, f);
+        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>PrettyCx, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
             <span class="kw">match </span><span class="self">self </span>{
                 LocKind::Local | LocKind::Universal =&gt; <span class="prelude-val">Ok</span>(()),
-                LocKind::Box(<span class="kw">_</span>) =&gt; <span class="macro">w!</span>(<span class="string">"[box]"</span>),
-                LocKind::LocalPtr(ty) =&gt; <span class="macro">w!</span>(<span class="string">"[local-ptr({ty:?})]"</span>),
+                LocKind::Box(<span class="kw">_</span>) =&gt; <span class="macro">w!</span>(cx, f, <span class="string">"[box]"</span>),
+                LocKind::LocalPtr(ty) =&gt; <span class="macro">w!</span>(cx, f, <span class="string">"[local-ptr({:?})]"</span>, ty),
             }
         }
     }

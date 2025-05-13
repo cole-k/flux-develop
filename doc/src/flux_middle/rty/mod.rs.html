@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/rty/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/rty/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/rty/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/rty/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2633,70 +2633,240 @@
 <a href="#2632" id="2632">2632</a>
 <a href="#2633" id="2633">2633</a>
 <a href="#2634" id="2634">2634</a>
-<a href="#2635" id="2635">2635</a></pre></div><pre class="rust"><code><span class="doccomment">//! Defines how flux represents refinement types internally. Definitions in this module are used
+<a href="#2635" id="2635">2635</a>
+<a href="#2636" id="2636">2636</a>
+<a href="#2637" id="2637">2637</a>
+<a href="#2638" id="2638">2638</a>
+<a href="#2639" id="2639">2639</a>
+<a href="#2640" id="2640">2640</a>
+<a href="#2641" id="2641">2641</a>
+<a href="#2642" id="2642">2642</a>
+<a href="#2643" id="2643">2643</a>
+<a href="#2644" id="2644">2644</a>
+<a href="#2645" id="2645">2645</a>
+<a href="#2646" id="2646">2646</a>
+<a href="#2647" id="2647">2647</a>
+<a href="#2648" id="2648">2648</a>
+<a href="#2649" id="2649">2649</a>
+<a href="#2650" id="2650">2650</a>
+<a href="#2651" id="2651">2651</a>
+<a href="#2652" id="2652">2652</a>
+<a href="#2653" id="2653">2653</a>
+<a href="#2654" id="2654">2654</a>
+<a href="#2655" id="2655">2655</a>
+<a href="#2656" id="2656">2656</a>
+<a href="#2657" id="2657">2657</a>
+<a href="#2658" id="2658">2658</a>
+<a href="#2659" id="2659">2659</a>
+<a href="#2660" id="2660">2660</a>
+<a href="#2661" id="2661">2661</a>
+<a href="#2662" id="2662">2662</a>
+<a href="#2663" id="2663">2663</a>
+<a href="#2664" id="2664">2664</a>
+<a href="#2665" id="2665">2665</a>
+<a href="#2666" id="2666">2666</a>
+<a href="#2667" id="2667">2667</a>
+<a href="#2668" id="2668">2668</a>
+<a href="#2669" id="2669">2669</a>
+<a href="#2670" id="2670">2670</a>
+<a href="#2671" id="2671">2671</a>
+<a href="#2672" id="2672">2672</a>
+<a href="#2673" id="2673">2673</a>
+<a href="#2674" id="2674">2674</a>
+<a href="#2675" id="2675">2675</a>
+<a href="#2676" id="2676">2676</a>
+<a href="#2677" id="2677">2677</a>
+<a href="#2678" id="2678">2678</a>
+<a href="#2679" id="2679">2679</a>
+<a href="#2680" id="2680">2680</a>
+<a href="#2681" id="2681">2681</a>
+<a href="#2682" id="2682">2682</a>
+<a href="#2683" id="2683">2683</a>
+<a href="#2684" id="2684">2684</a>
+<a href="#2685" id="2685">2685</a>
+<a href="#2686" id="2686">2686</a>
+<a href="#2687" id="2687">2687</a>
+<a href="#2688" id="2688">2688</a>
+<a href="#2689" id="2689">2689</a>
+<a href="#2690" id="2690">2690</a>
+<a href="#2691" id="2691">2691</a>
+<a href="#2692" id="2692">2692</a>
+<a href="#2693" id="2693">2693</a>
+<a href="#2694" id="2694">2694</a>
+<a href="#2695" id="2695">2695</a>
+<a href="#2696" id="2696">2696</a>
+<a href="#2697" id="2697">2697</a>
+<a href="#2698" id="2698">2698</a>
+<a href="#2699" id="2699">2699</a>
+<a href="#2700" id="2700">2700</a>
+<a href="#2701" id="2701">2701</a>
+<a href="#2702" id="2702">2702</a>
+<a href="#2703" id="2703">2703</a>
+<a href="#2704" id="2704">2704</a>
+<a href="#2705" id="2705">2705</a>
+<a href="#2706" id="2706">2706</a>
+<a href="#2707" id="2707">2707</a>
+<a href="#2708" id="2708">2708</a>
+<a href="#2709" id="2709">2709</a>
+<a href="#2710" id="2710">2710</a>
+<a href="#2711" id="2711">2711</a>
+<a href="#2712" id="2712">2712</a>
+<a href="#2713" id="2713">2713</a>
+<a href="#2714" id="2714">2714</a>
+<a href="#2715" id="2715">2715</a>
+<a href="#2716" id="2716">2716</a>
+<a href="#2717" id="2717">2717</a>
+<a href="#2718" id="2718">2718</a>
+<a href="#2719" id="2719">2719</a>
+<a href="#2720" id="2720">2720</a>
+<a href="#2721" id="2721">2721</a>
+<a href="#2722" id="2722">2722</a>
+<a href="#2723" id="2723">2723</a>
+<a href="#2724" id="2724">2724</a>
+<a href="#2725" id="2725">2725</a>
+<a href="#2726" id="2726">2726</a>
+<a href="#2727" id="2727">2727</a>
+<a href="#2728" id="2728">2728</a>
+<a href="#2729" id="2729">2729</a>
+<a href="#2730" id="2730">2730</a>
+<a href="#2731" id="2731">2731</a>
+<a href="#2732" id="2732">2732</a>
+<a href="#2733" id="2733">2733</a>
+<a href="#2734" id="2734">2734</a>
+<a href="#2735" id="2735">2735</a>
+<a href="#2736" id="2736">2736</a>
+<a href="#2737" id="2737">2737</a>
+<a href="#2738" id="2738">2738</a>
+<a href="#2739" id="2739">2739</a>
+<a href="#2740" id="2740">2740</a>
+<a href="#2741" id="2741">2741</a>
+<a href="#2742" id="2742">2742</a>
+<a href="#2743" id="2743">2743</a>
+<a href="#2744" id="2744">2744</a>
+<a href="#2745" id="2745">2745</a>
+<a href="#2746" id="2746">2746</a>
+<a href="#2747" id="2747">2747</a>
+<a href="#2748" id="2748">2748</a>
+<a href="#2749" id="2749">2749</a>
+<a href="#2750" id="2750">2750</a>
+<a href="#2751" id="2751">2751</a>
+<a href="#2752" id="2752">2752</a>
+<a href="#2753" id="2753">2753</a>
+<a href="#2754" id="2754">2754</a>
+<a href="#2755" id="2755">2755</a>
+<a href="#2756" id="2756">2756</a>
+<a href="#2757" id="2757">2757</a>
+<a href="#2758" id="2758">2758</a>
+<a href="#2759" id="2759">2759</a>
+<a href="#2760" id="2760">2760</a>
+<a href="#2761" id="2761">2761</a>
+<a href="#2762" id="2762">2762</a>
+<a href="#2763" id="2763">2763</a>
+<a href="#2764" id="2764">2764</a>
+<a href="#2765" id="2765">2765</a>
+<a href="#2766" id="2766">2766</a>
+<a href="#2767" id="2767">2767</a>
+<a href="#2768" id="2768">2768</a>
+<a href="#2769" id="2769">2769</a>
+<a href="#2770" id="2770">2770</a>
+<a href="#2771" id="2771">2771</a>
+<a href="#2772" id="2772">2772</a>
+<a href="#2773" id="2773">2773</a>
+<a href="#2774" id="2774">2774</a>
+<a href="#2775" id="2775">2775</a>
+<a href="#2776" id="2776">2776</a>
+<a href="#2777" id="2777">2777</a>
+<a href="#2778" id="2778">2778</a>
+<a href="#2779" id="2779">2779</a>
+<a href="#2780" id="2780">2780</a>
+<a href="#2781" id="2781">2781</a>
+<a href="#2782" id="2782">2782</a>
+<a href="#2783" id="2783">2783</a>
+<a href="#2784" id="2784">2784</a>
+<a href="#2785" id="2785">2785</a>
+<a href="#2786" id="2786">2786</a>
+<a href="#2787" id="2787">2787</a>
+<a href="#2788" id="2788">2788</a>
+<a href="#2789" id="2789">2789</a>
+<a href="#2790" id="2790">2790</a>
+<a href="#2791" id="2791">2791</a>
+<a href="#2792" id="2792">2792</a>
+<a href="#2793" id="2793">2793</a>
+<a href="#2794" id="2794">2794</a>
+<a href="#2795" id="2795">2795</a>
+<a href="#2796" id="2796">2796</a>
+<a href="#2797" id="2797">2797</a>
+<a href="#2798" id="2798">2798</a>
+<a href="#2799" id="2799">2799</a>
+<a href="#2800" id="2800">2800</a>
+<a href="#2801" id="2801">2801</a>
+<a href="#2802" id="2802">2802</a>
+<a href="#2803" id="2803">2803</a>
+<a href="#2804" id="2804">2804</a>
+<a href="#2805" id="2805">2805</a></pre></div><pre class="rust"><code><span class="doccomment">//! Defines how flux represents refinement types internally. Definitions in this module are used
 //! during refinement type checking. A couple of important differences between definitions in this
 //! module and in [`crate::fhir`] are:
 //!
 //! * Types in this module use debruijn indices to represent local binders.
 //! * Data structures are interned so they can be cheaply cloned.
-
 </span><span class="kw">mod </span>binder;
 <span class="kw">pub mod </span>canonicalize;
-<span class="kw">pub mod </span>evars;
 <span class="kw">mod </span>expr;
 <span class="kw">pub mod </span>fold;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>normalize;
+<span class="kw">pub mod </span>normalize;
 <span class="kw">mod </span>pretty;
-<span class="kw">pub mod </span>projections;
 <span class="kw">pub mod </span>refining;
 <span class="kw">pub mod </span>region_matching;
 <span class="kw">pub mod </span>subst;
-<span class="kw">use </span>std::{borrow::Cow, cmp::Ordering, hash::Hash, sync::LazyLock};
+<span class="kw">use </span>std::{borrow::Cow, cmp::Ordering, fmt, hash::Hash, sync::LazyLock};
 
+<span class="kw">pub use </span>SortInfer::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>binder::{Binder, BoundReftKind, BoundVariableKind, BoundVariableKinds, EarlyBinder};
-<span class="kw">pub use </span>evars::{EVar, EVarGen};
 <span class="kw">pub use </span>expr::{
-    AggregateKind, AliasReft, BinOp, BoundReft, Constant, ESpan, EarlyReftParam, Expr, ExprKind,
-    FieldProj, HoleKind, KVar, KVid, Lambda, Loc, Name, Path, Real, UnOp, Var,
+    AggregateKind, AliasReft, BinOp, BoundReft, Constant, Ctor, ESpan, EVid, EarlyReftParam, Expr,
+    ExprKind, FieldProj, HoleKind, KVar, KVid, Lambda, Loc, Name, Path, Real, UnOp, Var,
 };
 <span class="kw">pub use </span>flux_arc_interner::List;
-<span class="kw">use </span>flux_arc_interner::{impl_internable, impl_slice_internable, Interned};
+<span class="kw">use </span>flux_arc_interner::{Interned, impl_internable, impl_slice_internable};
 <span class="kw">use </span>flux_common::{bug, tracked_span_assert_eq, tracked_span_bug};
 <span class="kw">use </span>flux_macros::{TypeFoldable, TypeVisitable};
 <span class="kw">pub use </span>flux_rustc_bridge::ty::{
     AliasKind, BoundRegion, BoundRegionKind, BoundVar, Const, ConstKind, ConstVid, DebruijnIndex,
-    EarlyParamRegion, LateParamRegion, OutlivesPredicate,
+    EarlyParamRegion, LateParamRegion, LateParamRegionKind,
     Region::{<span class="self">self</span>, <span class="kw-2">*</span>},
     RegionVid,
 };
 <span class="kw">use </span>flux_rustc_bridge::{
-    mir::Place,
-    ty::{<span class="self">self</span>, VariantDef},
     ToRustc,
+    mir::Place,
+    ty::{<span class="self">self</span>, GenericArgsExt <span class="kw">as _</span>, VariantDef},
 };
 <span class="kw">use </span>itertools::Itertools;
-<span class="kw">pub use </span>normalize::SpecFuncDefns;
-<span class="kw">use </span>refining::Refiner;
+<span class="kw">pub use </span>normalize::{NormalizeInfo, NormalizedDefns, local_deps};
+<span class="kw">use </span>refining::{Refine <span class="kw">as _</span>, Refiner};
 <span class="kw">use </span>rustc_data_structures::{fx::FxIndexMap, unord::UnordMap};
-<span class="kw">use </span>rustc_hir::{def_id::DefId, LangItem, Safety};
-<span class="kw">use </span>rustc_index::{newtype_index, IndexSlice};
-<span class="kw">use </span>rustc_macros::{extension, Decodable, Encodable, TyDecodable, TyEncodable};
+<span class="kw">use </span>rustc_hir::{LangItem, Safety, def_id::DefId};
+<span class="kw">use </span>rustc_index::{IndexSlice, IndexVec, newtype_index};
+<span class="kw">use </span>rustc_macros::{Decodable, Encodable, TyDecodable, TyEncodable, extension};
 <span class="kw">use </span>rustc_middle::ty::TyCtxt;
 <span class="kw">pub use </span>rustc_middle::{
     mir::Mutability,
     ty::{AdtFlags, ClosureKind, FloatTy, IntTy, ParamConst, ParamTy, ScalarInt, UintTy},
 };
-<span class="kw">use </span>rustc_span::{sym, symbol::kw, Symbol};
-<span class="kw">pub use </span>rustc_target::abi::{VariantIdx, FIRST_VARIANT};
+<span class="kw">use </span>rustc_span::{Symbol, sym, symbol::kw};
+<span class="kw">pub use </span>rustc_target::abi::{FIRST_VARIANT, VariantIdx};
 <span class="kw">use </span>rustc_target::spec::abi;
-<span class="kw">pub use </span>rustc_type_ir::{TyVid, INNERMOST};
-<span class="kw">pub use </span>SortInfer::<span class="kw-2">*</span>;
+<span class="kw">use </span>rustc_type_ir::Upcast <span class="kw">as _</span>;
+<span class="kw">pub use </span>rustc_type_ir::{INNERMOST, TyVid};
 
 <span class="kw">use </span><span class="self">self</span>::fold::TypeFoldable;
 <span class="kw">pub use </span><span class="kw">crate</span>::fhir::InferMode;
 <span class="kw">use crate</span>::{
-    fhir::{<span class="self">self</span>, FhirId, FluxOwnerId, SpecFuncKind},
+    LocalDefId,
+    def_id::{FluxDefId, FluxLocalDefId},
+    fhir::{<span class="self">self</span>, FhirId, FluxOwnerId},
     global_env::GlobalEnv,
+    pretty::{Pretty, PrettyCx},
     queries::QueryResult,
     rty::subst::SortSubst,
 };
@@ -2706,16 +2876,7 @@
 </span><span class="kw">pub struct </span>AdtSortDef(Interned&lt;AdtSortDefData&gt;);
 
 <span class="attr">#[derive(Debug, PartialEq, Eq, Hash, TyEncodable, TyDecodable)]
-</span><span class="kw">struct </span>AdtSortDefData {
-    <span class="doccomment">/// [`DefId`] of the struct, enum or type aliases this data sort is associated to
-    </span>def_id: DefId,
-    <span class="doccomment">/// The list of the type parameters used in the `#[flux::refined_by(..)]` annotation.
-    ///
-    /// See [`fhir::RefinedBy::sort_params`] for more details. This is a version of that but using
-    /// [`ParamTy`] instead of [`DefId`].
-    ///
-    /// The length of this list corresponds to the number of sort variables bound by this definition.
-    </span>params: Vec&lt;ParamTy&gt;,
+</span><span class="kw">pub struct </span>AdtSortVariant {
     <span class="doccomment">/// The list of field names as declared in the `#[flux::refined_by(...)]` annotation
     </span>field_names: Vec&lt;Symbol&gt;,
     <span class="doccomment">/// The sort of each of the fields. Note that these can contain [sort variables]. Methods used
@@ -2725,48 +2886,105 @@
     </span>sorts: List&lt;Sort&gt;,
 }
 
-<span class="kw">impl </span>AdtSortDef {
-    <span class="kw">pub fn </span>new(def_id: DefId, params: Vec&lt;ParamTy&gt;, fields: Vec&lt;(Symbol, Sort)&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl </span>AdtSortVariant {
+    <span class="kw">pub fn </span>new(fields: Vec&lt;(Symbol, Sort)&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>(field_names, sorts) = fields.into_iter().unzip();
-        <span class="self">Self</span>(Interned::new(AdtSortDefData {
-            def_id,
-            params,
-            field_names,
-            sorts: List::from_vec(sorts),
-        }))
+        AdtSortVariant { field_names, sorts: List::from_vec(sorts) }
+    }
+
+    <span class="kw">pub fn </span>fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.sorts.len()
+    }
+
+    <span class="kw">pub fn </span>field_names(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec&lt;Symbol&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.field_names
+    }
+
+    <span class="kw">pub fn </span>sort_by_field_name(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[Sort]) -&gt; FxIndexMap&lt;Symbol, Sort&gt; {
+        std::iter::zip(<span class="kw-2">&amp;</span><span class="self">self</span>.field_names, <span class="kw-2">&amp;</span><span class="self">self</span>.sorts.fold_with(<span class="kw-2">&amp;mut </span>SortSubst::new(args)))
+            .map(|(name, sort)| (<span class="kw-2">*</span>name, sort.clone()))
+            .collect()
+    }
+
+    <span class="kw">pub fn </span>field_by_name(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        def_id: DefId,
+        args: <span class="kw-2">&amp;</span>[Sort],
+        name: Symbol,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;(FieldProj, Sort)&gt; {
+        <span class="kw">let </span>idx = <span class="self">self</span>.field_names.iter().position(|it| name == <span class="kw-2">*</span>it)<span class="question-mark">?</span>;
+        <span class="kw">let </span>proj = FieldProj::Adt { def_id, field: idx <span class="kw">as </span>u32 };
+        <span class="kw">let </span>sort = <span class="self">self</span>.sorts[idx].fold_with(<span class="kw-2">&amp;mut </span>SortSubst::new(args));
+        <span class="prelude-val">Some</span>((proj, sort))
+    }
+
+    <span class="kw">pub fn </span>field_sorts(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[Sort]) -&gt; List&lt;Sort&gt; {
+        <span class="self">self</span>.sorts.fold_with(<span class="kw-2">&amp;mut </span>SortSubst::new(args))
+    }
+
+    <span class="kw">pub fn </span>projections(<span class="kw-2">&amp;</span><span class="self">self</span>, def_id: DefId) -&gt; <span class="kw">impl </span>Iterator&lt;Item = FieldProj&gt; {
+        (<span class="number">0</span>..<span class="self">self</span>.fields()).map(<span class="kw">move </span>|i| FieldProj::Adt { def_id, field: i <span class="kw">as </span>u32 })
+    }
+}
+
+<span class="attr">#[derive(Debug, PartialEq, Eq, Hash, TyEncodable, TyDecodable)]
+</span><span class="kw">struct </span>AdtSortDefData {
+    <span class="doccomment">/// [`DefId`] of the struct or enum this data sort is associated to.
+    </span>def_id: DefId,
+    <span class="doccomment">/// The list of the type parameters used in the `#[flux::refined_by(..)]` annotation.
+    ///
+    /// See [`fhir::RefinedBy::sort_params`] for more details. This is a version of that but using
+    /// [`ParamTy`] instead of [`DefId`].
+    ///
+    /// The length of this list corresponds to the number of sort variables bound by this definition.
+    </span>params: Vec&lt;ParamTy&gt;,
+    <span class="doccomment">/// A vec of variants of the ADT;
+    /// - a `struct` sort -- used for types with a `refined_by` has a single variant;
+    /// - a `reflected` sort -- used for `reflected` enums have multiple variants
+    </span>variants: IndexVec&lt;VariantIdx, AdtSortVariant&gt;,
+    is_reflected: bool,
+    is_struct: bool,
+}
+
+<span class="kw">impl </span>AdtSortDef {
+    <span class="kw">pub fn </span>new(
+        def_id: DefId,
+        params: Vec&lt;ParamTy&gt;,
+        variants: IndexVec&lt;VariantIdx, AdtSortVariant&gt;,
+        is_reflected: bool,
+        is_struct: bool,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(Interned::new(AdtSortDefData { def_id, params, variants, is_reflected, is_struct }))
     }
 
     <span class="kw">pub fn </span>did(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DefId {
         <span class="self">self</span>.<span class="number">0</span>.def_id
     }
 
-    <span class="kw">pub fn </span>fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.<span class="number">0</span>.sorts.len()
+    <span class="kw">pub fn </span>variant(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: VariantIdx) -&gt; <span class="kw-2">&amp;</span>AdtSortVariant {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.variants[idx]
     }
 
-    <span class="kw">pub fn </span>projections(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = FieldProj&gt; + <span class="lifetime">'_ </span>{
-        (<span class="number">0</span>..<span class="self">self</span>.fields()).map(|i| FieldProj::Adt { def_id: <span class="self">self</span>.did(), field: i <span class="kw">as </span>u32 })
+    <span class="kw">pub fn </span>variants(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>IndexSlice&lt;VariantIdx, AdtSortVariant&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.variants
     }
 
-    <span class="kw">pub fn </span>field_names(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec&lt;Symbol&gt; {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.field_names
+    <span class="kw">pub fn </span>opt_struct_variant(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>AdtSortVariant&gt; {
+        <span class="kw">if </span><span class="self">self</span>.is_struct() { <span class="prelude-val">Some</span>(<span class="self">self</span>.struct_variant()) } <span class="kw">else </span>{ <span class="prelude-val">None </span>}
     }
 
-    <span class="kw">pub fn </span>sort_by_field_name(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[Sort]) -&gt; FxIndexMap&lt;Symbol, Sort&gt; {
-        std::iter::zip(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.field_names, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.sorts.fold_with(<span class="kw-2">&amp;mut </span>SortSubst::new(args)))
-            .map(|(name, sort)| (<span class="kw-2">*</span>name, sort.clone()))
-            .collect()
+    <span class="attr">#[track_caller]
+    </span><span class="kw">pub fn </span>struct_variant(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AdtSortVariant {
+        <span class="macro">tracked_span_assert_eq!</span>(<span class="self">self</span>.<span class="number">0</span>.is_struct, <span class="bool-val">true</span>);
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.variants[FIRST_VARIANT]
     }
 
-    <span class="kw">pub fn </span>field_by_name(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[Sort], name: Symbol) -&gt; <span class="prelude-ty">Option</span>&lt;(FieldProj, Sort)&gt; {
-        <span class="kw">let </span>idx = <span class="self">self</span>.<span class="number">0</span>.field_names.iter().position(|it| name == <span class="kw-2">*</span>it)<span class="question-mark">?</span>;
-        <span class="kw">let </span>proj = FieldProj::Adt { def_id: <span class="self">self</span>.did(), field: idx <span class="kw">as </span>u32 };
-        <span class="kw">let </span>sort = <span class="self">self</span>.<span class="number">0</span>.sorts[idx].fold_with(<span class="kw-2">&amp;mut </span>SortSubst::new(args));
-        <span class="prelude-val">Some</span>((proj, sort))
+    <span class="kw">pub fn </span>is_reflected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0</span>.is_reflected
     }
 
-    <span class="kw">pub fn </span>field_sorts(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[Sort]) -&gt; List&lt;Sort&gt; {
-        <span class="self">self</span>.<span class="number">0</span>.sorts.fold_with(<span class="kw-2">&amp;mut </span>SortSubst::new(args))
+    <span class="kw">pub fn </span>is_struct(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0</span>.is_struct
     }
 
     <span class="kw">pub fn </span>to_sort(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[GenericArg]) -&gt; Sort {
@@ -2855,7 +3073,9 @@
     <span class="kw">pub </span>own_params: List&lt;RefineParam&gt;,
 }
 
-<span class="attr">#[derive(PartialEq, Eq, Debug, Clone, Hash, TyEncodable, TyDecodable)]
+<span class="attr">#[derive(
+    PartialEq, Eq, Debug, Clone, Hash, TyEncodable, TyDecodable, TypeVisitable, TypeFoldable,
+)]
 </span><span class="kw">pub struct </span>RefineParam {
     <span class="kw">pub </span>sort: Sort,
     <span class="kw">pub </span>name: Symbol,
@@ -2975,6 +3195,14 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'tcx</span>&gt; ToRustc&lt;<span class="lifetime">'tcx</span>&gt; <span class="kw">for </span>Clause {
+    <span class="kw">type </span>T = rustc_middle::ty::Clause&lt;<span class="lifetime">'tcx</span>&gt;;
+
+    <span class="kw">fn </span>to_rustc(<span class="kw-2">&amp;</span><span class="self">self</span>, tcx: TyCtxt&lt;<span class="lifetime">'tcx</span>&gt;) -&gt; <span class="self">Self</span>::T {
+        <span class="self">self</span>.kind.to_rustc(tcx).upcast(tcx)
+    }
+}
+
 <span class="kw">impl </span>From&lt;Binder&lt;ClauseKind&gt;&gt; <span class="kw">for </span>Clause {
     <span class="kw">fn </span>from(kind: Binder&lt;ClauseKind&gt;) -&gt; <span class="self">Self </span>{
         Clause { kind }
@@ -2989,11 +3217,51 @@
 </span><span class="kw">pub enum </span>ClauseKind {
     Trait(TraitPredicate),
     Projection(ProjectionPredicate),
+    RegionOutlives(RegionOutlivesPredicate),
     TypeOutlives(TypeOutlivesPredicate),
     ConstArgHasType(Const, Ty),
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'tcx</span>&gt; ToRustc&lt;<span class="lifetime">'tcx</span>&gt; <span class="kw">for </span>ClauseKind {
+    <span class="kw">type </span>T = rustc_middle::ty::ClauseKind&lt;<span class="lifetime">'tcx</span>&gt;;
+
+    <span class="kw">fn </span>to_rustc(<span class="kw-2">&amp;</span><span class="self">self</span>, tcx: TyCtxt&lt;<span class="lifetime">'tcx</span>&gt;) -&gt; <span class="self">Self</span>::T {
+        <span class="kw">match </span><span class="self">self </span>{
+            ClauseKind::Trait(trait_predicate) =&gt; {
+                rustc_middle::ty::ClauseKind::Trait(trait_predicate.to_rustc(tcx))
+            }
+            ClauseKind::Projection(projection_predicate) =&gt; {
+                rustc_middle::ty::ClauseKind::Projection(projection_predicate.to_rustc(tcx))
+            }
+            ClauseKind::RegionOutlives(outlives_predicate) =&gt; {
+                rustc_middle::ty::ClauseKind::RegionOutlives(outlives_predicate.to_rustc(tcx))
+            }
+            ClauseKind::TypeOutlives(outlives_predicate) =&gt; {
+                rustc_middle::ty::ClauseKind::TypeOutlives(outlives_predicate.to_rustc(tcx))
+            }
+            ClauseKind::ConstArgHasType(constant, ty) =&gt; {
+                rustc_middle::ty::ClauseKind::ConstArgHasType(
+                    constant.to_rustc(tcx),
+                    ty.to_rustc(tcx),
+                )
+            }
+        }
+    }
+}
+
+<span class="attr">#[derive(Eq, PartialEq, Hash, Clone, Debug, TyEncodable, TyDecodable)]
+</span><span class="kw">pub struct </span>OutlivesPredicate&lt;T&gt;(<span class="kw">pub </span>T, <span class="kw">pub </span>Region);
+
 <span class="kw">pub type </span>TypeOutlivesPredicate = OutlivesPredicate&lt;Ty&gt;;
+<span class="kw">pub type </span>RegionOutlivesPredicate = OutlivesPredicate&lt;Region&gt;;
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'tcx</span>, V: ToRustc&lt;<span class="lifetime">'tcx</span>&gt;&gt; ToRustc&lt;<span class="lifetime">'tcx</span>&gt; <span class="kw">for </span>OutlivesPredicate&lt;V&gt; {
+    <span class="kw">type </span>T = rustc_middle::ty::OutlivesPredicate&lt;<span class="lifetime">'tcx</span>, V::T&gt;;
+
+    <span class="kw">fn </span>to_rustc(<span class="kw-2">&amp;</span><span class="self">self</span>, tcx: TyCtxt&lt;<span class="lifetime">'tcx</span>&gt;) -&gt; <span class="self">Self</span>::T {
+        rustc_middle::ty::OutlivesPredicate(<span class="self">self</span>.<span class="number">0</span>.to_rustc(tcx), <span class="self">self</span>.<span class="number">1</span>.to_rustc(tcx))
+    }
+}
 
 <span class="attr">#[derive(
     Debug, Clone, PartialEq, Eq, Hash, TyEncodable, TyDecodable, TypeVisitable, TypeFoldable,
@@ -3005,6 +3273,17 @@
 <span class="kw">impl </span>TraitPredicate {
     <span class="kw">fn </span>self_ty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SubsetTyCtor {
         <span class="self">self</span>.trait_ref.self_ty()
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'tcx</span>&gt; ToRustc&lt;<span class="lifetime">'tcx</span>&gt; <span class="kw">for </span>TraitPredicate {
+    <span class="kw">type </span>T = rustc_middle::ty::TraitPredicate&lt;<span class="lifetime">'tcx</span>&gt;;
+
+    <span class="kw">fn </span>to_rustc(<span class="kw-2">&amp;</span><span class="self">self</span>, tcx: TyCtxt&lt;<span class="lifetime">'tcx</span>&gt;) -&gt; <span class="self">Self</span>::T {
+        rustc_middle::ty::TraitPredicate {
+            polarity: rustc_middle::ty::PredicatePolarity::Positive,
+            trait_ref: <span class="self">self</span>.trait_ref.to_rustc(tcx),
+        }
     }
 }
 
@@ -3150,6 +3429,21 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'tcx</span>&gt; ToRustc&lt;<span class="lifetime">'tcx</span>&gt; <span class="kw">for </span>ProjectionPredicate {
+    <span class="kw">type </span>T = rustc_middle::ty::ProjectionPredicate&lt;<span class="lifetime">'tcx</span>&gt;;
+
+    <span class="kw">fn </span>to_rustc(<span class="kw-2">&amp;</span><span class="self">self</span>, tcx: TyCtxt&lt;<span class="lifetime">'tcx</span>&gt;) -&gt; <span class="self">Self</span>::T {
+        rustc_middle::ty::ProjectionPredicate {
+            projection_term: rustc_middle::ty::AliasTerm::new_from_args(
+                tcx,
+                <span class="self">self</span>.projection_ty.def_id,
+                <span class="self">self</span>.projection_ty.args.to_rustc(tcx),
+            ),
+            term: <span class="self">self</span>.term.as_bty_skipping_binder().to_rustc(tcx).into(),
+        }
+    }
+}
+
 <span class="kw">pub type </span>PolyProjectionPredicate = Binder&lt;ProjectionPredicate&gt;;
 
 <span class="kw">impl </span>PolyProjectionPredicate {
@@ -3172,8 +3466,18 @@
     <span class="kw">pub </span>kind: ClosureKind,
 }
 
+<span class="kw">impl </span>Pretty <span class="kw">for </span>FnTraitPredicate {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, _cx: <span class="kw-2">&amp;</span>PrettyCx, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(
+            f,
+            <span class="string">"self = {:?}, args = {:?}, output = {:?}, kind = {}"</span>,
+            <span class="self">self</span>.self_ty, <span class="self">self</span>.tupled_args, <span class="self">self</span>.output, <span class="self">self</span>.kind
+        )
+    }
+}
+
 <span class="kw">impl </span>FnTraitPredicate {
-    <span class="kw">pub fn </span>fndef_poly_sig(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EarlyBinder&lt;PolyFnSig&gt; {
+    <span class="kw">pub fn </span>fndef_poly_sig(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolyFnSig {
         <span class="kw">let </span>inputs = <span class="self">self</span>.tupled_args.expect_tuple().iter().cloned().collect();
 
         <span class="kw">let </span>fn_sig = FnSig::new(
@@ -3184,51 +3488,60 @@
             Binder::bind_with_vars(FnOutput::new(<span class="self">self</span>.output.clone(), <span class="macro">vec!</span>[]), List::empty()),
         );
 
-        EarlyBinder(PolyFnSig::bind_with_vars(fn_sig, List::empty()))
+        PolyFnSig::bind_with_vars(fn_sig, List::empty())
     }
+}
 
-    <span class="kw">pub fn </span>to_poly_fn_sig(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        closure_id: DefId,
-        tys: List&lt;Ty&gt;,
-        args: <span class="kw-2">&amp;</span>flux_rustc_bridge::ty::GenericArgs,
-    ) -&gt; PolyFnSig {
-        <span class="kw">let </span><span class="kw-2">mut </span>vars = <span class="macro">vec!</span>[];
+<span class="kw">pub fn </span>to_closure_sig(
+    tcx: TyCtxt,
+    closure_id: LocalDefId,
+    tys: <span class="kw-2">&amp;</span>[Ty],
+    args: <span class="kw-2">&amp;</span>flux_rustc_bridge::ty::GenericArgs,
+    poly_sig: <span class="kw-2">&amp;</span>PolyFnSig,
+) -&gt; PolyFnSig {
+    <span class="kw">let </span>closure_args = args.as_closure();
+    <span class="kw">let </span>kind_ty = closure_args.kind_ty().to_rustc(tcx);
+    <span class="kw">let </span><span class="prelude-val">Some</span>(kind) = kind_ty.to_opt_closure_kind() <span class="kw">else </span>{
+        <span class="macro">bug!</span>(<span class="string">"to_closure_sig: expected closure kind, found {kind_ty:?}"</span>);
+    };
 
-        <span class="kw">let </span>closure_ty = Ty::closure(closure_id, tys, args);
-        <span class="kw">let </span>env_ty = <span class="kw">match </span><span class="self">self</span>.kind {
-            ClosureKind::Fn =&gt; {
-                vars.push(BoundVariableKind::Region(BoundRegionKind::BrEnv));
-                <span class="kw">let </span>br = BoundRegion {
-                    var: BoundVar::from_usize(vars.len() - <span class="number">1</span>),
-                    kind: BoundRegionKind::BrEnv,
-                };
-                Ty::mk_ref(ReBound(INNERMOST, br), closure_ty, Mutability::Not)
-            }
-            ClosureKind::FnMut =&gt; {
-                vars.push(BoundVariableKind::Region(BoundRegionKind::BrEnv));
-                <span class="kw">let </span>br = BoundRegion {
-                    var: BoundVar::from_usize(vars.len() - <span class="number">1</span>),
-                    kind: BoundRegionKind::BrEnv,
-                };
-                Ty::mk_ref(ReBound(INNERMOST, br), closure_ty, Mutability::Mut)
-            }
-            ClosureKind::FnOnce =&gt; closure_ty,
-        };
-        <span class="kw">let </span>inputs = std::iter::once(env_ty)
-            .chain(<span class="self">self</span>.tupled_args.expect_tuple().iter().cloned())
-            .collect();
+    <span class="kw">let </span><span class="kw-2">mut </span>vars = poly_sig.vars().clone().to_vec();
+    <span class="kw">let </span>fn_sig = poly_sig.clone().skip_binder();
+    <span class="kw">let </span>closure_ty = Ty::closure(closure_id.into(), tys, args);
+    <span class="kw">let </span>env_ty = <span class="kw">match </span>kind {
+        ClosureKind::Fn =&gt; {
+            vars.push(BoundVariableKind::Region(BoundRegionKind::ClosureEnv));
+            <span class="kw">let </span>br = BoundRegion {
+                var: BoundVar::from_usize(vars.len() - <span class="number">1</span>),
+                kind: BoundRegionKind::ClosureEnv,
+            };
+            Ty::mk_ref(ReBound(INNERMOST, br), closure_ty, Mutability::Not)
+        }
+        ClosureKind::FnMut =&gt; {
+            vars.push(BoundVariableKind::Region(BoundRegionKind::ClosureEnv));
+            <span class="kw">let </span>br = BoundRegion {
+                var: BoundVar::from_usize(vars.len() - <span class="number">1</span>),
+                kind: BoundRegionKind::ClosureEnv,
+            };
+            Ty::mk_ref(ReBound(INNERMOST, br), closure_ty, Mutability::Mut)
+        }
+        ClosureKind::FnOnce =&gt; closure_ty,
+    };
 
-        <span class="kw">let </span>fn_sig = FnSig::new(
-            Safety::Safe,
-            abi::Abi::RustCall,
-            List::empty(),
-            inputs,
-            Binder::bind_with_vars(FnOutput::new(<span class="self">self</span>.output.clone(), <span class="macro">vec!</span>[]), List::empty()),
-        );
+    <span class="kw">let </span>inputs = std::iter::once(env_ty)
+        .chain(fn_sig.inputs().iter().cloned())
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="kw">let </span>output = fn_sig.output().clone();
 
-        PolyFnSig::bind_with_vars(fn_sig, List::from(vars))
-    }
+    <span class="kw">let </span>fn_sig = <span class="kw">crate</span>::rty::FnSig::new(
+        fn_sig.safety,
+        fn_sig.abi,
+        <span class="kw">crate</span>::rty::List::empty(),
+        inputs.into(),
+        output,
+    );
+
+    PolyFnSig::bind_with_vars(fn_sig, List::from(vars))
 }
 
 <span class="attr">#[derive(
@@ -3241,9 +3554,9 @@
     <span class="kw">pub </span>output: Ty,
 }
 
-<span class="attr">#[derive(Debug, Clone, Encodable, Decodable)]
+<span class="attr">#[derive(Clone, Encodable, Decodable)]
 </span><span class="kw">pub struct </span>AssocRefinements {
-    <span class="kw">pub </span>items: List&lt;AssocRefinement&gt;,
+    <span class="kw">pub </span>items: List&lt;FluxDefId&gt;,
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>AssocRefinements {
@@ -3253,16 +3566,9 @@
 }
 
 <span class="kw">impl </span>AssocRefinements {
-    <span class="kw">pub fn </span>find(<span class="kw-2">&amp;</span><span class="self">self</span>, name: Symbol) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>AssocRefinement&gt; {
-        <span class="self">self</span>.items.iter().find(|it| it.name == name)
+    <span class="kw">pub fn </span>find(<span class="kw-2">&amp;</span><span class="self">self</span>, name: Symbol) -&gt; <span class="prelude-ty">Option</span>&lt;FluxDefId&gt; {
+        <span class="self">self</span>.items.iter().find(|it| it.name() == name).copied()
     }
-}
-
-<span class="attr">#[derive(Debug, PartialEq, Eq, Hash, Clone, Encodable, Decodable)]
-</span><span class="kw">pub struct </span>AssocRefinement {
-    <span class="doccomment">/// [`DefId`] of the container, i.e., the impl block or trait.
-    </span><span class="kw">pub </span>container_def_id: DefId,
-    <span class="kw">pub </span>name: Symbol,
 }
 
 <span class="attr">#[derive(Clone, PartialEq, Eq, Hash, TyEncodable, TyDecodable)]
@@ -3274,9 +3580,10 @@
 }
 
 <span class="macro">newtype_index!</span> {
-    <span class="doccomment">/// [ParamSort] is used for polymorphic sorts (Set, Map etc.) and [bit-vector size parameters].
-    /// They should occur "bound" under a [`PolyFuncSort`] or an [`AdtSortDef`]; i.e. should be &lt;
-    /// than the number of params.
+    <span class="doccomment">/// [`ParamSort`] is used for polymorphic sorts (`Set`, `Map`, etc.) and [bit-vector size parameters].
+    /// They should occur "bound" under a [`PolyFuncSort`] or an [`AdtSortDef`]. We assume there's a
+    /// single binder and a [`ParamSort`] represents a variable as an index into the list of variables
+    /// bound by that binder, i.e., the representation doesnt't support higher-ranked sorts.
     ///
     /// [bit-vector size parameters]: BvSize::Param
     </span><span class="attr">#[debug_format = <span class="string">"?{}s"</span>]
@@ -3322,6 +3629,7 @@
 </span><span class="kw">pub enum </span>NumVarValue {
     Real,
     Int,
+    BitVec(BvSize),
 }
 
 <span class="kw">impl </span>NumVarValue {
@@ -3329,6 +3637,7 @@
         <span class="kw">match </span><span class="self">self </span>{
             NumVarValue::Real =&gt; Sort::Real,
             NumVarValue::Int =&gt; Sort::Int,
+            NumVarValue::BitVec(size) =&gt; Sort::BitVec(size),
         }
     }
 }
@@ -3423,11 +3732,7 @@
 
     <span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>expect_func(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>PolyFuncSort {
-        <span class="kw">if let </span>Sort::Func(sort) = <span class="self">self </span>{
-            sort
-        } <span class="kw">else </span>{
-            <span class="macro">bug!</span>(<span class="string">"expected `Sort::Func`"</span>)
-        }
+        <span class="kw">if let </span>Sort::Func(sort) = <span class="self">self </span>{ sort } <span class="kw">else </span>{ <span class="macro">bug!</span>(<span class="string">"expected `Sort::Func`"</span>) }
     }
 
     <span class="kw">pub fn </span>is_loc(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -3440,7 +3745,8 @@
 
     <span class="kw">pub fn </span>is_unit_adt(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;DefId&gt; {
         <span class="kw">if let </span>Sort::App(SortCtor::Adt(sort_def), <span class="kw">_</span>) = <span class="self">self
-            </span>&amp;&amp; sort_def.fields() == <span class="number">0
+            </span>&amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(variant) = sort_def.opt_struct_variant()
+            &amp;&amp; variant.fields() == <span class="number">0
         </span>{
             <span class="prelude-val">Some</span>(sort_def.did())
         } <span class="kw">else </span>{
@@ -3475,8 +3781,9 @@
                         proj.pop();
                     }
                 }
-                Sort::App(SortCtor::Adt(sort_def), args) =&gt; {
-                    <span class="kw">for </span>(i, sort) <span class="kw">in </span>sort_def.field_sorts(args).iter().enumerate() {
+                Sort::App(SortCtor::Adt(sort_def), args) <span class="kw">if </span>sort_def.is_struct() =&gt; {
+                    <span class="kw">let </span>field_sorts = sort_def.struct_variant().field_sorts(args);
+                    <span class="kw">for </span>(i, sort) <span class="kw">in </span>field_sorts.iter().enumerate() {
                         proj.push(FieldProj::Adt { def_id: sort_def.did(), field: i <span class="kw">as </span>u32 });
                         go(sort, f, proj);
                         proj.pop();
@@ -3497,7 +3804,7 @@
 </span><span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Hash, TyEncodable, TyDecodable)]
 </span><span class="kw">pub enum </span>BvSize {
     <span class="doccomment">/// A fixed size
-    </span>Fixed(usize),
+    </span>Fixed(u32),
     <span class="doccomment">/// A size that has been parameterized, e.g., bound under a [`PolyFuncSort`]
     </span>Param(ParamSort),
     <span class="doccomment">/// A size that needs to be inferred. Used during sort checking to instantiate bit-vector
@@ -3602,6 +3909,14 @@
 }
 
 <span class="attr">#[derive(Debug, Clone, Eq, PartialEq, Hash, TyEncodable, TyDecodable)]
+</span><span class="kw">pub enum </span>ConstantInfo {
+    <span class="doccomment">/// An uninterpreted constant
+    </span>Uninterpreted,
+    <span class="doccomment">/// A non-integral constant whose value is specified by the user
+    </span>Interpreted(Expr, Sort),
+}
+
+<span class="attr">#[derive(Debug, Clone, Eq, PartialEq, Hash, TyEncodable, TyDecodable)]
 </span><span class="kw">pub struct </span>AdtDef(Interned&lt;AdtDefData&gt;);
 
 <span class="attr">#[derive(Debug, Eq, PartialEq, Hash, TyEncodable, TyDecodable)]
@@ -3659,17 +3974,18 @@
     <span class="kw">pub </span>args: GenericArgs,
     <span class="kw">pub </span>fields: List&lt;Ty&gt;,
     <span class="kw">pub </span>idx: Expr,
+    <span class="kw">pub </span>requires: List&lt;Expr&gt;,
 }
 
 <span class="kw">pub type </span>PolyFnSig = Binder&lt;FnSig&gt;;
 
 <span class="attr">#[derive(Clone, PartialEq, Eq, Hash, TyEncodable, TyDecodable, TypeVisitable, TypeFoldable)]
 </span><span class="kw">pub struct </span>FnSig {
-    safety: Safety,
-    abi: abi::Abi,
-    requires: List&lt;Expr&gt;,
-    inputs: List&lt;Ty&gt;,
-    output: Binder&lt;FnOutput&gt;,
+    <span class="kw">pub </span>safety: Safety,
+    <span class="kw">pub </span>abi: abi::Abi,
+    <span class="kw">pub </span>requires: List&lt;Expr&gt;,
+    <span class="kw">pub </span>inputs: List&lt;Ty&gt;,
+    <span class="kw">pub </span>output: Binder&lt;FnOutput&gt;,
 }
 
 <span class="attr">#[derive(
@@ -3688,21 +4004,9 @@
 
 <span class="attr">#[derive(Debug, TypeVisitable, TypeFoldable)]
 </span><span class="kw">pub struct </span>Qualifier {
-    <span class="kw">pub </span>name: Symbol,
+    <span class="kw">pub </span>def_id: FluxLocalDefId,
     <span class="kw">pub </span>body: Binder&lt;Expr&gt;,
     <span class="kw">pub </span>global: bool,
-}
-
-<span class="kw">pub struct </span>SpecFunc {
-    <span class="kw">pub </span>name: Symbol,
-    <span class="kw">pub </span>expr: Binder&lt;Expr&gt;,
-}
-
-<span class="attr">#[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>SpecFuncDecl {
-    <span class="kw">pub </span>name: Symbol,
-    <span class="kw">pub </span>sort: PolyFuncSort,
-    <span class="kw">pub </span>kind: SpecFuncKind,
 }
 
 <span class="kw">pub type </span>TyCtor = Binder&lt;Ty&gt;;
@@ -3710,13 +4014,15 @@
 <span class="kw">impl </span>TyCtor {
     <span class="kw">pub fn </span>to_ty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Ty {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.vars()[..] {
-            [] =&gt; <span class="kw">return </span><span class="self">self</span>.skip_binder_ref().shift_out_escaping(<span class="number">1</span>),
+            [] =&gt; {
+                <span class="kw">return </span><span class="self">self</span>.skip_binder_ref().shift_out_escaping(<span class="number">1</span>);
+            }
             [BoundVariableKind::Refine(sort, ..)] =&gt; {
                 <span class="kw">if </span>sort.is_unit() {
                     <span class="kw">return </span><span class="self">self</span>.replace_bound_reft(<span class="kw-2">&amp;</span>Expr::unit());
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(def_id) = sort.is_unit_adt() {
-                    <span class="kw">return </span><span class="self">self</span>.replace_bound_reft(<span class="kw-2">&amp;</span>Expr::unit_adt(def_id));
+                    <span class="kw">return </span><span class="self">self</span>.replace_bound_reft(<span class="kw-2">&amp;</span>Expr::unit_struct(def_id));
                 }
             }
             <span class="kw">_ </span>=&gt; {}
@@ -3838,21 +4144,20 @@
         <span class="kw">let </span>def_id = genv.tcx().require_lang_item(LangItem::OwnedBox, <span class="prelude-val">None</span>);
         <span class="kw">let </span>adt_def = genv.adt_def(def_id)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>args = <span class="macro">vec!</span>[GenericArg::Ty(deref_ty), GenericArg::Ty(alloc_ty)];
+        <span class="kw">let </span>args = List::from_arr([GenericArg::Ty(deref_ty), GenericArg::Ty(alloc_ty)]);
 
         <span class="kw">let </span>bty = BaseTy::adt(adt_def, args);
-        <span class="prelude-val">Ok</span>(Ty::indexed(bty, Expr::unit_adt(def_id)))
+        <span class="prelude-val">Ok</span>(Ty::indexed(bty, Expr::unit_struct(def_id)))
     }
 
     <span class="kw">pub fn </span>mk_box_with_default_alloc(genv: GlobalEnv, deref_ty: Ty) -&gt; QueryResult&lt;Ty&gt; {
         <span class="kw">let </span>def_id = genv.tcx().require_lang_item(LangItem::OwnedBox, <span class="prelude-val">None</span>);
 
         <span class="kw">let </span>generics = genv.generics_of(def_id)<span class="question-mark">?</span>;
-        <span class="kw">let </span>alloc_ty = Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>.refine_ty(
-            <span class="kw-2">&amp;</span>genv
-                .lower_type_of(generics.own_params[<span class="number">1</span>].def_id)<span class="question-mark">?
-                </span>.skip_binder(),
-        )<span class="question-mark">?</span>;
+        <span class="kw">let </span>alloc_ty = genv
+            .lower_type_of(generics.own_params[<span class="number">1</span>].def_id)<span class="question-mark">?
+            </span>.skip_binder()
+            .refine(<span class="kw-2">&amp;</span>Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
 
         Ty::mk_box(genv, deref_ty, alloc_ty)
     }
@@ -3982,7 +4287,7 @@
     }
 
     <span class="attr">#[track_caller]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>expect_tuple(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Ty] {
+    </span><span class="kw">pub fn </span>expect_tuple(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Ty] {
         <span class="kw">if let </span>TyKind::Indexed(BaseTy::Tuple(tys), <span class="kw">_</span>) = <span class="self">self</span>.kind() {
             tys
         } <span class="kw">else </span>{
@@ -4073,6 +4378,7 @@
     Dynamic(List&lt;Binder&lt;ExistentialPredicate&gt;&gt;, Region),
     Param(ParamTy),
     Infer(TyVid),
+    Foreign(DefId),
 }
 
 <span class="kw">impl </span>BaseTy {
@@ -4084,8 +4390,8 @@
         BaseTy::Alias(AliasKind::Projection, alias_ty)
     }
 
-    <span class="kw">pub fn </span>adt(adt_def: AdtDef, args: <span class="kw">impl </span>Into&lt;GenericArgs&gt;) -&gt; BaseTy {
-        BaseTy::Adt(adt_def, args.into())
+    <span class="kw">pub fn </span>adt(adt_def: AdtDef, args: GenericArgs) -&gt; BaseTy {
+        BaseTy::Adt(adt_def, args)
     }
 
     <span class="kw">pub fn </span>fn_def(def_id: DefId, args: <span class="kw">impl </span>Into&lt;GenericArgs&gt;) -&gt; BaseTy {
@@ -4191,10 +4497,6 @@
         <span class="macro">matches!</span>(<span class="self">self</span>, BaseTy::Slice(..))
     }
 
-    <span class="kw">fn </span>is_adt(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="macro">matches!</span>(<span class="self">self</span>, BaseTy::Adt(..))
-    }
-
     <span class="kw">pub fn </span>is_box(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>, BaseTy::Adt(adt_def, <span class="kw">_</span>) <span class="kw">if </span>adt_def.is_box())
     }
@@ -4217,14 +4519,21 @@
         </span>}
     }
 
-    <span class="kw">pub fn </span>invariants(<span class="kw-2">&amp;</span><span class="self">self</span>, overflow_checking: bool) -&gt; <span class="kw-2">&amp;</span>[Invariant] {
-        <span class="kw">match </span><span class="self">self </span>{
-            BaseTy::Adt(adt_def, <span class="kw">_</span>) =&gt; adt_def.invariants(),
-            BaseTy::Uint(uint_ty) =&gt; uint_invariants(<span class="kw-2">*</span>uint_ty, overflow_checking),
-            BaseTy::Int(int_ty) =&gt; int_invariants(<span class="kw-2">*</span>int_ty, overflow_checking),
-            BaseTy::Slice(<span class="kw">_</span>) =&gt; slice_invariants(overflow_checking),
-            <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>[],
-        }
+    <span class="kw">pub fn </span>invariants(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        tcx: TyCtxt,
+        overflow_checking: bool,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Invariant&gt; {
+        <span class="kw">let </span>(invariants, args) = <span class="kw">match </span><span class="self">self </span>{
+            BaseTy::Adt(adt_def, args) =&gt; (adt_def.invariants().skip_binder(), <span class="kw-2">&amp;</span>args[..]),
+            BaseTy::Uint(uint_ty) =&gt; (uint_invariants(<span class="kw-2">*</span>uint_ty, overflow_checking), <span class="kw-2">&amp;</span>[][..]),
+            BaseTy::Int(int_ty) =&gt; (int_invariants(<span class="kw-2">*</span>int_ty, overflow_checking), <span class="kw-2">&amp;</span>[][..]),
+            BaseTy::Slice(<span class="kw">_</span>) =&gt; (slice_invariants(overflow_checking), <span class="kw-2">&amp;</span>[][..]),
+            <span class="kw">_ </span>=&gt; (<span class="kw-2">&amp;</span>[][..], <span class="kw-2">&amp;</span>[][..]),
+        };
+        invariants
+            .iter()
+            .map(<span class="kw">move </span>|inv| EarlyBinder(inv).instantiate_ref(tcx, args, <span class="kw-2">&amp;</span>[]))
     }
 
     <span class="kw">pub fn </span>to_ty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Ty {
@@ -4264,13 +4573,14 @@
                 | BaseTy::Str
                 | BaseTy::Adt(..)
                 | BaseTy::Tuple(..)
-                <span class="comment">// opaque alias are atoms the way we print them now, but they won't
-                // be if we print them as `impl Trait`
-                </span>| BaseTy::Alias(..)
+                | BaseTy::Param(<span class="kw">_</span>)
                 | BaseTy::Array(..)
                 | BaseTy::Never
                 | BaseTy::Closure(..)
                 | BaseTy::Coroutine(..)
+                <span class="comment">// opaque alias are atoms the way we print them now, but they won't
+                // be if we print them as `impl Trait`
+                </span>| BaseTy::Alias(..)
         )
     }
 }
@@ -4333,6 +4643,7 @@
                 // ty::Ty::new_generator(*tcx, *def_id, args, mov)
             </span>}
             BaseTy::Infer(ty_vid) =&gt; ty::Ty::new_var(tcx, <span class="kw-2">*</span>ty_vid),
+            BaseTy::Foreign(def_id) =&gt; ty::Ty::new_foreign(tcx, <span class="kw-2">*</span>def_id),
         }
     }
 }
@@ -4384,40 +4695,23 @@
 <span class="attr">#[extension(<span class="kw">pub trait </span>RefineArgsExt)]
 </span><span class="kw">impl </span>RefineArgs {
     <span class="kw">fn </span>identity_for_item(genv: GlobalEnv, def_id: DefId) -&gt; QueryResult&lt;RefineArgs&gt; {
-        <span class="self">Self</span>::for_item(genv, def_id, |param, exprs| {
-            <span class="kw">let </span>index = exprs.len() <span class="kw">as </span>u32;
-            Expr::var(Var::EarlyParam(EarlyReftParam { index, name: param.name }))
+        <span class="self">Self</span>::for_item(genv, def_id, |param, index| {
+            <span class="prelude-val">Ok</span>(Expr::var(Var::EarlyParam(EarlyReftParam {
+                index: index <span class="kw">as </span>u32,
+                name: param.name(),
+            })))
         })
     }
 
     <span class="kw">fn </span>for_item&lt;F&gt;(genv: GlobalEnv, def_id: DefId, <span class="kw-2">mut </span>mk: F) -&gt; QueryResult&lt;RefineArgs&gt;
     <span class="kw">where
-        </span>F: FnMut(<span class="kw-2">&amp;</span>RefineParam, <span class="kw-2">&amp;</span>[Expr]) -&gt; Expr,
+        </span>F: FnMut(EarlyBinder&lt;RefineParam&gt;, usize) -&gt; QueryResult&lt;Expr&gt;,
     {
         <span class="kw">let </span>reft_generics = genv.refinement_generics_of(def_id)<span class="question-mark">?</span>;
         <span class="kw">let </span>count = reft_generics.count();
         <span class="kw">let </span><span class="kw-2">mut </span>args = Vec::with_capacity(count);
-        <span class="self">Self</span>::fill_item(genv, <span class="kw-2">&amp;mut </span>args, <span class="kw-2">&amp;</span>reft_generics, <span class="kw-2">&amp;mut </span>mk)<span class="question-mark">?</span>;
+        reft_generics.fill_item(genv, <span class="kw-2">&amp;mut </span>args, <span class="kw-2">&amp;mut </span>mk)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(List::from_vec(args))
-    }
-
-    <span class="kw">fn </span>fill_item&lt;F&gt;(
-        genv: GlobalEnv,
-        args: <span class="kw-2">&amp;mut </span>Vec&lt;Expr&gt;,
-        reft_generics: <span class="kw-2">&amp;</span>RefinementGenerics,
-        mk: <span class="kw-2">&amp;mut </span>F,
-    ) -&gt; QueryResult&lt;()&gt;
-    <span class="kw">where
-        </span>F: FnMut(<span class="kw-2">&amp;</span>RefineParam, <span class="kw-2">&amp;</span>[Expr]) -&gt; Expr,
-    {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(def_id) = reft_generics.parent {
-            <span class="kw">let </span>parent_generics = genv.refinement_generics_of(def_id)<span class="question-mark">?</span>;
-            <span class="self">Self</span>::fill_item(genv, args, <span class="kw-2">&amp;</span>parent_generics, mk)<span class="question-mark">?</span>;
-        }
-        <span class="kw">for </span>param <span class="kw">in </span><span class="kw-2">&amp;</span>reft_generics.own_params {
-            args.push(mk(param, args));
-        }
-        <span class="prelude-val">Ok</span>(())
     }
 }
 
@@ -4439,7 +4733,7 @@
         <span class="kw">if </span>sort.is_unit() {
             <span class="self">self</span>.replace_bound_reft(<span class="kw-2">&amp;</span>Expr::unit()).to_ty()
         } <span class="kw">else if let </span><span class="prelude-val">Some</span>(def_id) = sort.is_unit_adt() {
-            <span class="self">self</span>.replace_bound_reft(<span class="kw-2">&amp;</span>Expr::unit_adt(def_id)).to_ty()
+            <span class="self">self</span>.replace_bound_reft(<span class="kw-2">&amp;</span>Expr::unit_struct(def_id)).to_ty()
         } <span class="kw">else </span>{
             Ty::exists(<span class="self">self</span>.as_ref().map(SubsetTy::to_ty))
         }
@@ -4454,7 +4748,7 @@
 /// [`BaseTy`], `e` a refinement index, and `p` a predicate.
 ///
 /// These are mainly found under a [`Binder`] with a single variable of the base type's sort. This
-/// can be interpreted as a type constructor or an existial type. For example, under a binder with a
+/// can be interpreted as a type constructor or an existential type. For example, under a binder with a
 /// variable `v` of sort `int`, we can interpret `{i32[v] | v &gt; 0}` as:
 /// - A lambda `λv:int. {i32[v] | v &gt; 0}` that "constructs" types when applied to ints, or
 /// - An existential type `∃v:int. {i32[v] | v &gt; 0}`.
@@ -4469,7 +4763,7 @@
 /// interpreted as type constructors. They have two key properties that makes them suitable
 /// for this:
 ///
-/// 1. **Syntacitc Restriction**: Subset types are syntactically restricted, making it easier to
+/// 1. **Syntactic Restriction**: Subset types are syntactically restricted, making it easier to
 ///    relate them structurally (e.g., for subtyping). For instance, given two types `S&lt;λv. T1&gt;` and
 ///    `S&lt;λ. T2&gt;`, if `T1` and `T2` are subset types, we know they match structurally (at least
 ///    shallowly). In particularly, the syntactic restriction rules out complex types like
@@ -4629,8 +4923,8 @@
         }
         <span class="kw">for </span>param <span class="kw">in </span><span class="kw-2">&amp;</span>generics.own_params {
             <span class="kw">let </span>kind = mk_kind(param, args);
-            <span class="macro">tracked_span_assert_eq!</span>(param.index <span class="kw">as </span>usize, args.len()); <span class="comment">// "{args:#?}, {generics:#?}");
-            </span>args.push(kind);
+            <span class="macro">tracked_span_assert_eq!</span>(param.index <span class="kw">as </span>usize, args.len());
+            args.push(kind);
         }
         <span class="prelude-val">Ok</span>(())
     }
@@ -4790,14 +5084,8 @@
         <span class="self">self</span>.parent_count + <span class="self">self</span>.own_params.len()
     }
 
-    <span class="kw">pub fn </span>param_at(<span class="kw-2">&amp;</span><span class="self">self</span>, param_index: usize, genv: GlobalEnv) -&gt; QueryResult&lt;RefineParam&gt; {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = param_index.checked_sub(<span class="self">self</span>.parent_count) {
-            <span class="prelude-val">Ok</span>(<span class="self">self</span>.own_params[index].clone())
-        } <span class="kw">else </span>{
-            <span class="kw">let </span>parent = <span class="self">self</span>.parent.expect(<span class="string">"parent_count &gt; 0 but no parent?"</span>);
-            genv.refinement_generics_of(parent)<span class="question-mark">?
-                </span>.param_at(param_index, genv)
-        }
+    <span class="kw">pub fn </span>own_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.own_params.len()
     }
 
     <span class="comment">// /// Iterate and collect all parameters in this item including parents
@@ -4814,6 +5102,64 @@
     //         .try_collect()
     // }
 </span>}
+
+<span class="kw">impl </span>EarlyBinder&lt;RefinementGenerics&gt; {
+    <span class="kw">pub fn </span>parent(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;DefId&gt; {
+        <span class="self">self</span>.skip_binder_ref().parent
+    }
+
+    <span class="kw">pub fn </span>parent_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.skip_binder_ref().parent_count
+    }
+
+    <span class="kw">pub fn </span>count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.skip_binder_ref().count()
+    }
+
+    <span class="kw">pub fn </span>own_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.skip_binder_ref().own_count()
+    }
+
+    <span class="kw">pub fn </span>own_param_at(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; EarlyBinder&lt;RefineParam&gt; {
+        <span class="self">self</span>.as_ref().map(|this| this.own_params[index].clone())
+    }
+
+    <span class="kw">pub fn </span>param_at(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        param_index: usize,
+        genv: GlobalEnv,
+    ) -&gt; QueryResult&lt;EarlyBinder&lt;RefineParam&gt;&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = param_index.checked_sub(<span class="self">self</span>.parent_count()) {
+            <span class="prelude-val">Ok</span>(<span class="self">self</span>.own_param_at(index))
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>parent = <span class="self">self</span>.parent().expect(<span class="string">"parent_count &gt; 0 but no parent?"</span>);
+            genv.refinement_generics_of(parent)<span class="question-mark">?
+                </span>.param_at(param_index, genv)
+        }
+    }
+
+    <span class="kw">pub fn </span>iter_own_params(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = EarlyBinder&lt;RefineParam&gt;&gt; + <span class="kw">use</span>&lt;<span class="lifetime">'_</span>&gt; {
+        <span class="self">self</span>.skip_binder_ref()
+            .own_params
+            .iter()
+            .cloned()
+            .map(EarlyBinder)
+    }
+
+    <span class="kw">pub fn </span>fill_item&lt;F, R&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, genv: GlobalEnv, vec: <span class="kw-2">&amp;mut </span>Vec&lt;R&gt;, mk: <span class="kw-2">&amp;mut </span>F) -&gt; QueryResult
+    <span class="kw">where
+        </span>F: FnMut(EarlyBinder&lt;RefineParam&gt;, usize) -&gt; QueryResult&lt;R&gt;,
+    {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(def_id) = <span class="self">self</span>.parent() {
+            genv.refinement_generics_of(def_id)<span class="question-mark">?
+                </span>.fill_item(genv, vec, mk)<span class="question-mark">?</span>;
+        }
+        <span class="kw">for </span>param <span class="kw">in </span><span class="self">self</span>.iter_own_params() {
+            vec.push(mk(param, vec.len())<span class="question-mark">?</span>);
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
+}
 
 <span class="kw">impl </span>EarlyBinder&lt;GenericPredicates&gt; {
     <span class="kw">pub fn </span>predicates(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EarlyBinder&lt;List&lt;Clause&gt;&gt; {
@@ -4835,8 +5181,14 @@
 }
 
 <span class="kw">impl </span>VariantSig {
-    <span class="kw">pub fn </span>new(adt_def: AdtDef, args: GenericArgs, fields: List&lt;Ty&gt;, idx: Expr) -&gt; <span class="self">Self </span>{
-        VariantSig { adt_def, args, fields, idx }
+    <span class="kw">pub fn </span>new(
+        adt_def: AdtDef,
+        args: GenericArgs,
+        fields: List&lt;Ty&gt;,
+        idx: Expr,
+        requires: List&lt;Expr&gt;,
+    ) -&gt; <span class="self">Self </span>{
+        VariantSig { adt_def, args, fields, idx, requires }
     }
 
     <span class="kw">pub fn </span>fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Ty] {
@@ -4845,7 +5197,8 @@
 
     <span class="kw">pub fn </span>ret(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Ty {
         <span class="kw">let </span>bty = BaseTy::Adt(<span class="self">self</span>.adt_def.clone(), <span class="self">self</span>.args.clone());
-        Ty::indexed(bty, <span class="self">self</span>.idx.clone())
+        <span class="kw">let </span>idx = <span class="self">self</span>.idx.clone();
+        Ty::indexed(bty, idx)
     }
 }
 
@@ -4868,8 +5221,8 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.inputs
     }
 
-    <span class="kw">pub fn </span>output(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Binder&lt;FnOutput&gt; {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.output
+    <span class="kw">pub fn </span>output(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Binder&lt;FnOutput&gt; {
+        <span class="self">self</span>.output.clone()
     }
 }
 
@@ -4947,8 +5300,8 @@
         <span class="self">self</span>.<span class="number">0</span>.rustc.variant(idx)
     }
 
-    <span class="kw">pub fn </span>invariants(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Invariant] {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.invariants
+    <span class="kw">pub fn </span>invariants(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EarlyBinder&lt;<span class="kw-2">&amp;</span>[Invariant]&gt; {
+        EarlyBinder(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.invariants)
     }
 
     <span class="kw">pub fn </span>discriminants(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (VariantIdx, u128)&gt; + <span class="lifetime">'_ </span>{
@@ -5023,8 +5376,7 @@
                     <span class="prelude-val">None </span>=&gt; variant.fields.clone(),
                     <span class="prelude-val">Some</span>(i) =&gt; List::singleton(variant.fields[i.index()].clone()),
                 };
-                <span class="kw">let </span>requires = List::empty();
-                FnSig::new(Safety::Safe, abi::Abi::Rust, requires, inputs, output)
+                FnSig::new(Safety::Safe, abi::Abi::Rust, variant.requires.clone(), inputs, output)
             })
         })
     }
@@ -5054,11 +5406,7 @@
             },
         ]
     });
-    <span class="kw">if </span>overflow_checking {
-        <span class="kw-2">&amp;*</span>OVERFLOW
-    } <span class="kw">else </span>{
-        <span class="kw-2">&amp;*</span>DEFAULT
-    }
+    <span class="kw">if </span>overflow_checking { <span class="kw-2">&amp;*</span>OVERFLOW } <span class="kw">else </span>{ <span class="kw-2">&amp;*</span>DEFAULT }
 }
 
 <span class="kw">fn </span>uint_invariants(uint_ty: UintTy, overflow_checking: bool) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Invariant] {
@@ -5085,11 +5433,7 @@
             })
             .collect()
     });
-    <span class="kw">if </span>overflow_checking {
-        <span class="kw-2">&amp;</span>OVERFLOW[<span class="kw-2">&amp;</span>uint_ty]
-    } <span class="kw">else </span>{
-        <span class="kw-2">&amp;*</span>DEFAULT
-    }
+    <span class="kw">if </span>overflow_checking { <span class="kw-2">&amp;</span>OVERFLOW[<span class="kw-2">&amp;</span>uint_ty] } <span class="kw">else </span>{ <span class="kw-2">&amp;*</span>DEFAULT }
 }
 
 <span class="kw">fn </span>int_invariants(int_ty: IntTy, overflow_checking: bool) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Invariant] {
@@ -5117,11 +5461,7 @@
             })
             .collect()
     });
-    <span class="kw">if </span>overflow_checking {
-        <span class="kw-2">&amp;</span>OVERFLOW[<span class="kw-2">&amp;</span>int_ty]
-    } <span class="kw">else </span>{
-        <span class="kw-2">&amp;</span>DEFAULT
-    }
+    <span class="kw">if </span>overflow_checking { <span class="kw-2">&amp;</span>OVERFLOW[<span class="kw-2">&amp;</span>int_ty] } <span class="kw">else </span>{ <span class="kw-2">&amp;</span>DEFAULT }
 }
 
 <span class="macro">impl_internable!</span>(AdtDefData, AdtSortDefData, TyKind);
@@ -5138,7 +5478,7 @@
     PolyVariant,
     Invariant,
     RefineParam,
-    AssocRefinement,
+    FluxDefId,
     SortParamKind,
 );
 
@@ -5176,7 +5516,7 @@
 
 <span class="kw">pub struct </span>WfckResults {
     <span class="kw">pub </span>owner: FluxOwnerId,
-    bin_rel_sorts: ItemLocalMap&lt;Sort&gt;,
+    bin_op_sorts: ItemLocalMap&lt;Sort&gt;,
     coercions: ItemLocalMap&lt;Vec&lt;Coercion&gt;&gt;,
     field_projs: ItemLocalMap&lt;FieldProj&gt;,
     node_sorts: ItemLocalMap&lt;Sort&gt;,
@@ -5206,7 +5546,7 @@
     <span class="kw">pub fn </span>new(owner: <span class="kw">impl </span>Into&lt;FluxOwnerId&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             owner: owner.into(),
-            bin_rel_sorts: ItemLocalMap::default(),
+            bin_op_sorts: ItemLocalMap::default(),
             coercions: ItemLocalMap::default(),
             field_projs: ItemLocalMap::default(),
             node_sorts: ItemLocalMap::default(),
@@ -5214,12 +5554,12 @@
         }
     }
 
-    <span class="kw">pub fn </span>bin_rel_sorts_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; LocalTableInContextMut&lt;Sort&gt; {
-        LocalTableInContextMut { owner: <span class="self">self</span>.owner, data: <span class="kw-2">&amp;mut </span><span class="self">self</span>.bin_rel_sorts }
+    <span class="kw">pub fn </span>bin_op_sorts_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; LocalTableInContextMut&lt;Sort&gt; {
+        LocalTableInContextMut { owner: <span class="self">self</span>.owner, data: <span class="kw-2">&amp;mut </span><span class="self">self</span>.bin_op_sorts }
     }
 
-    <span class="kw">pub fn </span>bin_rel_sorts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LocalTableInContext&lt;Sort&gt; {
-        LocalTableInContext { owner: <span class="self">self</span>.owner, data: <span class="kw-2">&amp;</span><span class="self">self</span>.bin_rel_sorts }
+    <span class="kw">pub fn </span>bin_op_sorts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LocalTableInContext&lt;Sort&gt; {
+        LocalTableInContext { owner: <span class="self">self</span>.owner, data: <span class="kw-2">&amp;</span><span class="self">self</span>.bin_op_sorts }
     }
 
     <span class="kw">pub fn </span>coercions_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; LocalTableInContextMut&lt;Vec&lt;Coercion&gt;&gt; {

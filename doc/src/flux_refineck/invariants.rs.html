@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-refineck/src/invariants.rs`."><title>invariants.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_refineck" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_refineck/</div>invariants.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-refineck/src/invariants.rs`."><title>invariants.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_refineck" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_refineck/</div>invariants.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -86,17 +86,31 @@
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
 <a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a></pre></div><pre class="rust"><code><span class="kw">use </span>flux_common::{iter::IterExt, result::ResultExt};
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a></pre></div><pre class="rust"><code><span class="kw">use </span>flux_common::{iter::IterExt, result::ResultExt};
+<span class="kw">use </span>flux_config::InferOpts;
 <span class="kw">use </span>flux_errors::ErrorGuaranteed;
 <span class="kw">use </span>flux_infer::{
-    fixpoint_encoding::{FixQueryCache, KVarGen},
-    infer::{ConstrReason, Tag},
-    refine_tree::RefineTree,
+    fixpoint_encoding::FixQueryCache,
+    infer::{ConstrReason, GlobalEnvExt, Tag},
 };
-<span class="kw">use </span>flux_middle::{fhir, global_env::GlobalEnv, rty, MaybeExternId};
-<span class="kw">use </span>rustc_span::{Span, DUMMY_SP};
-
-<span class="kw">use crate</span>::{invoke_fixpoint, CheckerConfig};
+<span class="kw">use </span>flux_middle::{
+    FixpointQueryKind, def_id::MaybeExternId, fhir, global_env::GlobalEnv, queries::try_query, rty,
+};
+<span class="kw">use </span>rustc_infer::infer::TyCtxtInferExt;
+<span class="kw">use </span>rustc_middle::ty::TypingMode;
+<span class="kw">use </span>rustc_span::{DUMMY_SP, Span};
 
 <span class="kw">pub fn </span>check_invariants(
     genv: GlobalEnv,
@@ -104,15 +118,23 @@
     def_id: MaybeExternId,
     invariants: <span class="kw-2">&amp;</span>[fhir::Expr],
     adt_def: <span class="kw-2">&amp;</span>rty::AdtDef,
-    checker_config: CheckerConfig,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorGuaranteed&gt; {
+    <span class="comment">// FIXME(nilehmann) maybe we should record whether the invariants were generated with overflow
+    // checking enabled and only assume them in code that also overflow checking enabled.
+    // Although, enable overflow checking locally is unsound in general.
+    //
+    // The good way would be to make overflow checking a property of a type that can be turned on
+    // and off locally. Then we consider an overflow-checked `T` distinct from a non-checked one and
+    // error/warn in case of a mismatch: overflow-checked types can flow to non-checked code but not
+    // the other way around.
+    </span><span class="kw">let </span>opts = genv.infer_opts(def_id.local_id());
     adt_def
         .invariants()
-        .iter()
+        .iter_identity()
         .enumerate()
         .try_for_each_exhaust(|(idx, invariant)| {
             <span class="kw">let </span>span = invariants[idx].span;
-            check_invariant(genv, cache, def_id, adt_def, span, invariant, checker_config)
+            check_invariant(genv, cache, def_id, adt_def, span, invariant, opts)
         })
 }
 
@@ -123,43 +145,45 @@
     adt_def: <span class="kw-2">&amp;</span>rty::AdtDef,
     span: Span,
     invariant: <span class="kw-2">&amp;</span>rty::Invariant,
-    checker_config: CheckerConfig,
+    opts: InferOpts,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorGuaranteed&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>refine_tree = RefineTree::new(genv, def_id.local_id().into(), <span class="prelude-val">None</span>).emit(<span class="kw-2">&amp;</span>genv)<span class="question-mark">?</span>;
+    <span class="kw">let </span>resolved_id = def_id.resolved_id();
+
+    <span class="kw">let </span>region_infercx = genv
+        .tcx()
+        .infer_ctxt()
+        .with_next_trait_solver(<span class="bool-val">true</span>)
+        .build(TypingMode::non_body_analysis());
+
+    <span class="kw">let </span><span class="kw-2">mut </span>infcx_root = try_query(|| {
+        genv.infcx_root(<span class="kw-2">&amp;</span>region_infercx, opts)
+            .identity_for_item(resolved_id)<span class="question-mark">?
+            </span>.build()
+    })
+    .emit(<span class="kw-2">&amp;</span>genv)<span class="question-mark">?</span>;
 
     <span class="kw">for </span>variant_idx <span class="kw">in </span>adt_def.variants().indices() {
-        <span class="kw">let </span><span class="kw-2">mut </span>rcx = refine_tree.refine_ctxt_at_root();
+        <span class="kw">let </span><span class="kw-2">mut </span>rcx = infcx_root.infcx(resolved_id, <span class="kw-2">&amp;</span>region_infercx);
 
-        <span class="kw">let </span>variant = genv
+        <span class="kw">let </span>variant_sig = genv
             .variant_sig(adt_def.did(), variant_idx)
             .emit(<span class="kw-2">&amp;</span>genv)<span class="question-mark">?
             </span>.expect(<span class="string">"cannot check opaque structs"</span>)
             .instantiate_identity()
-            .replace_bound_refts_with(|sort, <span class="kw">_</span>, <span class="kw">_</span>| rcx.define_vars(sort));
+            .replace_bound_refts_with(|sort, <span class="kw">_</span>, <span class="kw">_</span>| rty::Expr::fvar(rcx.define_var(sort)));
 
-        <span class="kw">for </span>ty <span class="kw">in </span>variant.fields() {
+        <span class="kw">for </span>ty <span class="kw">in </span>variant_sig.fields() {
             <span class="kw">let </span>ty = rcx.unpack(ty);
-            rcx.assume_invariants(<span class="kw-2">&amp;</span>ty, checker_config.check_overflow);
+            rcx.assume_invariants(<span class="kw-2">&amp;</span>ty);
         }
-        <span class="kw">let </span>pred = invariant.apply(<span class="kw-2">&amp;</span>variant.idx);
+        <span class="kw">let </span>pred = invariant.apply(<span class="kw-2">&amp;</span>variant_sig.idx);
         rcx.check_pred(<span class="kw-2">&amp;</span>pred, Tag::new(ConstrReason::Other, DUMMY_SP));
     }
-    <span class="kw">let </span>errors = invoke_fixpoint(
-        genv,
-        cache,
-        def_id,
-        refine_tree,
-        KVarGen::dummy(),
-        checker_config,
-        <span class="string">"fluxc"</span>,
-    )
-    .emit(<span class="kw-2">&amp;</span>genv)<span class="question-mark">?</span>;
+    <span class="kw">let </span>errors = infcx_root
+        .execute_fixpoint_query(cache, def_id, FixpointQueryKind::Invariant)
+        .emit(<span class="kw-2">&amp;</span>genv)<span class="question-mark">?</span>;
 
-    <span class="kw">if </span>errors.is_empty() {
-        <span class="prelude-val">Ok</span>(())
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Err</span>(genv.sess().emit_err(errors::Invalid { span }))
-    }
+    <span class="kw">if </span>errors.is_empty() { <span class="prelude-val">Ok</span>(()) } <span class="kw">else </span>{ <span class="prelude-val">Err</span>(genv.sess().emit_err(errors::Invalid { span })) }
 }
 
 <span class="kw">mod </span>errors {

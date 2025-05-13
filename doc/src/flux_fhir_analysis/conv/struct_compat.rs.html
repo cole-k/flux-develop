@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-fhir-analysis/src/conv/struct_compat.rs`."><title>struct_compat.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_fhir_analysis" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_fhir_analysis/conv/</div>struct_compat.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-fhir-analysis/src/conv/struct_compat.rs`."><title>struct_compat.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_fhir_analysis" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_fhir_analysis/conv/</div>struct_compat.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -875,7 +875,10 @@
 <a href="#874" id="874">874</a>
 <a href="#875" id="875">875</a>
 <a href="#876" id="876">876</a>
-<a href="#877" id="877">877</a></pre></div><pre class="rust"><code><span class="doccomment">//! Check whether two refinemnt types/signatures are structurally compatible.
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a></pre></div><pre class="rust"><code><span class="doccomment">//! Check whether two refinemnt types/signatures are structurally compatible.
 //!
 //! Used to check if a user spec is compatible with the underlying rust type. The code also
 //! infer types annotated with `_` in the surface syntax.
@@ -885,20 +888,20 @@
 <span class="kw">use </span>flux_common::bug;
 <span class="kw">use </span>flux_errors::Errors;
 <span class="kw">use </span>flux_middle::{
+    def_id::MaybeExternId,
     fhir,
     global_env::GlobalEnv,
     queries::QueryResult,
     rty::{
         <span class="self">self</span>,
         fold::{TypeFoldable, TypeFolder, TypeSuperFoldable},
-        refining::Refiner,
+        refining::{Refine <span class="kw">as _</span>, Refiner},
     },
-    MaybeExternId,
 };
 <span class="kw">use </span>flux_rustc_bridge::ty::{<span class="self">self</span>, FieldIdx, VariantIdx};
 <span class="kw">use </span>rustc_ast::Mutability;
 <span class="kw">use </span>rustc_data_structures::unord::UnordMap;
-<span class="kw">use </span>rustc_type_ir::{DebruijnIndex, InferConst, INNERMOST};
+<span class="kw">use </span>rustc_type_ir::{DebruijnIndex, INNERMOST, InferConst};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>type_alias(
     genv: GlobalEnv,
@@ -907,7 +910,7 @@
     def_id: MaybeExternId,
 ) -&gt; QueryResult&lt;rty::TyCtor&gt; {
     <span class="kw">let </span>rust_ty = genv.lower_type_of(def_id.resolved_id())<span class="question-mark">?</span>.skip_binder();
-    <span class="kw">let </span>expected = Refiner::default_for_item(genv, def_id.resolved_id())<span class="question-mark">?</span>.refine_ty(<span class="kw-2">&amp;</span>rust_ty)<span class="question-mark">?</span>;
+    <span class="kw">let </span>expected = rust_ty.refine(<span class="kw-2">&amp;</span>Refiner::default_for_item(genv, def_id.resolved_id())<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>zipper = Zipper::new(genv, def_id);
 
     <span class="kw">if </span>zipper
@@ -931,8 +934,8 @@
     def_id: MaybeExternId,
 ) -&gt; QueryResult&lt;rty::PolyFnSig&gt; {
     <span class="kw">let </span>rust_fn_sig = genv.lower_fn_sig(def_id.resolved_id())<span class="question-mark">?</span>.skip_binder();
-    <span class="kw">let </span>expected =
-        Refiner::default_for_item(genv, def_id.resolved_id())<span class="question-mark">?</span>.refine_poly_fn_sig(<span class="kw-2">&amp;</span>rust_fn_sig)<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>expected = Refiner::default_for_item(genv, def_id.resolved_id())<span class="question-mark">?</span>.refine(<span class="kw-2">&amp;</span>rust_fn_sig)<span class="question-mark">?</span>;
 
     <span class="kw">let </span><span class="kw-2">mut </span>zipper = Zipper::new(genv, def_id);
     <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = zipper.zip_poly_fn_sig(fn_sig, <span class="kw-2">&amp;</span>expected) {
@@ -1105,7 +1108,7 @@
         <span class="kw">for </span>(i, (ty_a, ty_b)) <span class="kw">in </span>iter::zip(a.inputs(), b.inputs()).enumerate() {
             <span class="self">self</span>.zip_ty(ty_a, ty_b).map_err(|<span class="kw">_</span>| FnSigErr::FnInput(i))<span class="question-mark">?</span>;
         }
-        <span class="self">self</span>.enter_binders(a.output(), b.output(), |this, output_a, output_b| {
+        <span class="self">self</span>.enter_binders(<span class="kw-2">&amp;</span>a.output, <span class="kw-2">&amp;</span>b.output, |this, output_a, output_b| {
             this.zip_output(output_a, output_b)
         })
     }
@@ -1234,6 +1237,9 @@
                 }
                 <span class="self">self</span>.zip_region(re_a, re_b);
                 <span class="prelude-val">Ok</span>(())
+            }
+            (rty::BaseTy::Foreign(def_id_a), rty::BaseTy::Foreign(def_id_b)) =&gt; {
+                assert_eq_or_incompatible(def_id_a, def_id_b)
             }
             (rty::BaseTy::Closure(..) | rty::BaseTy::Coroutine(..), <span class="kw">_</span>) =&gt; {
                 <span class="macro">bug!</span>(<span class="string">"unexpected type `{a:?}`"</span>);
@@ -1511,12 +1517,12 @@
     <span class="kw">use </span>flux_common::span_bug;
     <span class="kw">use </span>flux_errors::E0999;
     <span class="kw">use </span>flux_macros::Diagnostic;
-    <span class="kw">use </span>flux_middle::{fhir, global_env::GlobalEnv, rty, MaybeExternId};
+    <span class="kw">use </span>flux_middle::{def_id::MaybeExternId, fhir, global_env::GlobalEnv, rty};
     <span class="kw">use </span>flux_rustc_bridge::{
-        ty::{FieldIdx, VariantIdx},
         ToRustc,
+        ty::{FieldIdx, VariantIdx},
     };
-    <span class="kw">use </span>rustc_span::{Span, DUMMY_SP};
+    <span class="kw">use </span>rustc_span::{DUMMY_SP, Span};
 
     <span class="attr">#[derive(Diagnostic)]
     #[diag(fhir_analysis_incompatible_refinement, code = E0999)]

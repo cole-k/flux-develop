@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/fhir/visit.rs`."><title>visit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/fhir/</div>visit.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/fhir/visit.rs`."><title>visit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/fhir/</div>visit.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -503,13 +503,88 @@
 <a href="#502" id="502">502</a>
 <a href="#503" id="503">503</a>
 <a href="#504" id="504">504</a>
-<a href="#505" id="505">505</a></pre></div><pre class="rust"><code><span class="kw">use super</span>::{
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a></pre></div><pre class="rust"><code><span class="kw">use super</span>::{
     AliasReft, AssocItemConstraint, AssocItemConstraintKind, BaseTy, BaseTyKind, Ensures, EnumDef,
-    Expr, ExprKind, FieldDef, FieldExpr, FnDecl, FnOutput, FnSig, FuncSort, GenericArg,
-    GenericBound, Generics, Impl, ImplAssocReft, ImplItem, ImplItemKind, Item, ItemKind, Lifetime,
-    Lit, OpaqueTy, OwnerNode, Path, PathExpr, PathSegment, PolyFuncSort, PolyTraitRef, QPath,
-    RefineParam, Requires, Sort, SortPath, StructDef, TraitAssocReft, TraitItem, TraitItemKind, Ty,
-    TyAlias, TyKind, VariantDef, VariantRet, WhereBoundPredicate,
+    Expr, ExprKind, FieldDef, FieldExpr, FluxItem, FnDecl, FnOutput, FnSig, ForeignItem,
+    ForeignItemKind, FuncSort, GenericArg, GenericBound, Generics, Impl, ImplAssocReft, ImplItem,
+    ImplItemKind, Item, ItemKind, Lifetime, Lit, OpaqueTy, OwnerNode, Path, PathExpr, PathSegment,
+    PolyFuncSort, PolyTraitRef, QPath, Qualifier, RefineParam, Requires, Sort, SortPath, SpecFunc,
+    StructDef, TraitAssocReft, TraitItem, TraitItemKind, Ty, TyAlias, TyKind, VariantDef,
+    VariantRet, WhereBoundPredicate,
 };
 <span class="kw">use </span><span class="kw">crate</span>::fhir::StructKind;
 
@@ -526,6 +601,18 @@
 }
 
 <span class="kw">pub trait </span>Visitor&lt;<span class="lifetime">'v</span>&gt;: Sized {
+    <span class="kw">fn </span>visit_flux_item(<span class="kw-2">&amp;mut </span><span class="self">self</span>, item: <span class="kw-2">&amp;</span>FluxItem&lt;<span class="lifetime">'v</span>&gt;) {
+        walk_flux_item(<span class="self">self</span>, item);
+    }
+
+    <span class="kw">fn </span>visit_qualifier(<span class="kw-2">&amp;mut </span><span class="self">self</span>, qualifier: <span class="kw-2">&amp;</span>Qualifier&lt;<span class="lifetime">'v</span>&gt;) {
+        walk_qualifier(<span class="self">self</span>, qualifier);
+    }
+
+    <span class="kw">fn </span>visit_func(<span class="kw-2">&amp;mut </span><span class="self">self</span>, func: <span class="kw-2">&amp;</span>SpecFunc&lt;<span class="lifetime">'v</span>&gt;) {
+        walk_func(<span class="self">self</span>, func);
+    }
+
     <span class="kw">fn </span>visit_node(<span class="kw-2">&amp;mut </span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>OwnerNode&lt;<span class="lifetime">'v</span>&gt;) {
         walk_node(<span class="self">self</span>, node);
     }
@@ -540,6 +627,10 @@
 
     <span class="kw">fn </span>visit_impl_item(<span class="kw-2">&amp;mut </span><span class="self">self</span>, impl_item: <span class="kw-2">&amp;</span>ImplItem&lt;<span class="lifetime">'v</span>&gt;) {
         walk_impl_item(<span class="self">self</span>, impl_item);
+    }
+
+    <span class="kw">fn </span>visit_foreign_item(<span class="kw-2">&amp;mut </span><span class="self">self</span>, foreign_item: <span class="kw-2">&amp;</span>ForeignItem&lt;<span class="lifetime">'v</span>&gt;) {
+        walk_foreign_item(<span class="self">self</span>, foreign_item);
     }
 
     <span class="kw">fn </span>visit_generics(<span class="kw-2">&amp;mut </span><span class="self">self</span>, generics: <span class="kw-2">&amp;</span>Generics&lt;<span class="lifetime">'v</span>&gt;) {
@@ -685,6 +776,30 @@
     <span class="kw">fn </span>visit_path_expr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _path: <span class="kw-2">&amp;</span>PathExpr&lt;<span class="lifetime">'v</span>&gt;) {}
 }
 
+<span class="kw">fn </span>walk_func&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, func: <span class="kw-2">&amp;</span>SpecFunc&lt;<span class="lifetime">'v</span>&gt;) {
+    <span class="macro">walk_list!</span>(vis, visit_refine_param, func.args);
+    vis.visit_sort(<span class="kw-2">&amp;</span>func.sort);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(body) = <span class="kw-2">&amp;</span>func.body {
+        vis.visit_expr(body);
+    }
+}
+
+<span class="kw">fn </span>walk_qualifier&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, qualifier: <span class="kw-2">&amp;</span>Qualifier&lt;<span class="lifetime">'v</span>&gt;) {
+    <span class="macro">walk_list!</span>(vis, visit_refine_param, qualifier.args);
+    vis.visit_expr(<span class="kw-2">&amp;</span>qualifier.expr);
+}
+
+<span class="kw">fn </span>walk_flux_item&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, item: <span class="kw-2">&amp;</span>FluxItem&lt;<span class="lifetime">'v</span>&gt;) {
+    <span class="kw">match </span>item {
+        FluxItem::Qualifier(qualifier) =&gt; {
+            vis.visit_qualifier(qualifier);
+        }
+        FluxItem::Func(func) =&gt; {
+            vis.visit_func(func);
+        }
+    }
+}
+
 <span class="kw">pub fn </span>walk_impl&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, impl_: <span class="kw-2">&amp;</span>Impl&lt;<span class="lifetime">'v</span>&gt;) {
     <span class="macro">walk_list!</span>(vis, visit_impl_assoc_reft, impl_.assoc_refinements);
 }
@@ -746,6 +861,7 @@
         OwnerNode::Item(item) =&gt; vis.visit_item(item),
         OwnerNode::TraitItem(trait_item) =&gt; vis.visit_trait_item(trait_item),
         OwnerNode::ImplItem(impl_item) =&gt; vis.visit_impl_item(impl_item),
+        OwnerNode::ForeignItem(foreign_item) =&gt; vis.visit_foreign_item(foreign_item),
     }
 }
 
@@ -760,6 +876,11 @@
         }
         ItemKind::Impl(impl_) =&gt; vis.visit_impl(impl_),
         ItemKind::Fn(fn_sig) =&gt; vis.visit_fn_sig(fn_sig),
+        ItemKind::Const(info) =&gt; {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(expr) = info {
+                vis.visit_expr(expr);
+            }
+        }
     }
 }
 
@@ -768,6 +889,7 @@
     <span class="kw">match </span><span class="kw-2">&amp;</span>trait_item.kind {
         TraitItemKind::Fn(fn_sig) =&gt; vis.visit_fn_sig(fn_sig),
         TraitItemKind::Type =&gt; {}
+        TraitItemKind::Const =&gt; {}
     }
 }
 
@@ -775,7 +897,17 @@
     vis.visit_generics(<span class="kw-2">&amp;</span>impl_item.generics);
     <span class="kw">match </span><span class="kw-2">&amp;</span>impl_item.kind {
         ImplItemKind::Fn(fn_sig) =&gt; vis.visit_fn_sig(fn_sig),
+        ImplItemKind::Const =&gt; {}
         ImplItemKind::Type =&gt; {}
+    }
+}
+
+<span class="kw">pub fn </span>walk_foreign_item&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, impl_item: <span class="kw-2">&amp;</span>ForeignItem&lt;<span class="lifetime">'v</span>&gt;) {
+    <span class="kw">match </span><span class="kw-2">&amp;</span>impl_item.kind {
+        ForeignItemKind::Fn(fn_sig, generics) =&gt; {
+            vis.visit_generics(generics);
+            vis.visit_fn_sig(fn_sig);
+        }
     }
 }
 
@@ -795,7 +927,9 @@
 
 <span class="kw">pub fn </span>walk_generics&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, generics: <span class="kw-2">&amp;</span>Generics&lt;<span class="lifetime">'v</span>&gt;) {
     <span class="macro">walk_list!</span>(vis, visit_refine_param, generics.refinement_params);
-    <span class="macro">walk_list!</span>(vis, visit_where_predicate, generics.predicates);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(predicates) = generics.predicates {
+        <span class="macro">walk_list!</span>(vis, visit_where_predicate, predicates);
+    }
 }
 
 <span class="kw">pub fn </span>walk_where_predicate&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, predicate: <span class="kw-2">&amp;</span>WhereBoundPredicate&lt;<span class="lifetime">'v</span>&gt;) {
@@ -844,7 +978,7 @@
     <span class="kw">match </span>arg {
         GenericArg::Lifetime(lft) =&gt; vis.visit_lifetime(lft),
         GenericArg::Type(ty) =&gt; vis.visit_ty(ty),
-        GenericArg::Const(_cst) =&gt; {}
+        GenericArg::Const(<span class="kw">_</span>) | GenericArg::Infer =&gt; {}
     }
 }
 
@@ -889,7 +1023,7 @@
             <span class="macro">walk_list!</span>(vis, visit_poly_trait_ref, poly_traits);
             vis.visit_lifetime(<span class="kw-2">&amp;</span>lft);
         }
-        TyKind::Never | TyKind::Infer =&gt; {}
+        TyKind::Never | TyKind::Infer | TyKind::Err(<span class="kw">_</span>) =&gt; {}
     }
 }
 
@@ -897,6 +1031,7 @@
     <span class="kw">match </span><span class="kw-2">&amp;</span>bty.kind {
         BaseTyKind::Path(path) =&gt; vis.visit_qpath(path),
         BaseTyKind::Slice(ty) =&gt; vis.visit_ty(ty),
+        BaseTyKind::Err(<span class="kw">_</span>) =&gt; {}
     }
 }
 
@@ -940,7 +1075,8 @@
     <span class="kw">match </span>sort {
         Sort::Path(path) =&gt; vis.visit_sort_path(path),
         Sort::Func(func) =&gt; vis.visit_poly_func_sort(func),
-        Sort::Loc | Sort::BitVec(<span class="kw">_</span>) | Sort::Infer =&gt; {}
+        Sort::SortOf(bty) =&gt; vis.visit_bty(bty),
+        Sort::Loc | Sort::BitVec(<span class="kw">_</span>) | Sort::Infer | Sort::Err(<span class="kw">_</span>) =&gt; {}
     }
 }
 
@@ -969,8 +1105,8 @@
 <span class="kw">pub fn </span>walk_expr&lt;<span class="lifetime">'v</span>, V: Visitor&lt;<span class="lifetime">'v</span>&gt;&gt;(vis: <span class="kw-2">&amp;mut </span>V, expr: <span class="kw-2">&amp;</span>Expr&lt;<span class="lifetime">'v</span>&gt;) {
     <span class="kw">match </span>expr.kind {
         ExprKind::Var(path, <span class="kw">_</span>) =&gt; vis.visit_path_expr(<span class="kw-2">&amp;</span>path),
-        ExprKind::Dot(path, _fld) =&gt; {
-            vis.visit_path_expr(<span class="kw-2">&amp;</span>path);
+        ExprKind::Dot(base, _fld) =&gt; {
+            vis.visit_expr(base);
         }
         ExprKind::Literal(lit) =&gt; vis.visit_literal(<span class="kw-2">&amp;</span>lit),
         ExprKind::BinaryOp(_op, e1, e2) =&gt; {
@@ -1006,6 +1142,18 @@
                 vis.visit_expr(<span class="kw-2">&amp;</span>s.expr);
             }
         }
+        ExprKind::BoundedQuant(<span class="kw">_</span>, param, <span class="kw">_</span>, expr) =&gt; {
+            vis.visit_refine_param(<span class="kw-2">&amp;</span>param);
+            vis.visit_expr(expr);
+        }
+        ExprKind::Block(decls, body) =&gt; {
+            <span class="kw">for </span>decl <span class="kw">in </span>decls {
+                vis.visit_expr(<span class="kw-2">&amp;</span>decl.init);
+                vis.visit_refine_param(<span class="kw-2">&amp;</span>decl.param);
+            }
+            vis.visit_expr(body);
+        }
+        ExprKind::Err(<span class="kw">_</span>) =&gt; {}
     }
 }
 </code></pre></div></section></main></body></html>

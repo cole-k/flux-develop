@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-desugar/src/resolver/refinement_resolver.rs`."><title>refinement_resolver.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_desugar" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_desugar/resolver/</div>refinement_resolver.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-desugar/src/resolver/refinement_resolver.rs`."><title>refinement_resolver.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_desugar" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_desugar/resolver/</div>refinement_resolver.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -990,16 +990,30 @@
 <a href="#989" id="989">989</a>
 <a href="#990" id="990">990</a>
 <a href="#991" id="991">991</a>
-<a href="#992" id="992">992</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::ControlFlow;
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::ControlFlow;
 
 <span class="kw">use </span>flux_common::index::IndexGen;
 <span class="kw">use </span>flux_errors::Errors;
 <span class="kw">use </span>flux_middle::{
-    fhir::{<span class="self">self</span>, ExprRes},
     ResolverOutput,
+    fhir::{<span class="self">self</span>, ExprRes},
 };
 <span class="kw">use </span>flux_syntax::{
-    surface::{<span class="self">self</span>, visit::Visitor <span class="kw">as _</span>, Ident, NodeId},
+    surface::{<span class="self">self</span>, Ident, NodeId, visit::Visitor <span class="kw">as _</span>},
     walk_list,
 };
 <span class="kw">use </span>rustc_data_structures::{
@@ -1012,7 +1026,7 @@
     Namespace::{TypeNS, ValueNS},
 };
 <span class="kw">use </span>rustc_middle::ty::TyCtxt;
-<span class="kw">use </span>rustc_span::{sym, ErrorGuaranteed, Symbol};
+<span class="kw">use </span>rustc_span::{ErrorGuaranteed, Symbol, sym};
 
 <span class="kw">use super</span>::{CrateResolver, Segment};
 
@@ -1062,7 +1076,6 @@
     <span class="kw">fn </span>on_fn_sig(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _fn_sig: <span class="kw-2">&amp;</span>surface::FnSig) {}
     <span class="kw">fn </span>on_fn_output(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _output: <span class="kw-2">&amp;</span>surface::FnOutput) {}
     <span class="kw">fn </span>on_loc(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _loc: Ident, _node_id: NodeId) {}
-    <span class="kw">fn </span>on_func(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _func: Ident, _node_id: NodeId) {}
     <span class="kw">fn </span>on_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _path: <span class="kw-2">&amp;</span>surface::ExprPath) {}
     <span class="kw">fn </span>on_base_sort(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _sort: <span class="kw-2">&amp;</span>surface::BaseSort) {}
 }
@@ -1279,13 +1292,6 @@
         }
     }
 
-    <span class="kw">fn </span>visit_expr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, expr: <span class="kw-2">&amp;</span>surface::Expr) {
-        <span class="kw">if let </span>surface::ExprKind::App(func, <span class="kw">_</span>) = <span class="kw-2">&amp;</span>expr.kind {
-            <span class="self">self</span>.on_func(<span class="kw-2">*</span>func, expr.node_id);
-        }
-        surface::visit::walk_expr(<span class="self">self</span>, expr);
-    }
-
     <span class="kw">fn </span>visit_path_expr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>surface::ExprPath) {
         <span class="self">self</span>.on_path(path);
     }
@@ -1331,11 +1337,7 @@
     }
 
     <span class="kw">fn </span>enter_scope(<span class="kw-2">&amp;mut </span><span class="self">self</span>, kind: ScopeKind) -&gt; ControlFlow&lt;()&gt; {
-        <span class="kw">if </span><span class="self">self</span>.kind == kind {
-            ControlFlow::Continue(())
-        } <span class="kw">else </span>{
-            ControlFlow::Break(())
-        }
+        <span class="kw">if </span><span class="self">self</span>.kind == kind { ControlFlow::Continue(()) } <span class="kw">else </span>{ ControlFlow::Break(()) }
     }
 
     <span class="kw">fn </span>on_implicit_param(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ident: Ident, param: fhir::ParamKind, node_id: NodeId) {
@@ -1385,21 +1387,21 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_qualifier(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         qualifier: <span class="kw-2">&amp;</span>surface::Qualifier,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         <span class="self">Self</span>::for_flux_item(resolver, <span class="kw-2">&amp;</span>[]).run(|r| r.visit_qualifier(qualifier))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_defn(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         defn: <span class="kw-2">&amp;</span>surface::SpecFunc,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         <span class="self">Self</span>::for_flux_item(resolver, <span class="kw-2">&amp;</span>defn.sort_vars).run(|r| r.visit_defn(defn))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_fn_sig(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         fn_sig: <span class="kw-2">&amp;</span>surface::FnSig,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_fn_sig(fn_sig))<span class="question-mark">?</span>;
         <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_fn_sig(fn_sig))
     }
@@ -1407,7 +1409,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_struct_def(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         struct_def: <span class="kw-2">&amp;</span>surface::StructDef,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_struct_def(struct_def))<span class="question-mark">?</span>;
         <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_struct_def(struct_def))
     }
@@ -1415,15 +1417,23 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_enum_def(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         enum_def: <span class="kw-2">&amp;</span>surface::EnumDef,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_enum_def(enum_def))<span class="question-mark">?</span>;
         <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_enum_def(enum_def))
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_constant(
+        resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
+        constant_info: <span class="kw-2">&amp;</span>surface::ConstantInfo,
+    ) -&gt; <span class="prelude-ty">Result</span> {
+        IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_constant(constant_info))<span class="question-mark">?</span>;
+        <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_constant(constant_info))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_ty_alias(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         ty_alias: <span class="kw-2">&amp;</span>surface::TyAlias,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_ty_alias(ty_alias))<span class="question-mark">?</span>;
         <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_ty_alias(ty_alias))
     }
@@ -1431,7 +1441,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_impl(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         impl_: <span class="kw-2">&amp;</span>surface::Impl,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_impl(impl_))<span class="question-mark">?</span>;
         <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_impl(impl_))
     }
@@ -1439,7 +1449,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>resolve_trait(
         resolver: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CrateResolver&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'tcx</span>&gt;,
         trait_: <span class="kw-2">&amp;</span>surface::Trait,
-    ) -&gt; <span class="prelude-ty">Result </span>{
+    ) -&gt; <span class="prelude-ty">Result</span> {
         IllegalBinderVisitor::new(resolver).run(|vis| vis.visit_trait(trait_))<span class="question-mark">?</span>;
         <span class="self">Self</span>::for_rust_item(resolver).run(|vis| vis.visit_trait(trait_))
     }
@@ -1456,7 +1466,7 @@
         }
     }
 
-    <span class="kw">fn </span>run(<span class="self">self</span>, f: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>ScopedVisitorWrapper&lt;<span class="self">Self</span>&gt;)) -&gt; <span class="prelude-ty">Result </span>{
+    <span class="kw">fn </span>run(<span class="self">self</span>, f: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>ScopedVisitorWrapper&lt;<span class="self">Self</span>&gt;)) -&gt; <span class="prelude-ty">Result</span> {
         <span class="kw">let </span><span class="kw-2">mut </span>wrapper = <span class="self">self</span>.wrap();
         f(<span class="kw-2">&amp;mut </span>wrapper);
         wrapper.<span class="number">0</span>.finish()
@@ -1498,6 +1508,17 @@
         <span class="prelude-val">None
     </span>}
 
+    <span class="kw">fn </span>try_resolve_enum_variant(<span class="kw-2">&amp;mut </span><span class="self">self</span>, typ: Ident, variant: Ident) -&gt; <span class="prelude-ty">Option</span>&lt;ExprRes&lt;NodeId&gt;&gt; {
+        <span class="kw">if let </span>fhir::Res::Def(<span class="kw">_</span>, enum_def_id) =
+            <span class="self">self</span>.resolver.resolve_ident_with_ribs(typ, TypeNS)<span class="question-mark">?
+        </span>{
+            <span class="kw">let </span>enum_variants = <span class="self">self</span>.resolver.enum_variants.get(<span class="kw-2">&amp;</span>enum_def_id)<span class="question-mark">?</span>;
+            <span class="kw">let </span>variant_def_id = enum_variants.variants.get(<span class="kw-2">&amp;</span>variant.name)<span class="question-mark">?</span>;
+            <span class="kw">return </span><span class="prelude-val">Some</span>(ExprRes::Variant(<span class="kw-2">*</span>variant_def_id));
+        }
+        <span class="prelude-val">None
+    </span>}
+
     <span class="kw">fn </span>resolve_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>surface::ExprPath) {
         <span class="kw">if let </span>[segment] = <span class="kw-2">&amp;</span>path.segments[..]
             &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(res) = <span class="self">self</span>.try_resolve_param(segment.ident)
@@ -1516,12 +1537,19 @@
             <span class="self">self</span>.path_res_map.insert(path.node_id, res);
             <span class="kw">return</span>;
         }
+        <span class="kw">if let </span>[typ, name] = <span class="kw-2">&amp;</span>path.segments[..]
+            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(res) = <span class="self">self</span>.try_resolve_enum_variant(typ.ident, name.ident)
+        {
+            <span class="self">self</span>.path_res_map.insert(path.node_id, res);
+            <span class="kw">return</span>;
+        }
         <span class="kw">if let </span>[segment] = <span class="kw-2">&amp;</span>path.segments[..]
             &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(res) = <span class="self">self</span>.try_resolve_global_func(segment.ident)
         {
             <span class="self">self</span>.path_res_map.insert(path.node_id, res);
             <span class="kw">return</span>;
         }
+
         <span class="self">self</span>.errors.emit(errors::UnresolvedVar::from_path(path));
     }
 
@@ -1545,7 +1573,9 @@
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         segments: <span class="kw-2">&amp;</span>[S],
     ) -&gt; <span class="prelude-ty">Option</span>&lt;ExprRes&lt;NodeId&gt;&gt; {
-        <span class="kw">let </span>res = <span class="kw">match </span><span class="self">self</span>.resolver.resolve_path_with_ribs(segments, ValueNS) {
+        <span class="kw">let </span>path = <span class="self">self</span>.resolver.resolve_path_with_ribs(segments, ValueNS);
+
+        <span class="kw">let </span>res = <span class="kw">match </span>path {
             <span class="prelude-val">Some</span>(r) =&gt; r.full_res()<span class="question-mark">?</span>,
             <span class="kw">_ </span>=&gt; {
                 <span class="self">self</span>.resolver
@@ -1557,6 +1587,7 @@
             fhir::Res::Def(DefKind::ConstParam, def_id) =&gt; <span class="prelude-val">Some</span>(ExprRes::ConstGeneric(def_id)),
             fhir::Res::Def(DefKind::Const, def_id) =&gt; <span class="prelude-val">Some</span>(ExprRes::Const(def_id)),
             fhir::Res::Def(DefKind::Struct | DefKind::Enum, def_id) =&gt; <span class="prelude-val">Some</span>(ExprRes::Ctor(def_id)),
+            fhir::Res::Def(DefKind::Variant, def_id) =&gt; <span class="prelude-val">Some</span>(ExprRes::Variant(def_id)),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -1571,7 +1602,7 @@
 
     <span class="kw">fn </span>try_resolve_global_func(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ident: Ident) -&gt; <span class="prelude-ty">Option</span>&lt;ExprRes&lt;NodeId&gt;&gt; {
         <span class="kw">let </span>kind = <span class="self">self</span>.resolver.func_decls.get(<span class="kw-2">&amp;</span>ident.name)<span class="question-mark">?</span>;
-        <span class="prelude-val">Some</span>(ExprRes::GlobalFunc(<span class="kw-2">*</span>kind, ident.name))
+        <span class="prelude-val">Some</span>(ExprRes::GlobalFunc(<span class="kw-2">*</span>kind))
     }
 
     <span class="kw">fn </span>resolve_sort_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>surface::SortPath) {
@@ -1646,7 +1677,7 @@
         </span>}
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>finish(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>finish(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span> {
         <span class="kw">let </span>param_id_gen = IndexGen::new();
         <span class="kw">let </span><span class="kw-2">mut </span>params = FxIndexMap::default();
 
@@ -1756,10 +1787,6 @@
         <span class="self">self</span>.define_param(param.ident, fhir::ParamKind::Explicit(param.mode), param.node_id, <span class="prelude-val">None</span>);
     }
 
-    <span class="kw">fn </span>on_func(<span class="kw-2">&amp;mut </span><span class="self">self</span>, func: Ident, node_id: NodeId) {
-        <span class="self">self</span>.resolve_ident(func, node_id);
-    }
-
     <span class="kw">fn </span>on_loc(<span class="kw-2">&amp;mut </span><span class="self">self</span>, loc: Ident, node_id: NodeId) {
         <span class="self">self</span>.resolve_ident(loc, node_id);
     }
@@ -1774,6 +1801,7 @@
                 <span class="self">self</span>.resolve_sort_path(path);
             }
             surface::BaseSort::BitVec(<span class="kw">_</span>) =&gt; {}
+            surface::BaseSort::SortOf(..) =&gt; {}
         }
     }
 }
@@ -1827,7 +1855,7 @@
         <span class="self">Self </span>{ scopes: <span class="macro">vec!</span>[], resolver, errors }
     }
 
-    <span class="kw">fn </span>run(<span class="self">self</span>, f: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>ScopedVisitorWrapper&lt;<span class="self">Self</span>&gt;)) -&gt; <span class="prelude-ty">Result </span>{
+    <span class="kw">fn </span>run(<span class="self">self</span>, f: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>ScopedVisitorWrapper&lt;<span class="self">Self</span>&gt;)) -&gt; <span class="prelude-ty">Result</span> {
         <span class="kw">let </span><span class="kw-2">mut </span>vis = <span class="self">self</span>.wrap();
         f(<span class="kw-2">&amp;mut </span>vis);
         vis.<span class="number">0</span>.errors.into_result()
@@ -1882,7 +1910,7 @@
     <span class="kw">use </span>flux_macros::Diagnostic;
     <span class="kw">use </span>flux_syntax::surface;
     <span class="kw">use </span>itertools::Itertools;
-    <span class="kw">use </span>rustc_span::{symbol::Ident, Span, Symbol};
+    <span class="kw">use </span>rustc_span::{Span, Symbol, symbol::Ident};
 
     <span class="attr">#[derive(Diagnostic)]
     #[diag(desugar_duplicate_param, code = E0999)]

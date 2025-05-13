@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/queries.rs`."><title>queries.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/</div>queries.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-middle/src/queries.rs`."><title>queries.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="flux_middle" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_middle/</div>queries.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -852,13 +852,96 @@
 <a href="#851" id="851">851</a>
 <a href="#852" id="852">852</a>
 <a href="#853" id="853">853</a>
-<a href="#854" id="854">854</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{
+<a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
+<a href="#898" id="898">898</a>
+<a href="#899" id="899">899</a>
+<a href="#900" id="900">900</a>
+<a href="#901" id="901">901</a>
+<a href="#902" id="902">902</a>
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{
     cell::{OnceCell, RefCell},
     rc::Rc,
 };
 
 <span class="kw">use </span>flux_arc_interner::List;
-<span class="kw">use </span>flux_errors::{ErrorGuaranteed, E0999};
+<span class="kw">use </span>flux_common::bug;
+<span class="kw">use </span>flux_errors::{E0999, ErrorGuaranteed};
 <span class="kw">use </span>flux_rustc_bridge::{
     <span class="self">self</span>, def_id_to_string,
     lowering::{<span class="self">self</span>, Lower, UnsupportedErr},
@@ -869,19 +952,20 @@
 <span class="kw">use </span>rustc_errors::Diagnostic;
 <span class="kw">use </span>rustc_hir::{
     def::DefKind,
-    def_id::{DefId, LocalDefId},
+    def_id::{CrateNum, DefId, LOCAL_CRATE, LocalDefId},
 };
+<span class="kw">use </span>rustc_index::IndexVec;
 <span class="kw">use </span>rustc_macros::{Decodable, Encodable};
 <span class="kw">use </span>rustc_span::{Span, Symbol};
 
 <span class="kw">use crate</span>::{
+    def_id::{FluxDefId, FluxId, FluxLocalDefId, MaybeExternId, ResolvedDefId},
     fhir,
     global_env::GlobalEnv,
     rty::{
         <span class="self">self</span>,
-        refining::{<span class="self">self</span>, Refiner},
+        refining::{<span class="self">self</span>, Refine, Refiner},
     },
-    MaybeExternId, ResolvedDefId,
 };
 
 <span class="kw">type </span>Cache&lt;K, V&gt; = RefCell&lt;UnordMap&lt;K, V&gt;&gt;;
@@ -924,8 +1008,9 @@
     InvalidGenericArg {
         def_id: DefId,
     },
-    InvalidAssocReft {
-        container_def_id: DefId,
+    MissingAssocReft {
+        impl_id: DefId,
+        trait_id: DefId,
         name: Symbol,
     },
     <span class="doccomment">/// Used to report bugs, typically this means executing an arm in a match we thought it was
@@ -983,11 +1068,12 @@
     ) -&gt; QueryResult&lt;UnordMap&lt;LocalDefId, fhir::Node&lt;<span class="lifetime">'genv</span>&gt;&gt;&gt;,
     <span class="kw">pub </span>fhir_crate: <span class="kw">for</span>&lt;<span class="lifetime">'genv</span>&gt; <span class="kw">fn</span>(GlobalEnv&lt;<span class="lifetime">'genv</span>, <span class="lifetime">'_</span>&gt;) -&gt; fhir::FluxItems&lt;<span class="lifetime">'genv</span>&gt;,
     <span class="kw">pub </span>qualifiers: <span class="kw">fn</span>(GlobalEnv) -&gt; QueryResult&lt;Vec&lt;rty::Qualifier&gt;&gt;,
-    <span class="kw">pub </span>spec_func_defns: <span class="kw">fn</span>(GlobalEnv) -&gt; QueryResult&lt;rty::SpecFuncDefns&gt;,
-    <span class="kw">pub </span>spec_func_decl: <span class="kw">fn</span>(GlobalEnv, Symbol) -&gt; QueryResult&lt;rty::SpecFuncDecl&gt;,
+    <span class="kw">pub </span>normalized_defns: <span class="kw">fn</span>(GlobalEnv) -&gt; rty::NormalizedDefns,
+    <span class="kw">pub </span>func_sort: <span class="kw">fn</span>(GlobalEnv, FluxLocalDefId) -&gt; rty::PolyFuncSort,
     <span class="kw">pub </span>adt_sort_def_of: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::AdtSortDef&gt;,
     <span class="kw">pub </span>check_wf: <span class="kw">for</span>&lt;<span class="lifetime">'genv</span>&gt; <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;Rc&lt;rty::WfckResults&gt;&gt;,
     <span class="kw">pub </span>adt_def: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::AdtDef&gt;,
+    <span class="kw">pub </span>constant_info: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::ConstantInfo&gt;,
     <span class="kw">pub </span>type_of: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::TyOrCtor&gt;&gt;,
     <span class="kw">pub </span>variants_of: <span class="kw">fn</span>(
         GlobalEnv,
@@ -995,16 +1081,18 @@
     ) -&gt; QueryResult&lt;rty::Opaqueness&lt;rty::EarlyBinder&lt;rty::PolyVariants&gt;&gt;&gt;,
     <span class="kw">pub </span>fn_sig: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::PolyFnSig&gt;&gt;,
     <span class="kw">pub </span>generics_of: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::Generics&gt;,
-    <span class="kw">pub </span>refinement_generics_of: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::RefinementGenerics&gt;,
+    <span class="kw">pub </span>refinement_generics_of:
+        <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::RefinementGenerics&gt;&gt;,
     <span class="kw">pub </span>predicates_of:
         <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::GenericPredicates&gt;&gt;,
     <span class="kw">pub </span>assoc_refinements_of: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::AssocRefinements&gt;,
     <span class="kw">pub </span>sort_of_assoc_reft:
-        <span class="kw">fn</span>(GlobalEnv, LocalDefId, Symbol) -&gt; QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::FuncSort&gt;&gt;&gt;,
-    <span class="kw">pub </span>assoc_refinement_def:
-        <span class="kw">fn</span>(GlobalEnv, LocalDefId, Symbol) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;,
-    <span class="kw">pub </span>default_assoc_refinement_def:
-        <span class="kw">fn</span>(GlobalEnv, LocalDefId, Symbol) -&gt; QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt;,
+        <span class="kw">fn</span>(GlobalEnv, FluxId&lt;MaybeExternId&gt;) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::FuncSort&gt;&gt;,
+    <span class="kw">pub </span>assoc_refinement_body:
+        <span class="kw">fn</span>(GlobalEnv, FluxId&lt;MaybeExternId&gt;) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;,
+    <span class="attr">#[allow(clippy::type_complexity)]
+    </span><span class="kw">pub </span>default_assoc_refinement_body:
+        <span class="kw">fn</span>(GlobalEnv, FluxId&lt;MaybeExternId&gt;) -&gt; QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt;,
     <span class="kw">pub </span>item_bounds: <span class="kw">fn</span>(GlobalEnv, LocalDefId) -&gt; QueryResult&lt;rty::EarlyBinder&lt;List&lt;rty::Clause&gt;&gt;&gt;,
 }
 
@@ -1021,8 +1109,8 @@
             resolve_crate: |<span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             desugar: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             fhir_crate: |<span class="kw">_</span>| <span class="macro">empty_query!</span>(),
-            spec_func_defns: |<span class="kw">_</span>| <span class="macro">empty_query!</span>(),
-            spec_func_decl: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
+            normalized_defns: |<span class="kw">_</span>| <span class="macro">empty_query!</span>(),
+            func_sort: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             qualifiers: |<span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             adt_sort_def_of: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             check_wf: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
@@ -1034,10 +1122,11 @@
             refinement_generics_of: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             predicates_of: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             assoc_refinements_of: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
-            assoc_refinement_def: |<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
-            default_assoc_refinement_def: |<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
-            sort_of_assoc_reft: |<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
+            assoc_refinement_body: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
+            default_assoc_refinement_body: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
+            sort_of_assoc_reft: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
             item_bounds: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
+            constant_info: |<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">empty_query!</span>(),
         }
     }
 }
@@ -1053,21 +1142,21 @@
     lower_predicates_of: Cache&lt;DefId, QueryResult&lt;ty::GenericPredicates&gt;&gt;,
     lower_type_of: Cache&lt;DefId, QueryResult&lt;ty::EarlyBinder&lt;ty::Ty&gt;&gt;&gt;,
     lower_fn_sig: Cache&lt;DefId, QueryResult&lt;ty::EarlyBinder&lt;ty::PolyFnSig&gt;&gt;&gt;,
-    defns: OnceCell&lt;QueryResult&lt;rty::SpecFuncDefns&gt;&gt;,
-    func_decls: Cache&lt;Symbol, QueryResult&lt;rty::SpecFuncDecl&gt;&gt;,
+    normalized_defns: Cache&lt;CrateNum, Rc&lt;rty::NormalizedDefns&gt;&gt;,
+    func_sort: Cache&lt;FluxDefId, rty::PolyFuncSort&gt;,
     qualifiers: OnceCell&lt;QueryResult&lt;Vec&lt;rty::Qualifier&gt;&gt;&gt;,
     adt_sort_def_of: Cache&lt;DefId, QueryResult&lt;rty::AdtSortDef&gt;&gt;,
     check_wf: Cache&lt;LocalDefId, QueryResult&lt;Rc&lt;rty::WfckResults&gt;&gt;&gt;,
     adt_def: Cache&lt;DefId, QueryResult&lt;rty::AdtDef&gt;&gt;,
+    constant_info: Cache&lt;DefId, QueryResult&lt;rty::ConstantInfo&gt;&gt;,
     generics_of: Cache&lt;DefId, QueryResult&lt;rty::Generics&gt;&gt;,
-    refinement_generics_of: Cache&lt;DefId, QueryResult&lt;rty::RefinementGenerics&gt;&gt;,
+    refinement_generics_of: Cache&lt;DefId, QueryResult&lt;rty::EarlyBinder&lt;rty::RefinementGenerics&gt;&gt;&gt;,
     predicates_of: Cache&lt;DefId, QueryResult&lt;rty::EarlyBinder&lt;rty::GenericPredicates&gt;&gt;&gt;,
     assoc_refinements_of: Cache&lt;DefId, QueryResult&lt;rty::AssocRefinements&gt;&gt;,
-    assoc_refinement_def: Cache&lt;(DefId, Symbol), QueryResult&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt;,
-    default_assoc_refinement_def:
-        Cache&lt;(DefId, Symbol), QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt;&gt;,
-    sort_of_assoc_reft:
-        Cache&lt;(DefId, Symbol), QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::FuncSort&gt;&gt;&gt;&gt;,
+    assoc_refinement_body: Cache&lt;FluxDefId, QueryResult&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt;,
+    default_assoc_refinement_body:
+        Cache&lt;FluxDefId, QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt;&gt;,
+    sort_of_assoc_reft: Cache&lt;FluxDefId, QueryResult&lt;rty::EarlyBinder&lt;rty::FuncSort&gt;&gt;&gt;,
     item_bounds: Cache&lt;DefId, QueryResult&lt;rty::EarlyBinder&lt;List&lt;rty::Clause&gt;&gt;&gt;&gt;,
     type_of: Cache&lt;DefId, QueryResult&lt;rty::EarlyBinder&lt;rty::TyOrCtor&gt;&gt;&gt;,
     variants_of: Cache&lt;DefId, QueryResult&lt;rty::Opaqueness&lt;rty::EarlyBinder&lt;rty::PolyVariants&gt;&gt;&gt;&gt;,
@@ -1088,18 +1177,19 @@
             lower_predicates_of: Default::default(),
             lower_type_of: Default::default(),
             lower_fn_sig: Default::default(),
-            defns: Default::default(),
-            func_decls: Default::default(),
+            normalized_defns: Default::default(),
+            func_sort: Default::default(),
             qualifiers: Default::default(),
             adt_sort_def_of: Default::default(),
             check_wf: Default::default(),
             adt_def: Default::default(),
+            constant_info: Default::default(),
             generics_of: Default::default(),
             refinement_generics_of: Default::default(),
             predicates_of: Default::default(),
             assoc_refinements_of: Default::default(),
-            assoc_refinement_def: Default::default(),
-            default_assoc_refinement_def: Default::default(),
+            assoc_refinement_body: Default::default(),
+            default_assoc_refinement_body: Default::default(),
             sort_of_assoc_reft: Default::default(),
             item_bounds: Default::default(),
             type_of: Default::default(),
@@ -1230,19 +1320,37 @@
         })
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>spec_func_defns(<span class="kw-2">&amp;</span><span class="self">self</span>, genv: GlobalEnv) -&gt; QueryResult&lt;<span class="kw-2">&amp;</span>rty::SpecFuncDefns&gt; {
-        <span class="self">self</span>.defns
-            .get_or_init(|| (<span class="self">self</span>.providers.spec_func_defns)(genv))
-            .as_ref()
-            .map_err(Clone::clone)
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>func_decl(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>normalized_defns(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         genv: GlobalEnv,
-        name: Symbol,
-    ) -&gt; QueryResult&lt;rty::SpecFuncDecl&gt; {
-        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.func_decls, name, || (<span class="self">self</span>.providers.spec_func_decl)(genv, name))
+        krate: CrateNum,
+    ) -&gt; Rc&lt;rty::NormalizedDefns&gt; {
+        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.normalized_defns, krate, || {
+            <span class="kw">if </span>krate == LOCAL_CRATE {
+                Rc::new((<span class="self">self</span>.providers.normalized_defns)(genv))
+            } <span class="kw">else </span>{
+                genv.cstore().normalized_defns(krate)
+            }
+        })
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>func_sort(<span class="kw-2">&amp;</span><span class="self">self</span>, genv: GlobalEnv, def_id: FluxDefId) -&gt; rty::PolyFuncSort {
+        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.func_sort, def_id, || {
+            dispatch_query_flux_id(
+                genv,
+                def_id,
+                |def_id| {
+                    <span class="comment">// refinement functions cannot be extern specs so we simply grab the local id
+                    </span>(<span class="self">self</span>.providers.func_sort)(genv, def_id.local_id())
+                },
+                |def_id| genv.cstore().func_sort(def_id),
+                |<span class="kw">_</span>| {
+                    <span class="macro">bug!</span>(
+                        <span class="string">"cannot generate default function sort, the refinement must be defined somewhere"
+                    </span>)
+                },
+            )
+        })
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>qualifiers(<span class="kw-2">&amp;</span><span class="self">self</span>, genv: GlobalEnv) -&gt; QueryResult&lt;<span class="kw-2">&amp;</span>[rty::Qualifier]&gt; {
@@ -1263,7 +1371,10 @@
                 def_id,
                 |def_id| (<span class="self">self</span>.providers.adt_sort_def_of)(genv, def_id.local_id()),
                 |def_id| genv.cstore().adt_sort_def(def_id),
-                |def_id| <span class="prelude-val">Ok</span>(rty::AdtSortDef::new(def_id, <span class="macro">vec!</span>[], <span class="macro">vec!</span>[])),
+                |def_id| {
+                    <span class="kw">let </span>variants = IndexVec::from([rty::AdtSortVariant::new(<span class="macro">vec!</span>[])]);
+                    <span class="prelude-val">Ok</span>(rty::AdtSortDef::new(def_id, <span class="macro">vec!</span>[], variants, <span class="bool-val">false</span>, <span class="bool-val">true</span>))
+                },
             )
         })
     }
@@ -1274,6 +1385,38 @@
         def_id: LocalDefId,
     ) -&gt; QueryResult&lt;Rc&lt;rty::WfckResults&gt;&gt; {
         run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.check_wf, def_id, || (<span class="self">self</span>.providers.check_wf)(genv, def_id))
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>constant_info(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        genv: GlobalEnv,
+        def_id: DefId,
+    ) -&gt; QueryResult&lt;rty::ConstantInfo&gt; {
+        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.constant_info, def_id, || {
+            dispatch_query(
+                genv,
+                def_id,
+                |def_id| (<span class="self">self</span>.providers.constant_info)(genv, def_id.local_id()),
+                |def_id| genv.cstore().constant_info(def_id),
+                |def_id| {
+                    <span class="comment">// TODO(RJ): fix duplication with [`conv_constant`]` in `flux-fhir-analysis`
+                    </span><span class="kw">let </span>ty = genv.tcx().type_of(def_id).no_bound_vars().unwrap();
+                    <span class="kw">if </span>ty.is_integral() {
+                        <span class="kw">let </span>val = genv.tcx().const_eval_poly(def_id).ok().and_then(|val| {
+                            <span class="kw">let </span>val = val.try_to_scalar_int()<span class="question-mark">?</span>;
+                            rty::Constant::from_scalar_int(genv.tcx(), val, <span class="kw-2">&amp;</span>ty)
+                        });
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(constant_) = val {
+                            <span class="kw">return </span><span class="prelude-val">Ok</span>(rty::ConstantInfo::Interpreted(
+                                rty::Expr::constant(constant_),
+                                rty::Sort::Int,
+                            ));
+                        }
+                    }
+                    <span class="prelude-val">Ok</span>(rty::ConstantInfo::Uninterpreted)
+                },
+            )
+        })
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>adt_def(<span class="kw-2">&amp;</span><span class="self">self</span>, genv: GlobalEnv, def_id: DefId) -&gt; QueryResult&lt;rty::AdtDef&gt; {
@@ -1298,7 +1441,9 @@
                 def_id,
                 |def_id| (<span class="self">self</span>.providers.generics_of)(genv, def_id.local_id()),
                 |def_id| genv.cstore().generics_of(def_id),
-                |def_id| refining::refine_generics(genv, def_id, <span class="kw-2">&amp;</span>genv.lower_generics_of(def_id)),
+                |def_id| {
+                    <span class="prelude-val">Ok</span>(refining::refine_generics(genv, def_id, <span class="kw-2">&amp;</span>genv.lower_generics_of(def_id)))
+                },
             )
         })
     }
@@ -1307,7 +1452,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         genv: GlobalEnv,
         def_id: DefId,
-    ) -&gt; QueryResult&lt;rty::RefinementGenerics&gt; {
+    ) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::RefinementGenerics&gt;&gt; {
         run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.refinement_generics_of, def_id, || {
             dispatch_query(
                 genv,
@@ -1316,11 +1461,11 @@
                 |def_id| genv.cstore().refinement_generics_of(def_id),
                 |def_id| {
                     <span class="kw">let </span>parent = genv.tcx().generics_of(def_id).parent;
-                    <span class="prelude-val">Ok</span>(rty::RefinementGenerics {
+                    <span class="prelude-val">Ok</span>(rty::EarlyBinder(rty::RefinementGenerics {
                         parent,
                         parent_count: <span class="number">0</span>,
                         own_params: List::empty(),
-                    })
+                    }))
                 },
             )
         })
@@ -1343,10 +1488,8 @@
                         .item_bounds(def_id)
                         .skip_binder()
                         .lower(genv.tcx())
-                        .map_err(|err| QueryErr::unsupported(def_id, err))<span class="question-mark">?</span>;
-
-                    <span class="kw">let </span>clauses =
-                        Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>.refine_clauses(<span class="kw-2">&amp;</span>clauses)<span class="question-mark">?</span>;
+                        .map_err(|err| QueryErr::unsupported(def_id, err))<span class="question-mark">?
+                        </span>.refine(<span class="kw-2">&amp;</span>Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
 
                     <span class="prelude-val">Ok</span>(rty::EarlyBinder(clauses))
                 },
@@ -1366,9 +1509,9 @@
                 |def_id| (<span class="self">self</span>.providers.predicates_of)(genv, def_id.local_id()),
                 |def_id| genv.cstore().predicates_of(def_id),
                 |def_id| {
-                    <span class="kw">let </span>predicates = genv.lower_predicates_of(def_id)<span class="question-mark">?</span>;
-                    <span class="kw">let </span>predicates = Refiner::default_for_item(genv, def_id)<span class="question-mark">?
-                        </span>.refine_generic_predicates(<span class="kw-2">&amp;</span>predicates)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>predicates = genv
+                        .lower_predicates_of(def_id)<span class="question-mark">?
+                        </span>.refine(<span class="kw-2">&amp;</span>Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
                     <span class="prelude-val">Ok</span>(rty::EarlyBinder(predicates))
                 },
             )
@@ -1391,21 +1534,20 @@
         })
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>assoc_refinement_def(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>assoc_refinement_body(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         genv: GlobalEnv,
-        impl_id: DefId,
-        name: Symbol,
+        impl_assoc_id: FluxDefId,
     ) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt; {
-        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.assoc_refinement_def, (impl_id, name), || {
-            dispatch_query(
+        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.assoc_refinement_body, impl_assoc_id, || {
+            dispatch_query_flux_id(
                 genv,
-                impl_id,
-                |impl_id| (<span class="self">self</span>.providers.assoc_refinement_def)(genv, impl_id.local_id(), name),
-                |impl_id| genv.cstore().assoc_refinements_def((impl_id, name)),
-                |impl_id| {
+                impl_assoc_id,
+                |impl_assoc_id| (<span class="self">self</span>.providers.assoc_refinement_body)(genv, impl_assoc_id),
+                |impl_assoc_id| genv.cstore().assoc_refinements_def(impl_assoc_id),
+                |impl_assoc_id| {
                     <span class="prelude-val">Err</span>(<span class="macro">query_bug!</span>(
-                        impl_id,
+                        impl_assoc_id.parent(),
                         <span class="string">"cannot generate default associate refinement for extern impl"
                     </span>))
                 },
@@ -1413,26 +1555,22 @@
         })
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>default_assoc_refinement_def(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>default_assoc_refinement_body(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         genv: GlobalEnv,
-        trait_id: DefId,
-        name: Symbol,
+        trait_assoc_id: FluxDefId,
     ) -&gt; QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::Lambda&gt;&gt;&gt; {
-        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.default_assoc_refinement_def, (trait_id, name), || {
-            dispatch_query(
+        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.default_assoc_refinement_body, trait_assoc_id, || {
+            dispatch_query_flux_id(
                 genv,
-                trait_id,
-                |trait_id| {
-                    (<span class="self">self</span>.providers.default_assoc_refinement_def)(genv, trait_id.local_id(), name)
+                trait_assoc_id,
+                |trait_assoc_id| {
+                    (<span class="self">self</span>.providers.default_assoc_refinement_body)(genv, trait_assoc_id)
                 },
-                |trait_id| {
-                    genv.cstore()
-                        .default_assoc_refinements_def((trait_id, name))
-                },
-                |trait_id| {
+                |trait_assoc_id| genv.cstore().default_assoc_refinements_def(trait_assoc_id),
+                |trait_assoc_id| {
                     <span class="prelude-val">Err</span>(<span class="macro">query_bug!</span>(
-                        trait_id,
+                        trait_assoc_id.parent(),
                         <span class="string">"cannot generate default assoc refinement for extern trait"
                     </span>))
                 },
@@ -1443,18 +1581,17 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sort_of_assoc_reft(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         genv: GlobalEnv,
-        def_id: DefId,
-        name: Symbol,
-    ) -&gt; QueryResult&lt;<span class="prelude-ty">Option</span>&lt;rty::EarlyBinder&lt;rty::FuncSort&gt;&gt;&gt; {
-        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.sort_of_assoc_reft, (def_id, name), || {
-            dispatch_query(
+        assoc_id: FluxDefId,
+    ) -&gt; QueryResult&lt;rty::EarlyBinder&lt;rty::FuncSort&gt;&gt; {
+        run_with_cache(<span class="kw-2">&amp;</span><span class="self">self</span>.sort_of_assoc_reft, assoc_id, || {
+            dispatch_query_flux_id(
                 genv,
-                def_id,
-                |def_id| (<span class="self">self</span>.providers.sort_of_assoc_reft)(genv, def_id.local_id(), name),
-                |def_id| genv.cstore().sort_of_assoc_reft((def_id, name)),
-                |def_id| {
+                assoc_id,
+                |assoc_id| (<span class="self">self</span>.providers.sort_of_assoc_reft)(genv, assoc_id),
+                |assoc_id| genv.cstore().sort_of_assoc_reft(assoc_id),
+                |assoc_id| {
                     <span class="prelude-val">Err</span>(<span class="macro">query_bug!</span>(
-                        def_id,
+                        assoc_id.parent(),
                         <span class="string">"cannot generate default sort for assoc refinement in extern crate"
                     </span>))
                 },
@@ -1530,9 +1667,11 @@
                 |def_id| (<span class="self">self</span>.providers.fn_sig)(genv, def_id.local_id()),
                 |def_id| genv.cstore().fn_sig(def_id),
                 |def_id| {
-                    <span class="kw">let </span>fn_sig = genv.lower_fn_sig(def_id)<span class="question-mark">?</span>.skip_binder();
-                    <span class="kw">let </span>fn_sig =
-                        Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>.refine_poly_fn_sig(<span class="kw-2">&amp;</span>fn_sig)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>fn_sig = genv
+                        .lower_fn_sig(def_id)<span class="question-mark">?
+                        </span>.skip_binder()
+                        .refine(<span class="kw-2">&amp;</span>Refiner::default_for_item(genv, def_id)<span class="question-mark">?</span>)<span class="question-mark">?
+                        </span>.hoist_input_binders();
                     <span class="prelude-val">Ok</span>(rty::EarlyBinder(fn_sig))
                 },
             )
@@ -1570,6 +1709,26 @@
             </span>default(def_id)
         }
     }
+}
+
+<span class="kw">fn </span>dispatch_query_flux_id&lt;R&gt;(
+    genv: GlobalEnv,
+    def_id: FluxId&lt;DefId&gt;,
+    local: <span class="kw">impl </span>FnOnce(FluxId&lt;MaybeExternId&gt;) -&gt; R,
+    external: <span class="kw">impl </span>FnOnce(FluxId&lt;DefId&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;R&gt;,
+    default: <span class="kw">impl </span>FnOnce(FluxId&lt;DefId&gt;) -&gt; R,
+) -&gt; R {
+    <span class="attr">#[allow(
+        clippy::disallowed_methods,
+        reason = <span class="string">"we are mapping the parent id to a different representation which still guarantees the existence of the item"
+    </span>)]
+    </span>dispatch_query(
+        genv,
+        def_id.parent(),
+        |container_id| local(FluxId::new(container_id, def_id.name())),
+        |container_id| external(FluxId::new(container_id, def_id.name())),
+        |container_id| default(FluxId::new(container_id, def_id.name())),
+    )
 }
 
 <span class="kw">fn </span>run_with_cache&lt;K, V&gt;(cache: <span class="kw-2">&amp;</span>Cache&lt;K, V&gt;, key: K, f: <span class="kw">impl </span>FnOnce() -&gt; V) -&gt; V
@@ -1620,10 +1779,10 @@
                         diag.code(E0999);
                         diag
                     }
-                    QueryErr::InvalidAssocReft { container_def_id: impl_id, name } =&gt; {
+                    QueryErr::MissingAssocReft { impl_id, name, .. } =&gt; {
                         <span class="kw">let </span>def_span = tcx.def_span(impl_id);
                         <span class="kw">let </span><span class="kw-2">mut </span>diag =
-                            dcx.struct_span_err(def_span, fluent::middle_query_invalid_assoc_reft);
+                            dcx.struct_span_err(def_span, fluent::middle_query_missing_assoc_reft);
                         diag.arg(<span class="string">"name"</span>, name);
                         diag.code(E0999);
                         diag
@@ -1680,9 +1839,10 @@
                         diag.span_label(<span class="self">self</span>.span, fluent::_subdiag::label);
                         diag
                     }
-                    QueryErr::InvalidAssocReft { .. } =&gt; {
+                    QueryErr::MissingAssocReft { name, .. } =&gt; {
                         <span class="kw">let </span><span class="kw-2">mut </span>diag = dcx
-                            .struct_span_err(<span class="self">self</span>.span, fluent::middle_query_invalid_assoc_reft_at);
+                            .struct_span_err(<span class="self">self</span>.span, fluent::middle_query_missing_assoc_reft_at);
+                        diag.arg(<span class="string">"name"</span>, name);
                         diag.code(E0999);
                         diag
                     }
@@ -1705,5 +1865,9 @@
     <span class="kw">fn </span>from(err: ErrorGuaranteed) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::Emitted(err)
     }
+}
+
+<span class="kw">pub fn </span>try_query&lt;T&gt;(f: <span class="kw">impl </span>FnOnce() -&gt; QueryResult&lt;T&gt;) -&gt; QueryResult&lt;T&gt; {
+    f()
 }
 </code></pre></div></section></main></body></html>

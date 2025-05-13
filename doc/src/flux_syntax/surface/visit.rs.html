@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-syntax/src/surface/visit.rs`."><title>visit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-590a400c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (b3f75cc87 2024-11-02)" data-channel="nightly" data-search-js="search-c5a66128.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_syntax/surface/</div>visit.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/flux-syntax/src/surface/visit.rs`."><title>visit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="flux_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">flux_syntax/surface/</div>visit.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -519,10 +519,43 @@
 <a href="#518" id="518">518</a>
 <a href="#519" id="519">519</a>
 <a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a></pre></div><pre class="rust"><code><span class="kw">use </span>rustc_span::symbol::Ident;
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a></pre></div><pre class="rust"><code><span class="doccomment">//! A visitor for types in [`surface`]
+//!
+//! In general there's no specific order except that [refinement parameters] should be
+//! visited in an order that matches their scope. Name resolution relies on this gurantee.
+//!
+//! [`surface`]: crate::surface
+//! [refinement parameters]: crate::surface::RefineParam
+</span><span class="kw">use </span>rustc_span::symbol::Ident;
 
 <span class="kw">use super</span>::{
-    AliasReft, Async, BaseSort, BaseTy, BaseTyKind, ConstArg, ConstructorArg, Ensures, EnumDef,
+    Async, BaseSort, BaseTy, BaseTyKind, ConstArg, ConstantInfo, ConstructorArg, Ensures, EnumDef,
     Expr, ExprKind, ExprPath, ExprPathSegment, FieldExpr, FnInput, FnOutput, FnRetTy, FnSig,
     GenericArg, GenericArgKind, GenericParam, Generics, Impl, ImplAssocReft, Indices, Lit, Path,
     PathSegment, Qualifier, RefineArg, RefineParam, Sort, SortPath, SpecFunc, StructDef, Trait,
@@ -596,6 +629,10 @@
 
     <span class="kw">fn </span>visit_struct_def(<span class="kw-2">&amp;mut </span><span class="self">self</span>, struct_def: <span class="kw-2">&amp;</span>StructDef) {
         walk_struct_def(<span class="self">self</span>, struct_def);
+    }
+
+    <span class="kw">fn </span>visit_constant(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _constant: <span class="kw-2">&amp;</span>ConstantInfo) {
+        walk_constant(<span class="self">self</span>, _constant);
     }
 
     <span class="kw">fn </span>visit_enum_def(<span class="kw-2">&amp;mut </span><span class="self">self</span>, enum_def: <span class="kw-2">&amp;</span>EnumDef) {
@@ -679,10 +716,6 @@
             ConstructorArg::FieldExpr(field_expr) =&gt; walk_field_expr(<span class="self">self</span>, field_expr),
             ConstructorArg::Spread(spread) =&gt; <span class="self">self</span>.visit_expr(<span class="kw-2">&amp;</span>spread.expr),
         }
-    }
-
-    <span class="kw">fn </span>visit_alias_pred(<span class="kw-2">&amp;mut </span><span class="self">self</span>, alias_pred: <span class="kw-2">&amp;</span>AliasReft) {
-        walk_alias_pred(<span class="self">self</span>, alias_pred);
     }
 
     <span class="kw">fn </span>visit_path_expr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, qpath: <span class="kw-2">&amp;</span>ExprPath) {
@@ -772,6 +805,10 @@
     <span class="kw">match </span>bsort {
         BaseSort::BitVec(_len) =&gt; {}
         BaseSort::Path(path) =&gt; vis.visit_sort_path(path),
+        BaseSort::SortOf(qself, path) =&gt; {
+            vis.visit_ty(qself);
+            vis.visit_path(path);
+        }
     }
 }
 
@@ -788,6 +825,11 @@
         vis.visit_refine_param(index);
     }
     vis.visit_ty(<span class="kw-2">&amp;</span>ty_alias.ty);
+}
+<span class="kw">pub fn </span>walk_constant&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, constant_info: <span class="kw-2">&amp;</span>ConstantInfo) {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(expr) = <span class="kw-2">&amp;</span>constant_info.expr {
+        vis.visit_expr(expr);
+    }
 }
 
 <span class="kw">pub fn </span>walk_struct_def&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, struct_def: <span class="kw-2">&amp;</span>StructDef) {
@@ -846,7 +888,9 @@
 
 <span class="kw">pub fn </span>walk_generics&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, generics: <span class="kw-2">&amp;</span>Generics) {
     <span class="macro">walk_list!</span>(vis, visit_generic_param, <span class="kw-2">&amp;</span>generics.params);
-    <span class="macro">walk_list!</span>(vis, visit_where_predicate, <span class="kw-2">&amp;</span>generics.predicates);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(predicates) = <span class="kw-2">&amp;</span>generics.predicates {
+        <span class="macro">walk_list!</span>(vis, visit_where_predicate, predicates);
+    }
 }
 
 <span class="kw">pub fn </span>walk_fn_input&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, arg: <span class="kw-2">&amp;</span>FnInput) {
@@ -986,12 +1030,6 @@
     <span class="macro">walk_list!</span>(vis, visit_generic_arg, <span class="kw-2">&amp;</span>segment.args);
 }
 
-<span class="kw">pub fn </span>walk_alias_pred&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, alias: <span class="kw-2">&amp;</span>AliasReft) {
-    vis.visit_ty(<span class="kw-2">&amp;</span>alias.qself);
-    vis.visit_path(<span class="kw-2">&amp;</span>alias.path);
-    vis.visit_ident(alias.name);
-}
-
 <span class="kw">pub fn </span>walk_field_expr&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, expr: <span class="kw-2">&amp;</span>FieldExpr) {
     vis.visit_ident(expr.ident);
     vis.visit_expr(<span class="kw-2">&amp;</span>expr.expr);
@@ -1000,8 +1038,8 @@
 <span class="kw">pub fn </span>walk_expr&lt;V: Visitor&gt;(vis: <span class="kw-2">&amp;mut </span>V, expr: <span class="kw-2">&amp;</span>Expr) {
     <span class="kw">match </span><span class="kw-2">&amp;</span>expr.kind {
         ExprKind::Path(qpath) =&gt; vis.visit_path_expr(qpath),
-        ExprKind::Dot(qpath, fld) =&gt; {
-            vis.visit_path_expr(qpath);
+        ExprKind::Dot(base, fld) =&gt; {
+            vis.visit_expr(base);
             vis.visit_ident(<span class="kw-2">*</span>fld);
         }
         ExprKind::Literal(lit) =&gt; {
@@ -1013,13 +1051,14 @@
         ExprKind::UnaryOp(_bin_op, e) =&gt; {
             vis.visit_expr(e);
         }
-        ExprKind::App(fun, exprs) =&gt; {
-            vis.visit_ident(<span class="kw-2">*</span>fun);
-            <span class="macro">walk_list!</span>(vis, visit_expr, exprs);
-        }
-        ExprKind::Alias(alias_pred, args) =&gt; {
-            vis.visit_alias_pred(alias_pred);
+        ExprKind::Call(callee, args) =&gt; {
+            vis.visit_expr(callee);
             <span class="macro">walk_list!</span>(vis, visit_expr, args);
+        }
+        ExprKind::AssocReft(qself, path, name) =&gt; {
+            vis.visit_ty(qself);
+            vis.visit_path(path);
+            vis.visit_ident(<span class="kw-2">*</span>name);
         }
         ExprKind::IfThenElse(<span class="kw">box </span>exprs) =&gt; {
             <span class="macro">walk_list!</span>(vis, visit_expr, exprs);
@@ -1029,6 +1068,19 @@
                 vis.visit_path_expr(path);
             }
             <span class="macro">walk_list!</span>(vis, visit_constructor_args, exprs);
+        }
+        ExprKind::BoundedQuant(<span class="kw">_</span>, i, <span class="kw">_</span>, e) =&gt; {
+            vis.visit_refine_param(i);
+            vis.visit_expr(e);
+        }
+        ExprKind::Block(decls, body) =&gt; {
+            <span class="kw">for </span>decl <span class="kw">in </span>decls {
+                <span class="comment">// the order here is important because the parameter is not in scope
+                // in the initializer
+                </span>vis.visit_expr(<span class="kw-2">&amp;</span>decl.init);
+                vis.visit_refine_param(<span class="kw-2">&amp;</span>decl.param);
+            }
+            vis.visit_expr(body);
         }
     }
 }
